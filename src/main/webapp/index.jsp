@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <%@page import="com.sun.jersey.api.client.*" %>
 <%@page import="javax.ws.rs.core.MediaType" %>
 <%@page import="java.net.URI" %>
