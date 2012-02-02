@@ -3,6 +3,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.*;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 public class HelloWorld extends HttpServlet {
 
@@ -14,11 +15,22 @@ public class HelloWorld extends HttpServlet {
 
     public static void main(String[] args) throws Exception{
         Server server = new Server(Integer.valueOf(System.getenv("PORT")));
+		
+		WebAppContext webapp = new WebAppContext();
+        webapp.setContextPath("/");
+        // change the name of the war as needed.
+        webapp.setWar("tmp");
+        server.setHandler(webapp);
+
+        server.start();
+        server.join();		
+		/*
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
         server.setHandler(context);
         context.addServlet(new ServletHolder(new HelloWorld()),"/*");
         server.start();
         server.join();   
+		*/
     }
 }
