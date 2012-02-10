@@ -31,7 +31,7 @@ class BootStrap {
 
     def createInitialCategories() {
         def neo4jCreateClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/node")
-        //neo4jCreateClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
+        neo4jCreateClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
 
         ['Fish', 'Poultry', 'Meat', 'Herbs and spices', 'Condiments', 'Eggs and dairy', 'Vegetables', 'Fruits'].each {
             def createResp = neo4jCreateClient.post(
