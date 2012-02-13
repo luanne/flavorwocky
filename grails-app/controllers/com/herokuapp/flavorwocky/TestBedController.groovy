@@ -57,7 +57,7 @@ class TestBedController {
 
         def firstIngredientRelationshipNode
         def createClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/node")
-        def indexIngredient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/index/node/ingredients")
+        def indexIngredient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/index/node/ingredients?unique")
         createClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
         indexIngredient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
         try {
