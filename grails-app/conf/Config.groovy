@@ -100,8 +100,8 @@ grails.resources.modules = {
     }
 }
 
-//neo4j.rest.serverendpoint = "http://5afd95982.hosted.neo4j.org:7024/db/data"
-neo4j.rest.serverendpoint = "http://localhost:7474/db/data"
+neo4j.rest.serverendpoint = "http://5afd95982.hosted.neo4j.org:7024/db/data"
+//neo4j.rest.serverendpoint = "http://localhost:7474/db/data"
 neo4j.rest.username = "7b5d406b8"
 neo4j.rest.password = "8bd33e980"
 
