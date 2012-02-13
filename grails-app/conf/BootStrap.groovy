@@ -14,6 +14,8 @@ class BootStrap {
             def postBody = [order: 'breadth_first', relationships: [ direction:'all', type:'CATEGORY'], max_depth: 1]
             def traverseResp = neo4jTraverseClient.post (contentType:JSON, requestContentType:JSON , body: postBody)
             if (traverseResp.status == 200 && traverseResp.data.size()<=0) {
+                //create ingredient index
+                createIngredientIndex()
                 //create Category nodes
                 createInitialCategories()
             }
@@ -33,7 +35,7 @@ class BootStrap {
         def neo4jCreateClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/node")
         //neo4jCreateClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
 
-        ['Fish', 'Poultry', 'Meat', 'Herbs and spices', 'Condiments', 'Eggs and dairy', 'Vegetables', 'Fruits'].each {
+        ['Fish', 'Poultry', 'Meat', 'Herbs and spices', 'Condiments', 'Eggs and dairy', 'Vegetables', 'Fruits', 'Nuts and Grains', 'Chocolate, Bread and Pastry'].each {
             def createResp = neo4jCreateClient.post(
                     body: [name: it],
                     requestContentType: JSON,
@@ -56,6 +58,17 @@ class BootStrap {
             }
 
 
+        }
+    }
+
+    def createIngredientIndex() {
+        def neo4jCreateIndexClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/index/node")
+        def createResp = neo4jCreateClient.post(
+                body: [name: 'ingredients'],
+                requestContentType: JSON,
+                contentType: JSON)
+        if(createResp.status == 201) {
+            log.info "Created ingredients index"
         }
     }
 }

@@ -57,7 +57,9 @@ class TestBedController {
 
         def firstIngredientRelationshipNode
         def createClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/node")
+        def indexIngredient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/index/node/ingredients")
         createClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
+        indexIngredient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
         try {
             def postBody = [name: params.ingredient1, category: params.category1]
             def createResp = createClient.post (contentType:JSON, requestContentType:JSON , body: postBody)
@@ -65,6 +67,10 @@ class TestBedController {
                 def ingredientDetails = createResp.data
                 //println ingredientDetails
                 firstIngredientRelationshipNode = ingredientDetails.create_relationship
+                //Create BELONGS_TO relationship with category
+                //Index the ingredient
+                indexIngredient.post(contentType: JSON,requestContentType: JSON, body:  [value: params.ingredient1, key: 'name',uri:ingredientDetails.self])
+
             }
         } catch (ConnectException ce) {
             log.error "Connection to server failed"
@@ -78,6 +84,10 @@ class TestBedController {
             if (createResp.status == 201) {
                 def ingredientDetails = createResp.data
                 secondIngredient = ingredientDetails.self
+                //Create BELONGS_TO relationship with category
+                //Index the ingredient
+                indexIngredient.post(contentType: JSON,requestContentType: JSON, body:  [value: params.ingredient2, key: 'name',uri:ingredientDetails.self])
+
             }
 
         } catch (ConnectException ce) {
