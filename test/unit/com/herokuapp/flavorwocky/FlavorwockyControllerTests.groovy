@@ -3,13 +3,12 @@ package com.herokuapp.flavorwocky
 
 
 import grails.test.mixin.*
-import org.junit.*
 
 /**
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
-@TestFor(TestBedController)
-class TestBedControllerTests {
+@TestFor(FlavorwockyController)
+class FlavorwockyControllerTests {
 
     void testSomething() {
        fail "Implement me"

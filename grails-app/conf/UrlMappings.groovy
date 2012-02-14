@@ -7,9 +7,9 @@ class UrlMappings {
 			}
 		}
 
-		"/"(view:"/index")
+		"/"(controller:"flavorwocky")
 		"500"(view:'/error')
-        "/ping" (controller: "testBed", action:"ping")
-        "/autosearch" (controller: "testBed", action:"autosearch")
+        "/ping" (controller: "flavorwocky", action:"ping")
+        "/autosearch" (controller: "flavorwocky", action:"autosearch")
 	}
 }

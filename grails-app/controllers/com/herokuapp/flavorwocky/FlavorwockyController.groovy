@@ -4,7 +4,7 @@ import groovyx.net.http.RESTClient
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.ContentType.JSON
 
-class TestBedController {
+class FlavorwockyController {
 
     def autosearch() {
         println "params = $params"
@@ -29,15 +29,17 @@ class TestBedController {
     }
 
     def index() {
-        def categories = []
+        def categories = [:]
         //fetch the categories. This is assumed to be 'CATEGORY' type relationships with node 0
         try {
             def neo4jTraverseClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/node/0/traverse/node")
             neo4jTraverseClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
             def postBody = [order: 'breadth_first', relationships: [ direction:'all', type:'CATEGORY'], max_depth: 1]
             def traverseResp = neo4jTraverseClient.post (contentType:JSON, requestContentType:JSON , body: postBody)
+            println "traverseResp = $traverseResp.data"
             if (traverseResp.status == 200) {
-                categories = traverseResp.data.collect { it.data.name }
+                categories = traverseResp.data.collectEntries { [it.self, it.data.name] }
+                println "categories = $categories"
             }
 
         } catch (ConnectException ce) {
