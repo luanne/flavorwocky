@@ -1,0 +1,33 @@
+{
+ "name": "rosemary",
+ "catColor":"red",
+ "wt":1,
+ "children": [
+  {
+   "name": "lamb",
+   "wt":0.5,
+   "catColor":"green",
+   "children": [
+    {
+     "name": "apricot",
+     "catColor":"blue",
+     "wt":1.5,
+     "children": [
+      {"name": "cumin", "catColor": "green","wt":0.7},
+      {"name": "sugar", "catColor": "blue","wt":1},
+      {"name": "lemon", "catColor": "orange","wt":0.8}
+     ]
+    },
+    {
+     "name": "cumin",
+     "catColor":"yellow",
+     "wt":"0.1",
+     "children": [
+      {"name": "potato", "catColor": "red","wt":1.1},
+      {"name": "yoghurt", "catColor": "yellow","wt":1.5}
+     ]
+    }
+   ]
+  }
+ ]
+}
