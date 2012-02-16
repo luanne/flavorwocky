@@ -35,6 +35,7 @@ class BootStrap {
         def neo4jCreateClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/node")
         neo4jCreateClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
 
+        //ideally this should be batched.
         ['Fish', 'Poultry', 'Meat', 'Herbs and spices', 'Condiments', 'Eggs and dairy', 'Vegetables', 'Fruits', 'Nuts and Grains', 'Chocolate, Bread and Pastry'].each {
             def createResp = neo4jCreateClient.post(
                     body: [name: it],
@@ -63,7 +64,7 @@ class BootStrap {
 
     def createIngredientIndex() {
         def neo4jCreateIndexClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/index/node")
-        def createResp = neo4jCreateClient.post(
+        def createResp = neo4jCreateIndexClient.post(
                 body: [name: 'ingredients'],
                 requestContentType: JSON,
                 contentType: JSON)

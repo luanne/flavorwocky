@@ -599,3 +599,5 @@ a.skip {
 .ping-server {
 
 }
+
+.ui-autocomplete-loading { background: white url('../images/spinner.gif') right center no-repeat; }

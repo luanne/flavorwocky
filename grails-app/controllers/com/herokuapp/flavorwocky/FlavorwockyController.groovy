@@ -7,8 +7,28 @@ import static groovyx.net.http.ContentType.JSON
 class FlavorwockyController {
 
     def autosearch() {
-        println "params = $params"
-        //render ['aaaaaa', 'bbbbbb'] as JSON
+        def results
+        try {
+            def neo4jSearchClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/index/node/ingredients?query=name:${params.term}*")
+            neo4jSearchClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
+            def resultsResp = neo4jSearchClient.get (contentType:JSON, requestContentType:JSON)
+            if (resultsResp.status == 200) {
+                render(contentType: "text/json") {
+                    results = array {
+                        for (r in resultsResp.data) {
+                            result id: r.self, name: r.data.name, label: r.data.name
+                        }
+                    }
+                }
+            }
+        } catch (ConnectException ce) {
+            log.error "Connection to server failed"
+            log.error ce
+            render(contentType: "text/json") {
+                error: ce.toString()
+            }
+        }
+
     }
 
     def ping () {
@@ -29,17 +49,15 @@ class FlavorwockyController {
     }
 
     def index() {
-        def categories = [:]
+        def categories
         //fetch the categories. This is assumed to be 'CATEGORY' type relationships with node 0
         try {
             def neo4jTraverseClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/node/0/traverse/node")
             neo4jTraverseClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
             def postBody = [order: 'breadth_first', relationships: [ direction:'all', type:'CATEGORY'], max_depth: 1]
             def traverseResp = neo4jTraverseClient.post (contentType:JSON, requestContentType:JSON , body: postBody)
-            println "traverseResp = $traverseResp.data"
             if (traverseResp.status == 200) {
                 categories = traverseResp.data.collectEntries { [it.self, it.data.name] }
-                println "categories = $categories"
             }
 
         } catch (ConnectException ce) {
@@ -50,70 +68,134 @@ class FlavorwockyController {
         [categories: categories]
     }
 
+    /**
+     * Fetches the nodes references for ingredients if they exists, else creates them
+     * @return List of the node references
+     */
+    private List fetchOrCreateNodes(RESTClient restClient, String ingredient1, String ingredient2, String category1, String category2) {
+        List nodeRef = []
+
+        try {
+            //fetch the ingredients if they exist
+            def postBody = [
+                [method: 'GET', to: '/index/node/ingredients?query=name:'+ingredient1, id: 0],
+                [method: 'GET', to: '/index/node/ingredients?query=name:'+ingredient2, id: 1]
+            ]
+//            println "*************** $postBody"
+            def createResp = restClient.post (contentType:JSON, requestContentType:JSON , body: postBody)
+//            println "createResp.status = $createResp.status"
+            if (createResp.status == 200) {
+                println "createResp = $createResp.data"
+                postBody = []
+                createResp.data.body.self.eachWithIndex {selfArr, i->
+                    println "selfArr = $selfArr"
+                    if (selfArr.size()<=0) {
+                        //no such node exists, so create one
+                        postBody.add([method: 'POST', to: '/node',  body: [name: i==0?ingredient1:ingredient2], id: i*3])
+                        //IS-A relationship to Category
+                        println "category1 = $category1"
+                        println "category2 = $category2"
+                        postBody.add([method: 'POST',
+                                      to: "{${(i*3)}}/relationships".toString(),
+                                      body: [to: ''+(i==0?category1:category2), type: 'IS_A'],
+                                      id:  i*3+1])
+                        postBody.add([method: 'POST',
+                                      to: '/index/node/ingredients?unique',
+                                      body: [value: i==0?ingredient1:ingredient2, key: 'name', uri:"{${i*3}}".toString()],
+                                      id:  i*3+2])
+                    } else {
+                        //already exists, so just return the value
+                        println "...already exists so just adding to noderef "
+                        nodeRef.add selfArr[0] //if there are more than one then it is probably an error!!
+                        println "nodeRef = $nodeRef"
+                    }
+                }
+//                println "postBody = $postBody"
+                if (postBody.size()>0) {
+                    createResp = restClient.post (contentType:JSON, requestContentType:JSON , body: postBody)
+                    println "createResp.status = $createResp.status"
+                    if (createResp.status == 200) {
+//                        println "createResp = $createResp.data"
+                        println "...created a new node and now adding to noderef"
+                        
+                        createResp.data.each {
+                            //we know that the id of the created node is either 0 or 3 since we send it with the batch request
+                            println "it.id = "+it.id
+                            if (it.id == 0 || it.id == 3) {
+                                nodeRef.add it.body.self
+                            }
+                        }
+                        //nodeRef.add createResp.data.body.self
+                        println "nodeRef = $nodeRef"
+                    }
+                }
+            }
+
+        } catch (ConnectException ce) {
+            log.error "Connection to server failed"
+            log.error ce
+        }
+
+        return nodeRef
+    }
+
+    private boolean createRelationship(String from, String to, String relation) {
+        def cypherClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/cypher")
+        println "from = $from"
+        println "to = $to"
+        try {
+            //check if this relation already exists
+            def postBody = [query: 'start n1=node({node1}), n2=node({node2}) match (n1)-[r:PAIRS_WITH]-(n2) return count(r)',
+                            params: ['node1': Integer.parseInt(from.substring(from.lastIndexOf('/')+1)), 'node2': Integer.parseInt(to.substring(to.lastIndexOf('/')+1))]]
+            def createResp = cypherClient.post (contentType:JSON, requestContentType:JSON , body: postBody)
+            println "createResp.status = $createResp.status"
+            if (createResp.status == 200) {
+                println "createResp = $createResp.data"
+                println "createResp data size = ${createResp.data.data.size()}"
+                if (createResp.data.data.size()<=0) {
+                    //doesn't exist, so now create it
+                    def createClient = createRESTClient("${from}/relationships")
+                    postBody = [to: to, type: relation]
+                    createResp = createClient.post(contentType:JSON, requestContentType:JSON , body: postBody)
+                    if (createResp.status == 200) {
+                        return true
+                    }
+                    else {
+                        return false
+                    }
+                }
+                return true
+            }
+
+        } catch (ConnectException ce) {
+            log.error "Connection to server failed"
+            log.error ce
+        }
+
+        return false
+
+    }
+
     def create() {
-        println "params = $params"
         if (!params.ingredient1 || !params.ingredient2 || !params.category1 || !params.category2) {
             render "Invalid parameter values"
             return
         }
 
-        def firstIngredientRelationshipNode
-        def createClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/node")
-        def indexIngredient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/index/node/ingredients?unique")
-        createClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
-        indexIngredient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
-        try {
-            def postBody = [name: params.ingredient1, category: params.category1]
-            def createResp = createClient.post (contentType:JSON, requestContentType:JSON , body: postBody)
-            if (createResp.status == 201) {
-                def ingredientDetails = createResp.data
-                //println ingredientDetails
-                firstIngredientRelationshipNode = ingredientDetails.create_relationship
-                //Create BELONGS_TO relationship with category
-                //Index the ingredient
-                indexIngredient.post(contentType: JSON,requestContentType: JSON, body:  [value: params.ingredient1, key: 'name',uri:ingredientDetails.self])
-
-            }
-        } catch (ConnectException ce) {
-            log.error "Connection to server failed"
-            log.error ce
-        }
-
-        def secondIngredient
-        try {
-            def postBody = [name: params.ingredient2, category: params.category2]
-            def createResp = createClient.post (contentType:JSON, requestContentType:JSON , body: postBody)
-            if (createResp.status == 201) {
-                def ingredientDetails = createResp.data
-                secondIngredient = ingredientDetails.self
-                //Create BELONGS_TO relationship with category
-                //Index the ingredient
-                indexIngredient.post(contentType: JSON,requestContentType: JSON, body:  [value: params.ingredient2, key: 'name',uri:ingredientDetails.self])
-
-            }
-
-        } catch (ConnectException ce) {
-            log.error "Connection to server failed"
-            log.error ce
-        }
-
-        //now create a relationship between the two
-        //{"to": "http://localhost:7474/db/data/node/14","type":"PAIRS_WITH"}
-        println "firstIngredientRelationshipNode = $firstIngredientRelationshipNode"
-        println "secondIngredient = $secondIngredient"
-        def firstRelationshipClient = new RESTClient(firstIngredientRelationshipNode)
-        firstRelationshipClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
-        def createResp = firstRelationshipClient.post(
-                body: [to: secondIngredient, type: 'PAIRS_WITH'],
-                requestContentType: JSON,
-                contentType: JSON)
-        if (createResp.status != 201) {
-            log.error "Could not create PAIRS_WITH relationship between ${firstIngredientRelationshipNode} and ${secondIngredient} :: ${createResp.status}"
-        }
-
+        //Experimental Batch feature. Note: this part of the API is expected to change
+        def createClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/batch")
+        def nodeRef = fetchOrCreateNodes(createClient, params.ingredient1, params.ingredient2, params.category1, params.category2)
+        //create a PAIRS_WITH relationship between node 1 and node 2 if it doesn't already exist
+//        println "nodeRef = $nodeRef"
+        createRelationship(nodeRef[0], nodeRef[1], 'PAIRS_WITH')
 
         render "done"
-        
+    }
+
+    private RESTClient createRESTClient(String uri) {
+        def restClient = new RESTClient(uri)
+        restClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
+        return restClient
     }
 
 }
