@@ -3,8 +3,8 @@
 	<head>
 		<meta name="layout" content="main">
 		<g:javascript library="jquery" />
-		<script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
-        <script type="text/javascript" src="http://mbostock.github.com/d3/d3.layout.js"></script>
+		<script type="text/javascript" src="${resource(dir: 'js', file: 'd3.js')}"></script>
+        <script type="text/javascript" src="${resource(dir: 'js', file: 'd3.layout.js')}"></script>
         <style type="text/css">
 
                 .node circle {
@@ -77,11 +77,34 @@
             			minLength: 2,
             			select: function(event, ui ) {
             				if (ui.item) {
-            				    alert(ui.item.value );
-            				    alert(ui.item.id );
+            				    //alert(ui.item.value );
+            				    //alert(ui.item.id );
             				}
             			}
             		});
+
+                $( "#ingredient1").autocomplete({
+                        source: "autosearch",
+                        minLength: 2,
+                        select: function(event, ui ) {
+                            if (ui.item) {
+                                //alert(ui.item.value );
+                                //alert(ui.item.id );
+                            }
+                        }
+                    });
+
+                $( "#ingredient2").autocomplete({
+                        source: "autosearch",
+                        minLength: 2,
+                        select: function(event, ui ) {
+                            if (ui.item) {
+                                //alert(ui.item.value );
+                                //alert(ui.item.id );
+                            }
+                        }
+                    });
+
 
                 $("#addPairing").button({
                     icons: { primary: "ui-icon-newwin" }
