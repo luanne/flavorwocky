@@ -65,7 +65,7 @@ class FlavorwockyController {
             log.error ce
         }
 
-        [categories: categories]
+        [categories: categories, affinity:[0.25:'Tried and tested', 0.5:'Extremely good', 1:'Good']]
     }
 
     /**
@@ -139,7 +139,7 @@ class FlavorwockyController {
         return nodeRef
     }
 
-    private boolean createRelationship(String from, String to, String relation) {
+    private boolean createRelationship(String from, String to, String relation, String affinity) {
         def cypherClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/cypher")
         println "from = $from"
         println "to = $to"
@@ -155,7 +155,7 @@ class FlavorwockyController {
                 if (createResp.data.data.size()<=0) {
                     //doesn't exist, so now create it
                     def createClient = createRESTClient("${from}/relationships")
-                    postBody = [to: to, type: relation]
+                    postBody = [to: to, type: relation, data: [wt: affinity] ]
                     createResp = createClient.post(contentType:JSON, requestContentType:JSON , body: postBody)
                     if (createResp.status == 200) {
                         return true
@@ -177,7 +177,7 @@ class FlavorwockyController {
     }
 
     def create() {
-        if (!params.ingredient1 || !params.ingredient2 || !params.category1 || !params.category2) {
+        if (!params.ingredient1 || !params.ingredient2 || !params.category1 || !params.category2 || !params.affinity) {
             render "Invalid parameter values"
             return
         }
@@ -187,7 +187,7 @@ class FlavorwockyController {
         def nodeRef = fetchOrCreateNodes(createClient, params.ingredient1, params.ingredient2, params.category1, params.category2)
         //create a PAIRS_WITH relationship between node 1 and node 2 if it doesn't already exist
 //        println "nodeRef = $nodeRef"
-        createRelationship(nodeRef[0], nodeRef[1], 'PAIRS_WITH')
+        createRelationship(nodeRef[0], nodeRef[1], 'PAIRS_WITH', params.affinity)
 
         render "done"
     }

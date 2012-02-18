@@ -242,6 +242,7 @@ label {
 	cursor: pointer;
 	display: inline-block;
 	margin: 0 0.25em 0 0;
+	width: 90px;
 }
 
 input, select, textarea {
