@@ -66,7 +66,7 @@ environments {
     }
     production {
         grails.logging.jul.usebridge = false
-        // TODO: grails.serverURL = "http://www.changeme.com"
+        grails.serverURL = "http://flavorwocky.herokuapp.com"
     }
 }
 
@@ -100,9 +100,9 @@ grails.resources.modules = {
     }
 }
 
-neo4j.rest.serverendpoint = "http://5afd95982.hosted.neo4j.org:7024/db/data"
-//neo4j.rest.serverendpoint = "http://localhost:7474/db/data"
-neo4j.rest.username = "7b5d406b8"
-neo4j.rest.password = "8bd33e980"
+//Set to you your Neo4J REST endpoint ex. neo4j.rest.serverendpoint = "http://6aed12232.hosted.neo4j.org:7024/db/data"
+neo4j.rest.serverendpoint = "http://localhost:7474/db/data"
+neo4j.rest.username = ""
+neo4j.rest.password = ""
 
 grails.rest.injectInto = ["Controller", "Service", "Routes", "BootStrap"]

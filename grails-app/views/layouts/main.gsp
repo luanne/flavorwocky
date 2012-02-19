@@ -20,7 +20,7 @@
 	</head>
 	<body>
 		<div id="grailsLogo" role="banner">
-		    <a id="logo" href="http://flavorwocky.herokuapp.com">Flavorwocky</a>
+		    <a id="logo" href="${grailsApplication.config.grails.serverURL}">Flavorwocky</a>
 		    <div id="ping-ok" class="ui-widget neo4j-ping">
                 <div class="ui-state-highlight ui-corner-all" style="margin-top: 2px; padding: 0 .7em;">
                     <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
