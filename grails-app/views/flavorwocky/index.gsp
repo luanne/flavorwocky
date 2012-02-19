@@ -15,7 +15,7 @@
                 }
 
                 .node text {
-                font: 10px sans-serif;
+                font: 12px sans-serif;
                 }
 
                 path.link {
@@ -242,7 +242,7 @@
 
                 nodeEnter.append("text")
                 .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
-                .attr("dy", ".35em")
+                .attr("dy", ".60em")
                 .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
                 .text(function(d) { return d.name; })
                 .style("fill-opacity", 1e-6);
