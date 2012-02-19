@@ -144,7 +144,7 @@
                 .append("g")
                 .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
-                d3.json("flare.json", function(json) {
+                d3.json("flavorTree", function(json) {
                 root = json;
                 root.x0 = h / 2;
                 root.y0 = 0;
