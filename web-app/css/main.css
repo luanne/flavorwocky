@@ -593,8 +593,10 @@ a.skip {
 .neo4j-ping {
     display: none;
     position: absolute;
-    right: 205px;
 	top: 1px;
+	width: 206px;
+	left: 50%;
+	margin-left: -103px;
 }
 
 .ping-server {
@@ -603,9 +605,14 @@ a.skip {
 
 .ui-autocomplete-loading { background: white url('../images/spinner.gif') right center no-repeat; }
 
-.singleline {
+.ui-dialog input {
+    background-image: none;
+    background-color: #fff;
+}
+
+.promptLabel {
     float:left;
-    width: 318px;
+    width: 174px;
 }
 
 #searchFeedback {
@@ -613,4 +620,26 @@ a.skip {
     line-height: 18px;
     padding: 0 10px;
     border: 0;
+}
+
+#prompts {
+    padding: 4px;
+    width: 500px;
+    margin: 10px auto;
+    line-height: 13px;
+}
+
+#example{
+    font-size: 10px;
+    font-style: italic;
+    color: #bbb;
+}
+
+#food {
+    float: left;
+}
+
+#orPart {
+    float: left;
+    margin-left: 14px;
 }
