@@ -203,7 +203,26 @@ class FlavorwockyController {
         if (params.nodeId) {
             def nodeId = Integer.parseInt(params.nodeId.substring(params.nodeId.lastIndexOf('/')+1))
             List children =  getChildren(1, nodeId, nodeId)
-            def finalStructure = ["name":"ingredientSearchedFor","cat":"ingredientCat","wt":1,"children" : children]
+            
+            def cypherClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/cypher")
+            def queryStr =  'start n=node({nodeId}) match (n)-[:IS_A]->(cat) return cat.catColor, n.name'
+            def postBody = [query: queryStr,
+                    params: ['nodeId': nodeId]]
+            def catColor='lightsteelblue'
+            def ingredientName
+            try {
+                def getNodeResp = cypherClient.post(contentType: JSON, requestContentType: JSON, body: postBody)
+                if (getNodeResp.status == 200) {
+                    catColor = getNodeResp.data.data.get(0).get(0)
+                    ingredientName = getNodeResp.data.data.get(0).get(1)
+                }
+            }
+            catch (ConnectException ce) {
+                log.error "Connection to server failed"
+                log.error ce
+            }
+
+            def finalStructure = ["name":ingredientName,"catColor":catColor,"wt":1,"children" : children]
 
             render finalStructure as grails.converters.JSON
         } else {
@@ -220,15 +239,14 @@ class FlavorwockyController {
 
         def cypherClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/cypher")
         def queryStr =  'start n=node({nodeId}), original=node({original}) match (n)-[r:PAIRS_WITH]-(i)-[:IS_A]->(cat) where not(i=original) return i.name,cat.catColor,ID(i),r.wt'
-        println queryStr
         def postBody = [query: queryStr,
             params: ['nodeId': nodeId, 'original' : parentNodeId]]
 
         try {
-            def createResp = cypherClient.post(contentType: JSON, requestContentType: JSON, body: postBody)
-            if (createResp.status == 200) {
+            def queryResp = cypherClient.post(contentType: JSON, requestContentType: JSON, body: postBody)
+            if (queryResp.status == 200) {
 
-                for (row in createResp.data.data) {
+                for (row in queryResp.data.data) {
                     def child = ["name":row.get(0),"catColor":row.get(1),"wt":row.get(3)]
                     child.put("children",getChildren(depth+1,row.get(2),nodeId))
                     childrenList.add(child)
