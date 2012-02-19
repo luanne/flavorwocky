@@ -198,4 +198,44 @@ class FlavorwockyController {
         return restClient
     }
 
+    def getSearchVisualizationAsTreeJson () {
+         List children =  getChildren(1,11,11)
+        def finalStructure = ["name":"ingredientSearchedFor","cat":"ingredientCat","wt":1,"children" : children]
+
+        render finalStructure as grails.converters.JSON
+    }
+
+    private List getChildren(int depth, int nodeId, int parentNodeId) {
+        def childrenList = []
+
+        if (depth > 3) {
+            return null
+        }
+
+        def cypherClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/cypher")
+        def queryStr =  'start n=node({nodeId}), original=node({original}) match (n)-[:PAIRS_WITH]-(i)-[:IS_A]->(cat) where not(i=original) return i.name,cat.name,ID(i)'
+        println queryStr
+        def postBody = [query: queryStr,
+            params: ['nodeId': nodeId, 'original' : parentNodeId]]
+
+        try {
+            def createResp = cypherClient.post(contentType: JSON, requestContentType: JSON, body: postBody)
+            if (createResp.status == 200) {
+
+                for (row in createResp.data.data) {
+                    def child = ["name":row.get(0),"cat":row.get(1),"wt":1]
+                    child.put("children",getChildren(depth+1,row.get(2),nodeId))
+                    childrenList.add(child)
+                }
+
+            }
+        }
+        catch (ConnectException ce) {
+            log.error "Connection to server failed"
+            log.error ce
+        }
+
+        return childrenList
+    }
+
 }
