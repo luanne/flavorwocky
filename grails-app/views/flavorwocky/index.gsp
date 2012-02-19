@@ -27,13 +27,15 @@
             </style>
 	</head>
 	<body>
-        <p>
-            <button id="addPairing">Add Pairing</button>
-            <div id="success"></div>
-        </p>
-
-        <div>
-            <div class="singleline">Find foods that pair well with <input id="food" /></div>
+        <div id="prompts">
+            <div class="promptLabel">
+                Find foods that pair well with
+                <br><div id="example">ex. Salmon</div>
+            </div>
+            <input id="food" />
+            <div id="orPart">OR&nbsp;&nbsp;&nbsp;<button id="addPairing">Add Pairing</button>
+                             <div id="success"></div>
+            </div>
             <div id="searchFeedback" class="ui-state-error"></div>
         </div>
 
@@ -139,14 +141,14 @@
                 });
 
                 $("#addPairing").click(function() {
-                    $( ".validateTips" ).text('Select two ingredients that go together');
+                    $( ".validateTips" ).text('Add two ingredients that pair well');
                     $("#pairing-dialog-form").dialog( "open" );
                 });
 
                 $( "#pairing-dialog-form" ).dialog({
                     autoOpen: false,
-                    height: 300,
-                    width: 700,
+                    height: 250,
+                    width: 550,
                     modal: true,
                     buttons: {
                         "Create Pairing": function() {
