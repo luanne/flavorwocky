@@ -12,5 +12,7 @@ class UrlMappings {
         "/ping" (controller: "flavorwocky", action:"ping")
         "/autosearch" (controller: "flavorwocky", action:"autosearch")
         "/flavorTree" (controller: "flavorwocky", action:"getSearchVisualizationAsTreeJson")
+        "/about" (view: '/about')
+        "/help" (view:  '/help')
 	}
 }

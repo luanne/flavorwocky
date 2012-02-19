@@ -7,7 +7,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title><g:layoutTitle default="Flavorwocky"/></title>
+		<title><g:layoutTitle default="Flavors"/></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon">
 		<link rel="apple-touch-icon" href="${resource(dir: 'images', file: 'apple-touch-icon.png')}">
@@ -20,7 +20,7 @@
 	</head>
 	<body>
 		<div id="grailsLogo" role="banner">
-		    <a id="logo" href="${grailsApplication.config.grails.serverURL}">Flavorwocky</a>
+		    <a id="logo" href="${grailsApplication.config.grails.serverURL}">Flavors</a>
 		    <div id="ping-ok" class="ui-widget neo4j-ping">
                 <div class="ui-state-highlight ui-corner-all" style="margin-top: 2px; padding: 0 .7em;">
                     <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
