@@ -602,3 +602,15 @@ a.skip {
 }
 
 .ui-autocomplete-loading { background: white url('../images/spinner.gif') right center no-repeat; }
+
+.singleline {
+    float:left;
+    width: 318px;
+}
+
+#searchFeedback {
+    float:left;
+    line-height: 18px;
+    padding: 0 10px;
+    border: 0;
+}

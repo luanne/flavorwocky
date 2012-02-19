@@ -32,13 +32,14 @@
             <div id="success"></div>
         </p>
 
-        <p>
-            Find foods that pair well with <input id="food">
-        </p>
+        <div>
+            <div class="singleline">Find foods that pair well with <input id="food" /></div>
+            <div id="searchFeedback" class="ui-state-error"></div>
+        </div>
 
 
 
-    <div id="pairing-dialog-form" title="Add a pairing">
+    <div id="pairing-dialog-form" title="Add a pairing" style="clear:both">
         <p class="validateTips"></p>
         <form>
         <fieldset>
@@ -81,12 +82,34 @@
             			minLength: 2,
             			select: function(event, ui ) {
             				if (ui.item) {
-            				    //alert(ui.item.value );
-            				    //alert(ui.item.id );
             				    flavorTreeSearch(ui.item.id);
+            				    $('#searchFeedback').html('');
             				}
             			}
             		});
+                $("#food").bind('keypress', function(e) {
+                        if (e.which == 13) {
+                                jQuery.ajax("${createLink(action:'autosearch')}", {
+                                    success: function(data, textStatus, jqXHR) {
+                                        console.log (data);
+                                        if (data.length<=0) {
+                                            $('#searchFeedback').html('No such ingredient found');
+                                        } else if (data.length>=2) {
+                                            $('#searchFeedback').html('Too many ingredients found. Please narrow your search');
+                                        } else if (data.length==1) {
+                                            //make search
+                                            console.log(data[0].id);
+                                            flavorTreeSearch(data[0].id);
+                                        }
+                                    },
+                                    error: function(data, textStatus, jqXHR) {
+                                        $('#searchFeedback').html('Oops! Probably a 5xx error');
+                                    },
+                                    data: {'term':$("#food").val()}
+                                });
+                                //flavorTreeSearch(null, $("#food").val());
+                        }
+                });
 
                 $( "#ingredient1").autocomplete({
                         source: "autosearch",
@@ -156,7 +179,7 @@
 
              var m = [20, 120, 20, 120],
                 w = 900 - m[1] - m[3],
-                h = 200 - m[0] - m[2],
+                h = 400 - m[0] - m[2],
                 i = 0,
                 duration = 500,
                 root;
