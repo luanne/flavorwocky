@@ -199,10 +199,16 @@ class FlavorwockyController {
     }
 
     def getSearchVisualizationAsTreeJson () {
-         List children =  getChildren(1,11,11)
-        def finalStructure = ["name":"ingredientSearchedFor","cat":"ingredientCat","wt":1,"children" : children]
+        println "params = $params"
+        if (params.nodeId) {
+            def nodeId = Integer.parseInt(params.nodeId.substring(params.nodeId.lastIndexOf('/')+1))
+            List children =  getChildren(1, nodeId, nodeId)
+            def finalStructure = ["name":"ingredientSearchedFor","cat":"ingredientCat","wt":1,"children" : children]
 
-        render finalStructure as grails.converters.JSON
+            render finalStructure as grails.converters.JSON
+        } else {
+            render "error"
+        }
     }
 
     private List getChildren(int depth, int nodeId, int parentNodeId) {
@@ -214,9 +220,10 @@ class FlavorwockyController {
 
         def cypherClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/cypher")
         def queryStr =  'start n=node({nodeId}), original=node({original}) match (n)-[:PAIRS_WITH]-(i)-[:IS_A]->(cat) where not(i=original) return i.name,cat.name,ID(i)'
-        println queryStr
+        println "queryStr = $queryStr"
         def postBody = [query: queryStr,
             params: ['nodeId': nodeId, 'original' : parentNodeId]]
+        println "postBody = $postBody"
 
         try {
             def createResp = cypherClient.post(contentType: JSON, requestContentType: JSON, body: postBody)

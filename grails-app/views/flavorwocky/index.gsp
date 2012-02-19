@@ -83,6 +83,7 @@
             				if (ui.item) {
             				    //alert(ui.item.value );
             				    //alert(ui.item.id );
+            				    flavorTreeSearch(ui.item.id);
             				}
             			}
             		});
@@ -172,22 +173,24 @@
                 .append("g")
                 .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
-                d3.json("flavorTree", function(json) {
-                root = json;
-                root.x0 = h / 2;
-                root.y0 = 0;
+                function flavorTreeSearch(nodeId) {
+                    d3.json("flavorTree?nodeId="+nodeId, function(json) {
+                        root = json;
+                        root.x0 = h / 2;
+                        root.y0 = 0;
 
-                function collapse(d) {
-                if (d.children) {
-                d._children = d.children;
-                d._children.forEach(collapse);
-                d.children = null;
-                }
-                }
+                        function collapse(d) {
+                            if (d.children) {
+                                d._children = d.children;
+                                d._children.forEach(collapse);
+                                d.children = null;
+                            }
+                        }
 
-                root.children.forEach(collapse);
-                update(root);
-                });
+                        root.children.forEach(collapse);
+                        update(root);
+                    });
+                }
 
                 function update(source) {
 
