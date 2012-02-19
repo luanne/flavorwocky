@@ -3,8 +3,8 @@
 	<head>
 		<meta name="layout" content="main">
 		<g:javascript library="jquery" />
-		<script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
-        <script type="text/javascript" src="http://mbostock.github.com/d3/d3.layout.js"></script>
+		<script type="text/javascript" src="${resource(dir: 'js', file: 'd3.js')}"></script>
+        <script type="text/javascript" src="${resource(dir: 'js', file: 'd3.layout.js')}"></script>
         <style type="text/css">
 
                 .node circle {
@@ -52,6 +52,10 @@
                 <input type="text" name="ingredient2" id="ingredient2" class="text ui-widget-content ui-corner-all" />
                 <g:select name="category2" from="${categories}"  optionKey="key" optionValue="value"/>
             </div>
+            <div class="dialog-somewhere">
+                <label for="affinity">Affinity</label>
+                <g:select name="affinity" from="${affinity}" optionKey="key" optionValue="value"/>
+            </div>
         </fieldset>
         </form>
     </div>
@@ -77,11 +81,34 @@
             			minLength: 2,
             			select: function(event, ui ) {
             				if (ui.item) {
-            				    alert(ui.item.value );
-            				    alert(ui.item.id );
+            				    //alert(ui.item.value );
+            				    //alert(ui.item.id );
             				}
             			}
             		});
+
+                $( "#ingredient1").autocomplete({
+                        source: "autosearch",
+                        minLength: 2,
+                        select: function(event, ui ) {
+                            if (ui.item) {
+                                //alert(ui.item.value );
+                                //alert(ui.item.id );
+                            }
+                        }
+                    });
+
+                $( "#ingredient2").autocomplete({
+                        source: "autosearch",
+                        minLength: 2,
+                        select: function(event, ui ) {
+                            if (ui.item) {
+                                //alert(ui.item.value );
+                                //alert(ui.item.id );
+                            }
+                        }
+                    });
+
 
                 $("#addPairing").button({
                     icons: { primary: "ui-icon-newwin" }
@@ -109,7 +136,8 @@
                                 jQuery.ajax("${createLink(action:'create')}", {
                                     success: function() { },
                                     data: {'ingredient1': $('#ingredient1').val(), 'ingredient2': $('#ingredient2').val(),
-                                            'category1': $('#category1').val(), 'category2': $('#category2').val()}
+                                            'category1': $('#category1').val(), 'category2': $('#category2').val(),
+                                            'affinity': $('#affinity').val()}
                                 });
                                 $( this ).dialog( "close" );
                             }
