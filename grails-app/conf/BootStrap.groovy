@@ -36,9 +36,11 @@ class BootStrap {
         neo4jCreateClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
 
         //ideally this should be batched.
-        ['Fish', 'Poultry', 'Meat', 'Herbs and spices', 'Condiments', 'Eggs and dairy', 'Vegetables', 'Fruits', 'Nuts and Grains', 'Chocolate, Bread and Pastry'].each {
+        ['Fish':'darkblue', 'Poultry':'hotpink', 'Meat':'firebrick', 'Herbs and spices':'yellowgreen',
+                'Condiments':'goldenrod', 'Eggs and dairy':'wheat', 'Vegetables':'darkgreen', 'Fruits':'lightcoral',
+                'Nuts and Grains':'orange', 'Chocolate, Bread and Pastry':'saddlebrown'].each {
             def createResp = neo4jCreateClient.post(
-                    body: [name: it],
+                    body: [name: it.key, catColor: it.value],
                     requestContentType: JSON,
                     contentType: JSON)
             if (createResp.status == 201) {

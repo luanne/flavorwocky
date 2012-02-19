@@ -65,7 +65,7 @@ class FlavorwockyController {
             log.error ce
         }
 
-        [categories: categories, affinity:[0.25:'Tried and tested', 0.5:'Extremely good', 1:'Good']]
+        [categories: categories, affinity:[0.35:'Tried and tested', 0.45:'Extremely good', 0.6:'Good']]
     }
 
     /**
@@ -219,18 +219,17 @@ class FlavorwockyController {
         }
 
         def cypherClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/cypher")
-        def queryStr =  'start n=node({nodeId}), original=node({original}) match (n)-[:PAIRS_WITH]-(i)-[:IS_A]->(cat) where not(i=original) return i.name,cat.name,ID(i)'
-        println "queryStr = $queryStr"
+        def queryStr =  'start n=node({nodeId}), original=node({original}) match (n)-[r:PAIRS_WITH]-(i)-[:IS_A]->(cat) where not(i=original) return i.name,cat.catColor,ID(i),r.wt'
+        println queryStr
         def postBody = [query: queryStr,
             params: ['nodeId': nodeId, 'original' : parentNodeId]]
-        println "postBody = $postBody"
 
         try {
             def createResp = cypherClient.post(contentType: JSON, requestContentType: JSON, body: postBody)
             if (createResp.status == 200) {
 
                 for (row in createResp.data.data) {
-                    def child = ["name":row.get(0),"cat":row.get(1),"wt":1]
+                    def child = ["name":row.get(0),"catColor":row.get(1),"wt":row.get(3)]
                     child.put("children",getChildren(depth+1,row.get(2),nodeId))
                     childrenList.add(child)
                 }
