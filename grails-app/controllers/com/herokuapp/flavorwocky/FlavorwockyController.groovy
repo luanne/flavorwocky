@@ -9,7 +9,7 @@ class FlavorwockyController {
     def autosearch() {
         def results
         try {
-            def neo4jSearchClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/index/node/ingredients?query=name:${params.term}*")
+            def neo4jSearchClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/index/node/ingredients?query=name:${params.term.toLowerCase()}*")
             neo4jSearchClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
             def resultsResp = neo4jSearchClient.get (contentType:JSON, requestContentType:JSON)
             if (resultsResp.status == 200) {
@@ -78,8 +78,8 @@ class FlavorwockyController {
         try {
             //fetch the ingredients if they exist
             def postBody = [
-                [method: 'GET', to: '/index/node/ingredients?query=name:'+ingredient1, id: 0],
-                [method: 'GET', to: '/index/node/ingredients?query=name:'+ingredient2, id: 1]
+                [method: 'GET', to: '/index/node/ingredients?query=name:'+ingredient1.toLowerCase(), id: 0],
+                [method: 'GET', to: '/index/node/ingredients?query=name:'+ingredient2.toLowerCase(), id: 1]
             ]
 //            println "*************** $postBody"
             def createResp = restClient.post (contentType:JSON, requestContentType:JSON , body: postBody)
@@ -101,7 +101,7 @@ class FlavorwockyController {
                                       id:  i*3+1])
                         postBody.add([method: 'POST',
                                       to: '/index/node/ingredients?unique',
-                                      body: [value: i==0?ingredient1:ingredient2, key: 'name', uri:"{${i*3}}".toString()],
+                                      body: [value: i==0?ingredient1.toLowerCase():ingredient2.toLowerCase(), key: 'name', uri:"{${i*3}}".toString()],
                                       id:  i*3+2])
                     } else {
                         //already exists, so just return the value
