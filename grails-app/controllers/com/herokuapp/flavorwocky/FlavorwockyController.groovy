@@ -1,6 +1,7 @@
 package com.herokuapp.flavorwocky
 
 import groovyx.net.http.RESTClient
+import net.sf.json.JSONNull
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.ContentType.JSON
 
@@ -261,5 +262,86 @@ class FlavorwockyController {
 
         return childrenList
     }
+
+    def getSearchVisualizationAsNetworkJson () {
+       // println "params = $params"
+        //if (params.nodeId) {
+        //    def nodeId = Integer.parseInt(params.nodeId.substring(params.nodeId.lastIndexOf('/')+1))
+            def nodeId=11
+            def cypherClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/cypher")
+            def queryStr =  'start n=node({nodeId}) match (n)-[p1:PAIRS_WITH]-(i1)-[p2?:PAIRS_WITH]-(i2)-[p3?:PAIRS_WITH]-(i3)-[p4?:PAIRS_WITH]-(i4)-[p5?:PAIRS_WITH]-(i5) ' +
+                    'return n.name,p1.wt?,i1.name?,p2.wt?,i2.name?,p3.wt?,i3.name?,p4.wt?,i4.name?,p5.wt?,i5.name?'
+            def postBody = [query: queryStr,
+                    params: ['nodeId': nodeId]]
+        def nodeJsonArray = []
+        def relationJsonArray = []
+            try {
+                def queryResp = cypherClient.post(contentType: JSON, requestContentType: JSON, body: postBody)
+                if (queryResp.status == 200) {
+                    def nodeIndex =[:]
+                    def relationshipIndex = [:]
+
+                    def nodeCounter = 0
+                    def srcIngredient=null
+
+                    for (row in queryResp.data.data) {
+                        srcIngredient = null
+                        for (i in 1..5) {
+                            def ingredient = row.get(2*i)
+                            println "ingredient = ${ingredient?.class}"
+                            if (ingredient instanceof JSONNull) {
+                                println "-----------------------In the null if"
+                                break
+                            }
+                            println "-----------------ingredient = $ingredient"
+
+                            if(!nodeIndex.containsKey(ingredient)) {
+                                nodeIndex.put(ingredient,nodeCounter)
+                                def nodeProps = ["name": ingredient,"catColor":"black"]
+                                nodeJsonArray.add(nodeProps)
+                                nodeCounter++
+                            }
+                            if(srcIngredient!=null) {
+                                mapRelation(srcIngredient,ingredient,relationshipIndex,relationJsonArray,nodeIndex)
+                            }
+                            srcIngredient=ingredient
+                        }
+                    }
+
+                }
+            }
+            catch (ConnectException ce) {
+                log.error "Connection to server failed"
+                log.error ce
+            }
+            def finalStructure = ["nodes":nodeJsonArray,"links":relationJsonArray]
+            render finalStructure as grails.converters.JSON
+        /*} else {
+            render "error"
+        }*/
+    }
+
+    def mapRelation(String src, String target, Map relationshipIndex, List relationJsonArray, Map nodeIndex) {
+        print nodeIndex
+        println "src = $src"
+        println "target = $target"
+
+        if(relationshipIndex.containsKey(src)) {
+            if(relationshipIndex.get(src).contains(target)) {
+                return
+            }
+            else {
+                relationshipIndex.get(src).add(target)
+            }
+        }
+        else {
+            def targetList = [target]
+            relationshipIndex.put(src,targetList)
+        }
+        def relationProps = ["source":nodeIndex.get(src),"target":nodeIndex.get(target),"dist":50]
+        relationJsonArray.add(relationProps)
+
+    }
+
 
 }
