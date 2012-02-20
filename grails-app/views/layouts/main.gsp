@@ -24,7 +24,7 @@
 		    <div id="ping-ok" class="ui-widget neo4j-ping">
                 <div class="ui-state-highlight ui-corner-all" style="margin-top: 2px; padding: 0 .7em;">
                     <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-                    Neo4J server ping - <strong>OK!<strong>
+                    Neo4J server ping - <strong>OK!</strong>
 					</p><p style="text-align:center">
 					<a class="ping-server" href="#">Ping server</a>
 					</p>
@@ -39,7 +39,12 @@
 					</p>
 				</div>
 			</div>
-
+            <div id="extra">
+                <a href="about">About</a>
+                <a href="help">Help</a>
+                <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://flavorwocky.herokuapp.com" data-text="Flavors - Neo4J &amp; Heroku Challenge App" data-via="luannem" data-lang="hu" data-hashtags="neo4jchallenge">Tweet</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            </div>
 		</div>
 		<g:layoutBody/>
 		<div class="footer" role="contentinfo"></div>

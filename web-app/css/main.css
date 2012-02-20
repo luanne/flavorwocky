@@ -643,3 +643,11 @@ a.skip {
     float: left;
     margin-left: 14px;
 }
+
+#extra {
+    text-align: right;
+}
+
+#extra a {
+    padding: 0 4px;
+}
