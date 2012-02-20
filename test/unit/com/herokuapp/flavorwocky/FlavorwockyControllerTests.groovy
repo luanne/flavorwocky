@@ -10,7 +10,5 @@ import grails.test.mixin.*
 @TestFor(FlavorwockyController)
 class FlavorwockyControllerTests {
 
-    void testSomething() {
-       fail "Implement me"
-    }
+
 }

@@ -51,7 +51,7 @@ body {
     font-family: Georgia, "Times New Roman", serif;
     font-size: 2.5em;
 	display: inline-block;
-	margin: 1em;
+	margin: 0.3em 1.5em;
 	color: black;
 }
 
@@ -79,7 +79,7 @@ a:hover, a:active {
 h1 {
 	color: #48802c;
 	font-weight: normal;
-	font-size: 1.50em;
+	font-size: 1.60em;
 	margin: 0.8em 0 0.3em 1.0em;
 }
 
@@ -113,7 +113,7 @@ img {
 	font-size: 0.8em;
 	margin-top: 1.5em;
 	padding: 1em;
-	min-height: 1em;
+	min-height: 4em;
 }
 
 .footer a {
@@ -592,15 +592,22 @@ a.skip {
 
 .neo4j-ping {
     display: none;
-    position: absolute;
 	top: 1px;
-	width: 206px;
-	left: 50%;
-	margin-left: -103px;
+	width: 172px;
+	position: relative;
+	float: right;
+}
+
+.neo4j-ping p {
+    text-align:center;
 }
 
 .ping-server {
 
+}
+
+#chartOptions {
+    margin: 0 0 0 20px;
 }
 
 .ui-autocomplete-loading { background: white url('../images/spinner.gif') right center no-repeat; }
@@ -613,6 +620,7 @@ a.skip {
 .promptLabel {
     float:left;
     width: 174px;
+    line-height: 18px;
 }
 
 #searchFeedback {
@@ -626,7 +634,6 @@ a.skip {
     padding: 4px;
     width: 500px;
     margin: 10px auto;
-    line-height: 13px;
 }
 
 #example{
@@ -637,6 +644,7 @@ a.skip {
 
 #food {
     float: left;
+    line-height: 26px;
 }
 
 #orPart {
@@ -646,8 +654,30 @@ a.skip {
 
 #extra {
     text-align: right;
+    padding-bottom: 4px;
 }
 
-#extra a {
-    padding: 0 4px;
+
+svg .node circle {
+    cursor: pointer;
+    fill: #fff;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+
+svg .node text {
+    font: 12px sans-serif;
+}
+
+svg path.link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 2.0px;
+}
+
+svg .nodetext { pointer-events: none; font: 10px sans-serif; }
+
+p.helptext {
+    padding: 16px;
+    font-size: 1.4em;
 }

@@ -21,24 +21,6 @@
 	<body>
 		<div id="grailsLogo" role="banner">
 		    <a id="logo" href="${grailsApplication.config.grails.serverURL}">Flavors</a>
-		    <div id="ping-ok" class="ui-widget neo4j-ping">
-                <div class="ui-state-highlight ui-corner-all" style="margin-top: 2px; padding: 0 .7em;">
-                    <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-                    Neo4J server ping - <strong>OK!</strong>
-					</p><p style="text-align:center">
-					<a class="ping-server" href="#">Ping server</a>
-					</p>
-                </div>
-            </div>
-            <div id="ping-fail" class="ui-widget neo4j-ping">
-				<div class="ui-state-error ui-corner-all" style="margin-top: 2px; padding: 0 .7em;">
-					<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-					Neo4J server ping - <strong>failed!</strong>
-					</p><p style="text-align:center">
-					<a class="ping-server" href="#">Ping server</a>
-					</p>
-				</div>
-			</div>
             <div id="extra">
                 <a href="about">About</a>
                 <a href="help">Help</a>
@@ -47,7 +29,27 @@
             </div>
 		</div>
 		<g:layoutBody/>
-		<div class="footer" role="contentinfo"></div>
+		<div class="footer" role="contentinfo">
+				    <div id="ping-ok" class="ui-widget neo4j-ping">
+                        <div class="ui-state-highlight ui-corner-all" style="margin-top: 2px; padding: 0 .7em;">
+                            <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+                            Neo4J server ping - <strong>OK!</strong>
+        					</p><p>
+        					<a class="ping-server" href="#">Ping server</a>
+        					</p>
+                        </div>
+                    </div>
+                    <div id="ping-fail" class="ui-widget neo4j-ping">
+        				<div class="ui-state-error ui-corner-all" style="margin-top: 2px; padding: 0 .7em;">
+        					<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        					Neo4J server ping - <strong>failed!</strong>
+        					</p><p>
+        					<a class="ping-server" href="#">Ping server</a>
+        					</p>
+        				</div>
+        			</div>
+
+		</div>
 		<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
 		<g:javascript library="application"/>
         <r:layoutResources />

@@ -17,7 +17,7 @@ class FlavorwockyController {
                 render(contentType: "text/json") {
                     results = array {
                         for (r in resultsResp.data) {
-                            result id: r.self, name: r.data.name, label: r.data.name
+                            result id: Integer.parseInt(r.self.substring(r.self.lastIndexOf('/')+1)), name: r.data.name, label: r.data.name
                         }
                     }
                 }
@@ -58,7 +58,7 @@ class FlavorwockyController {
             def postBody = [order: 'breadth_first', relationships: [ direction:'all', type:'CATEGORY'], max_depth: 1]
             def traverseResp = neo4jTraverseClient.post (contentType:JSON, requestContentType:JSON , body: postBody)
             if (traverseResp.status == 200) {
-                categories = traverseResp.data.collectEntries { [it.self, it.data.name] }
+                categories = traverseResp.data.collectEntries { [Integer.parseInt(it.self.substring(it.self.lastIndexOf('/')+1)), it.data.name] }
             }
 
         } catch (ConnectException ce) {
@@ -73,7 +73,7 @@ class FlavorwockyController {
      * Fetches the nodes references for ingredients if they exists, else creates them
      * @return List of the node references
      */
-    private List fetchOrCreateNodes(RESTClient restClient, String ingredient1, String ingredient2, String category1, String category2) {
+    private List fetchOrCreateNodes(RESTClient restClient, String ingredient1, String ingredient2, String categoryNode1, String categoryNode2) {
         List nodeRef = []
 
         try {
@@ -94,11 +94,11 @@ class FlavorwockyController {
                         //no such node exists, so create one
                         postBody.add([method: 'POST', to: '/node',  body: [name: i==0?ingredient1:ingredient2], id: i*3])
                         //IS-A relationship to Category
-                        println "category1 = $category1"
-                        println "category2 = $category2"
+                        println "category1 = $categoryNode1"
+                        println "category2 = $categoryNode2"
                         postBody.add([method: 'POST',
                                       to: "{${(i*3)}}/relationships".toString(),
-                                      body: [to: ''+(i==0?category1:category2), type: 'IS_A'],
+                                      body: [to: grailsApplication.config.neo4j.rest.serverendpoint + '/' + (i==0?categoryNode1:categoryNode2), type: 'IS_A'],
                                       id:  i*3+1])
                         postBody.add([method: 'POST',
                                       to: '/index/node/ingredients?unique',
@@ -111,7 +111,7 @@ class FlavorwockyController {
                         println "nodeRef = $nodeRef"
                     }
                 }
-//                println "postBody = $postBody"
+                println "postBody = $postBody"
                 if (postBody.size()>0) {
                     createResp = restClient.post (contentType:JSON, requestContentType:JSON , body: postBody)
                     println "createResp.status = $createResp.status"
@@ -202,7 +202,7 @@ class FlavorwockyController {
     def getSearchVisualizationAsTreeJson () {
         println "params = $params"
         if (params.nodeId) {
-            def nodeId = Integer.parseInt(params.nodeId.substring(params.nodeId.lastIndexOf('/')+1))
+            def nodeId = Integer.parseInt(params.nodeId)  //Integer.parseInt(params.nodeId.substring(params.nodeId.lastIndexOf('/')+1))
             List children =  getChildren(1, nodeId, nodeId)
             
             def cypherClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/cypher")
@@ -265,9 +265,8 @@ class FlavorwockyController {
 
     def getSearchVisualizationAsNetworkJson () {
        // println "params = $params"
-        //if (params.nodeId) {
-        //    def nodeId = Integer.parseInt(params.nodeId.substring(params.nodeId.lastIndexOf('/')+1))
-            def nodeId=11
+        if (params.nodeId) {
+            def nodeId = Integer.parseInt(params.nodeId)
             def cypherClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/cypher")
             def queryStr =  'start n=node({nodeId}) match (n)-[p1:PAIRS_WITH]-(i1)-[p2?:PAIRS_WITH]-(i2)-[p3?:PAIRS_WITH]-(i3)-[p4?:PAIRS_WITH]-(i4)-[p5?:PAIRS_WITH]-(i5) ' +
                     'return n.name,p1.wt?,i1.name?,p2.wt?,i2.name?,p3.wt?,i3.name?,p4.wt?,i4.name?,p5.wt?,i5.name?'
@@ -316,9 +315,9 @@ class FlavorwockyController {
             }
             def finalStructure = ["nodes":nodeJsonArray,"links":relationJsonArray]
             render finalStructure as grails.converters.JSON
-        /*} else {
+        } else {
             render "error"
-        }*/
+        }
     }
 
     def mapRelation(String src, String target, Map relationshipIndex, List relationJsonArray, Map nodeIndex) {

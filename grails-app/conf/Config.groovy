@@ -105,4 +105,3 @@ neo4j.rest.serverendpoint = "http://localhost:7474/db/data"
 neo4j.rest.username = ""
 neo4j.rest.password = ""
 
-grails.rest.injectInto = ["Controller", "Service", "Routes", "BootStrap"]
