@@ -123,11 +123,13 @@
             console.log($('#ingredientNodeId').val());
             d3.select("#chart").selectAll('g.node').remove();
             d3.select("#chart").selectAll('path').remove();
+            d3.select("#chart").selectAll('line.link').remove();
             flavorNetworkSearch($('#ingredientNodeId').val());
         });
         $('#viewExploration').button().bind('click', function(){
             d3.select("#chart").selectAll('g.node').remove();
             d3.select("#chart").selectAll('path').remove();
+            d3.select("#chart").selectAll('line.link').remove();
             flavorTreeSearch($('#ingredientNodeId').val());
         });
 
@@ -292,8 +294,6 @@
             .data(json.links)
             .enter().append("svg:line")
             .attr("class", "link")
-            .style("stroke-width", "1.5px")
-            .style("stroke","#ccc")
             .attr("x1", function(d) { return d.source.x; })
             .attr("y1", function(d) { return d.source.y; })
             .attr("x2", function(d) { return d.target.x; })
