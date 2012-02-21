@@ -9,16 +9,21 @@
         <h1>Help</h1>
 
         <p class="helptext">
-       This app is inspired by the book <a href="http://www.amazon.com/Flavor-Bible-Essential-Creativity-Imaginative/dp/0316118400/ref=cm_cr_pr_product_top">The Flavor Bible</a> by Karen Page and Andrew Dornenburg and is our entry for the <a href="http://neo4j-challenge.herokuapp.com/">Neo4j Heroku Challenge</a>.
+       To start, try searching for an ingredient. If it's in the database, you will be rewarded with a visualization of ingredients that pair well with it.<br/>
+       The flavor affinity for a pair of ingredients is represented by the length of the connector between them- the shorter the connector, the better their flavors go together! <br/>
+      Ingredients are color coded- the color is a way of grouping ingredients from the same category together i.e. Vegetables or Fish
 
-       <p class="helptext">
-       The concept is simple- the way ingredients in a great dish pair together based on their flavor affinity are modeled in a graph. The current version of this app captures flavor pairings and how well ingredients pair together, and then allows one to search by ingredient and view complementary combinations.
+      <br/><br/>
+       Click on Explore to interactively explore pairings up to three levels deep. <br/> <br/>
+       Click on Interconnections to see a network visualization up to five levels deep. This visualization provides an insight into flavor trios that can form the basis for your next kitchen experiment- simply look for triangles in the network.
+
+
+    <p class="helptext">
+        Go ahead and add a flavor pairing by clicking on Add Pairing, type in your ingredients, pick the categories they belong to, and specify how well they pair.
        </p>
 
-        <p class="helptext">
-       To start, try searching for an ingredient. If the ingredient is in the database, then you will be rewarded with a visualization of pairings up to three levels deep. Click on each ingredient to see their respective pairings (if they exist).
-       </p>
-
+ <p class="helptext">
+ Have fun! If you like this app, please Tweet about it and rate it on Gensen.
 
 	</body>
 </html>
