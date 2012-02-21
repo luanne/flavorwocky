@@ -269,7 +269,8 @@ class FlavorwockyController {
             def nodeId = Integer.parseInt(params.nodeId)
             def cypherClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/cypher")
             def queryStr =  'start n=node({nodeId}) match (n)-[p1:PAIRS_WITH]-(i1)-[p2?:PAIRS_WITH]-(i2)-[p3?:PAIRS_WITH]-(i3)-[p4?:PAIRS_WITH]-(i4)-[p5?:PAIRS_WITH]-(i5) ' +
-                    'return n.name,p1.wt?,i1.name?,p2.wt?,i2.name?,p3.wt?,i3.name?,p4.wt?,i4.name?,p5.wt?,i5.name?'
+                    ', (n)-[:IS_A]->(c0),(i1)-[?:IS_A]->(c1), (i2)-[?:IS_A]->(c2),(i3)-[?:IS_A]->(c3),(i4)-[?:IS_A]->(c4),(i5)-[?:IS_A]->(c5) ' +
+                    ' return n.name,c1.catColor?,p1.wt?,i1.name?,c2.catColor?,p2.wt?,i2.name?,c3.catColor?,p3.wt?,i3.name?,c4.catColor?,p4.wt?,i4.name?,c5.catColor?,p5.wt?,i5.name?'
             def postBody = [query: queryStr,
                     params: ['nodeId': nodeId]]
         def nodeJsonArray = []
@@ -285,20 +286,27 @@ class FlavorwockyController {
 
                     for (row in queryResp.data.data) {
                         srcIngredient = null
-                        for (i in 1..5) {
-                            def ingredient = row.get(2*i)
+                        for (i in 0..5) {
+                            def ingredient = row.get(3*i)
                             if (ingredient instanceof JSONNull) {
                                 break
                             }
 
                             if(!nodeIndex.containsKey(ingredient)) {
                                 nodeIndex.put(ingredient,nodeCounter)
-                                def nodeProps = ["name": ingredient,"catColor":"black"]
+                                def catColor="black"
+                                if(i !=0) {
+                                    catColor=row.get((3*i)-2)
+                                    println "catColor = $catColor"
+
+                                }
+                                def nodeProps = ["name": ingredient,"catColor":catColor]
                                 nodeJsonArray.add(nodeProps)
                                 nodeCounter++
                             }
                             if(srcIngredient!=null) {
-                                mapRelation(srcIngredient,ingredient,relationshipIndex,relationJsonArray,nodeIndex)
+                                float distance = Float.parseFloat(row.get((3*i)-1))
+                                mapRelation(srcIngredient,ingredient,relationshipIndex,relationJsonArray,nodeIndex,distance)
                             }
                             srcIngredient=ingredient
                         }
@@ -317,7 +325,7 @@ class FlavorwockyController {
         }
     }
 
-    def mapRelation(String src, String target, Map relationshipIndex, List relationJsonArray, Map nodeIndex) {
+    def mapRelation(String src, String target, Map relationshipIndex, List relationJsonArray, Map nodeIndex, float distance) {
 
         if(relationshipIndex.containsKey(src)) {
             if(relationshipIndex.get(src).contains(target)) {
@@ -331,7 +339,7 @@ class FlavorwockyController {
             def targetList = [target]
             relationshipIndex.put(src,targetList)
         }
-        def relationProps = ["source":nodeIndex.get(src),"target":nodeIndex.get(target),"dist":50]
+        def relationProps = ["source":nodeIndex.get(src),"target":nodeIndex.get(target),"dist":distance]
         relationJsonArray.add(relationProps)
 
     }

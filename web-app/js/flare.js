@@ -283,7 +283,7 @@
             .nodes(json.nodes)
             .links(json.links)
             .gravity(.05)
-            .distance(function(d) { return d.dist; })
+            .distance(function(d) { return 250 * d.dist; })
             .charge(-100)
             .size([w, h])
             .start();
@@ -309,7 +309,8 @@
             node.append("svg:circle")
             .attr("class", "circle")
             .attr("r",5)
-            .attr("fill",function(d) { return d.catColor})
+            .style("fill",function(d) { return d.catColor})
+            .style("stroke",function(d) { return d.catColor})
             .attr("x", "-8px")
             .attr("y", "-8px")
             .attr("width", "16px")
