@@ -16,28 +16,12 @@
          </p>
 
         <p class="helptext">
-        We model in neo4j, the way ingredients in a great dish pair together based on their flavor affinity, a great use case for a graph. <br/>
+        A graph is a good fit for our domain, so using neo4j, we model the way ingredients in a great dish pair together based on their flavor affinity.<br/>
          The current version of this app captures flavor pairings and how well ingredients pair together, and then allows one to search by ingredient and view complementary combinations. Needless to say, this just scratches the surface of the possible features for an app like this.
        <br/><br/>
-       Our graph model looks like this:
 
-       <<insert graph>>
-
-       Ingredient nodes have a name property, category nodes have a catColor property (used in the visualization, stored as a property for convenience), and the PAIRS_WITH relationship between ingredients has a weight property "wt" that indicates the affinity between the flavors of the two ingredients.
-       <br/>
-       The ingredient names are indexed into the "ingredients" index. <br/>
-       Here are the features of the neo4J REST api used in this template:  <br/>
-
-       Add Pairing:
-
-       Get a list of all categories:
-
-       Autocomplete:
-
-       Search:
-
-
-
+       The model itself and the various features of neo4j used in this template are discussed on our blog:
+       <<link>>
 
 
 

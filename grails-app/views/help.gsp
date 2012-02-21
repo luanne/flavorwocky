@@ -14,8 +14,8 @@
       Ingredients are color coded- the color is a way of grouping ingredients from the same category together i.e. Vegetables or Fish
 
       <br/><br/>
-       Click on Explore to interactively explore pairings up to three levels deep. <br/> <br/>
-       Click on Interconnections to see a network visualization up to five levels deep. This visualization provides an insight into flavor trios that can form the basis for your next kitchen experiment- simply look for triangles in the network.
+       The Explore view lets you interactively explore pairings up to three levels deep. <br/> <br/>
+       The Interconnections view is a network visualization up to five levels deep. This visualization provides an insight into flavor trios that can form the basis for your next kitchen experiment- simply look for triangles in the network.
 
 
     <p class="helptext">
