@@ -655,8 +655,12 @@ a.skip {
 #extra {
     text-align: right;
     padding-bottom: 4px;
+    padding-right: 4px;
 }
 
+#extra a {
+    font-size: 1.25em;
+}
 
 svg .node circle {
     cursor: pointer;
@@ -680,4 +684,9 @@ svg .nodetext { pointer-events: none; font: 10px sans-serif; }
 p.helptext {
     padding: 16px;
     font-size: 1.4em;
+}
+
+svg line.link {
+    stroke-width: 1.5px;
+    stroke: #ccc;
 }
