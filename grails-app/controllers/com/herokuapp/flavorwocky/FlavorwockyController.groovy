@@ -287,12 +287,9 @@ class FlavorwockyController {
                         srcIngredient = null
                         for (i in 1..5) {
                             def ingredient = row.get(2*i)
-                            println "ingredient = ${ingredient?.class}"
                             if (ingredient instanceof JSONNull) {
-                                println "-----------------------In the null if"
                                 break
                             }
-                            println "-----------------ingredient = $ingredient"
 
                             if(!nodeIndex.containsKey(ingredient)) {
                                 nodeIndex.put(ingredient,nodeCounter)
@@ -321,9 +318,6 @@ class FlavorwockyController {
     }
 
     def mapRelation(String src, String target, Map relationshipIndex, List relationJsonArray, Map nodeIndex) {
-        print nodeIndex
-        println "src = $src"
-        println "target = $target"
 
         if(relationshipIndex.containsKey(src)) {
             if(relationshipIndex.get(src).contains(target)) {
