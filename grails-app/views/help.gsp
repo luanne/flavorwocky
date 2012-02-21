@@ -23,7 +23,7 @@
        </p>
 
  <p class="helptext">
- Have fun! If you like this app, please Tweet about it and rate it on Gensen.
+ Have fun! If you like this app, please <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://flavorwocky.herokuapp.com" data-text="I love Flavorwocky - Neo4J &amp; Heroku Challenge App" data-via="luannem" data-lang="hu" data-hashtags="neo4jchallenge">tweet</a> about it and rate it on Gensen.
 
 	</body>
 </html>

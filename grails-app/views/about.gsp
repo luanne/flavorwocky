@@ -6,9 +6,11 @@
 	</head>
 	<body>
 
-        <h1>About Flavors</h1>
+        <h1>About Flavorwocky</h1>
         <p class="helptext">
          This app is inspired by the book <a href="http://www.amazon.com/Flavor-Bible-Essential-Creativity-Imaginative/dp/0316118400/ref=cm_cr_pr_product_top" target="_blank">The Flavor Bible</a> by Karen Page and Andrew Dornenburg and is our entry for the <a href="http://neo4j-challenge.herokuapp.com/" target="_blank">Neo4j Heroku Challenge</a>.
+          <br/><br/>
+                 Why <i>Flavorwocky</i>? Well, I said "what should I call the app?", and my husband said "<a href="http://en.wikipedia.org/wiki/Jabberwocky">jabberwocky</a>". It couldn't be called Jabberwocky of course, so behold- Flavorwocky.
          </p>
 
         <p class="helptext">
@@ -16,14 +18,12 @@
          </p>
 
         <p class="helptext">
-        A graph is a good fit for our domain, so using neo4j, we model the way ingredients in a great dish pair together based on their flavor affinity.<br/>
+        A graph is a good fit for our domain, so, using neo4j, we model the way ingredients in a great dish pair together based on their flavor affinity.<br/>
          The current version of this app captures flavor pairings and how well ingredients pair together, and then allows one to search by ingredient and view complementary combinations. Needless to say, this just scratches the surface of the possible features for an app like this.
        <br/><br/>
 
        The model itself and the various features of neo4j used in this template are discussed on our blog:
        <<link>>
-
-
 
         </p>
 	</body>

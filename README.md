@@ -1,4 +1,4 @@
-Flavors
+Flavorwocky
 ========
 
 This is an entry for the Neo4j Heroku Challenge(http://neo4j-challenge.herokuapp.com/) and is a template for Grails with Neo4j and D3.js web applications.

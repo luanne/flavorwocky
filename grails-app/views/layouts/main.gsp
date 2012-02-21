@@ -7,7 +7,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title><g:layoutTitle default="Flavors"/></title>
+		<title><g:layoutTitle default="Flavorwocky"/></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon">
 		<link rel="apple-touch-icon" href="${resource(dir: 'images', file: 'apple-touch-icon.png')}">
@@ -20,11 +20,11 @@
 	</head>
 	<body>
 		<div id="grailsLogo" role="banner">
-		    <a id="logo" href="${grailsApplication.config.grails.serverURL}">Flavors</a>
+		    <a id="logo" href="${grailsApplication.config.grails.serverURL}">Flavorwocky</a>
             <div id="extra">
                 <a href="about">About</a>
                 <a href="help">Help</a>
-                <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://flavorwocky.herokuapp.com" data-text="Flavors - Neo4J &amp; Heroku Challenge App" data-via="luannem" data-lang="hu" data-hashtags="neo4jchallenge">Tweet</a>
+                <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://flavorwocky.herokuapp.com" data-text="I love Flavorwocky - Neo4J &amp; Heroku Challenge App" data-via="luannem" data-lang="hu" data-hashtags="neo4jchallenge">Tweet</a>
                 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
             </div>
 		</div>
