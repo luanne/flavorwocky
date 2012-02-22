@@ -56,6 +56,6 @@
         <script type="text/javascript" src="${resource(dir: 'js', file: 'd3.js')}"></script>
         <script type="text/javascript" src="${resource(dir: 'js', file: 'd3.layout.js')}"></script>
         <script type="text/javascript" src="${resource(dir: 'js', file: 'd3.geom.js')}"></script>
-        <script type="text/javascript" src="${resource(dir: 'js', file: 'flare.js')}"></script>
+        <script type="text/javascript" src="${resource(dir: 'js', file: 'viz.js')}"></script>
 	</body>
 </html>
