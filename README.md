@@ -30,7 +30,7 @@ Deploying on Heroku
 * `> heroku create --stack cedar`
 * `> heroku addons:add neo4j`
 * `> heroku addons:open neo4j`
-* Get your neo4J REST-URl, login and password from ()
+* Copy your neo4J REST-URL, login and password
 * Edit flavorwocky/grails-app/conf/Config.groovy and update the values obtained above for neo4j.rest.serverendpoint, neo4j.rest.username and neo4j.rest.password
 * `> git push heroku master`
 * Go to your browser and try it out!

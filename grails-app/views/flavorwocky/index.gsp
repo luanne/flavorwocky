@@ -11,7 +11,7 @@
         <div id="prompts">
             <div class="promptLabel">
                 Find foods that pair well with
-                <br><div id="example">ex. Salmon</div>
+                <br><div id="example">ex. Chicken</div>
             </div>
             <input id="food" />
             <div id="orPart">OR&nbsp;&nbsp;&nbsp;<button id="addPairing">Add Pairing</button>
