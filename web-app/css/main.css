@@ -46,13 +46,16 @@ body {
 
 #grailsLogo {
 	background-color: #abbf78;
+	height: 68px;
+	line-height: 68px;
 }
 #logo {
     font-family: Georgia, "Times New Roman", serif;
     font-size: 2.5em;
 	display: inline-block;
-	margin: 0.3em 1.5em;
+	margin: 0 1.0em;
 	color: black;
+	float: left;
 }
 
 /* replace with .no-boxshadow body if you have modernizr available */
@@ -113,7 +116,7 @@ img {
 	font-size: 0.8em;
 	margin-top: 1.5em;
 	padding: 1em;
-	min-height: 4em;
+	min-height: 3.5em;
 }
 
 .footer a {
@@ -656,10 +659,12 @@ a.skip {
     text-align: right;
     padding-bottom: 4px;
     padding-right: 4px;
+    float: right;
 }
 
 #extra a {
     font-size: 1.25em;
+    padding: 0 8px 0 0;
 }
 
 svg .node circle {
