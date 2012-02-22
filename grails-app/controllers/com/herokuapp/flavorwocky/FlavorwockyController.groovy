@@ -75,18 +75,17 @@ class FlavorwockyController {
      */
     private List fetchOrCreateNodes(RESTClient restClient, String ingredient1, String ingredient2, String categoryNode1, String categoryNode2) {
         List nodeRef = []
-
+        def escapedIngredient1 = ingredient1.replace(" ","%20")
+        def escapedIngredient2 = ingredient2.replace(" ","%20")
         try {
             //fetch the ingredients if they exist
             def postBody = [
-                [method: 'GET', to: '/index/node/ingredients?query=name:'+ingredient1.toLowerCase(), id: 0],
-                [method: 'GET', to: '/index/node/ingredients?query=name:'+ingredient2.toLowerCase(), id: 1]
+                [method: 'GET', to: '/index/node/ingredients/name/'+escapedIngredient1.toLowerCase(), id: 0],
+                [method: 'GET', to: '/index/node/ingredients/name/'+escapedIngredient2.toLowerCase(), id: 1]
             ]
-//            println "*************** $postBody"
             def createResp = restClient.post (contentType:JSON, requestContentType:JSON , body: postBody)
 //            println "createResp.status = $createResp.status"
             if (createResp.status == 200) {
-                println "createResp = $createResp.data"
                 postBody = []
                 createResp.data.body.self.eachWithIndex {selfArr, i->
                     println "selfArr = $selfArr"
@@ -111,7 +110,6 @@ class FlavorwockyController {
                         println "nodeRef = $nodeRef"
                     }
                 }
-                println "postBody = $postBody"
                 if (postBody.size()>0) {
                     createResp = restClient.post (contentType:JSON, requestContentType:JSON , body: postBody)
                     println "createResp.status = $createResp.status"
