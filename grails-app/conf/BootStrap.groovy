@@ -66,10 +66,12 @@ class BootStrap {
 
     def createIngredientIndex() {
         def neo4jCreateIndexClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/index/node")
+        neo4jCreateIndexClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
         def createResp = neo4jCreateIndexClient.post(
                 body: [name: 'ingredients'],
                 requestContentType: JSON,
                 contentType: JSON)
+        println createResp.status
         if(createResp.status == 201) {
             log.info "Created ingredients index"
         }
