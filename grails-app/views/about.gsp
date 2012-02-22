@@ -22,7 +22,8 @@
          The current version of this app captures flavor pairings and how well ingredients pair together, and then allows one to search by ingredient and view complementary combinations. Needless to say, this just scratches the surface of the possible features for an app like this.
        <br/><br/>
 
-       The model itself and the various features of neo4j used in this template are discussed on our blog:
+       We thought this app should focus completely on Neo4J so you won't find fancy bells and third party integrations (yet).
+       Read more about what features are used in out blog <link>
        <<link>>
 
         </p>
