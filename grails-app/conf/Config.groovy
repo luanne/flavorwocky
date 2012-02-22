@@ -101,7 +101,8 @@ grails.resources.modules = {
     }
 }
 
-neo4j.rest.serverendpoint = "http://localhost:7474/db/data"
-neo4j.rest.username = ""
-neo4j.rest.password = ""
+//Set to you your Neo4J REST endpoint ex. neo4j.rest.serverendpoint = "http://6aed12232.hosted.neo4j.org:7024/db/data"
+neo4j.rest.serverendpoint = "http://3ae82a555.hosted.neo4j.org:7029/db/data"
+neo4j.rest.username = "eab352a22"
+neo4j.rest.password = "f9c62e493"
 
