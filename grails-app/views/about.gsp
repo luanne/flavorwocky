@@ -14,7 +14,9 @@
          </p>
 
         <p class="helptext">
-         It uses Grails 2.0 and the Neo4j add-on for Heroku to provide a basic template for anyone who wants to get up and running with Grails and Neo4j on Heroku. The neat visualization is thanks to the <a href="http://mbostock.github.com/d3/" target="_blank">D3.js</a> library.
+         It uses Grails 2.0 and the Neo4j add-on for Heroku to provide a basic template for anyone who wants to get up and running with Grails and Neo4j on Heroku.
+          Unfortunately, the <a href="http://grails.org/plugin/neo4j" target="_blank">Grails Neo4j plugin</a> does not appear to work with Grails 2.0, so we ended up using Grails for the front end.
+          The neat visualization is thanks to the <a href="http://mbostock.github.com/d3/" target="_blank">D3.js</a> library.
          </p>
 
         <p class="helptext">
