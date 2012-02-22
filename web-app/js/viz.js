@@ -28,7 +28,6 @@
                 if (e.which == 13) {
                         jQuery.ajax(autosearchLink, {
                             success: function(data, textStatus, jqXHR) {
-                                console.log (data);
                                 if (data.length<=0) {
                                     $('#searchFeedback').html('No such ingredient found');
                                 } else if (data.length>=2) {
@@ -82,7 +81,7 @@
         $( "#pairing-dialog-form" ).dialog({
             autoOpen: false,
             height: 250,
-            width: 550,
+            width: 600,
             modal: true,
             buttons: {
                 "Create Pairing": function() {
@@ -115,21 +114,12 @@
         //show a random ingredient
         var showIngr = [11, 25, 22];
         $('#ingredientNodeId').val(showIngr[Math.floor(Math.random()*(showIngr.length))])
-        console.log ($('#ingredientNodeId').val());
         flavorTreeSearch($('#ingredientNodeId').val());
 
         $('#viewInteraction').button().bind('click', function(){
-            console.log('view interaction');
-            console.log($('#ingredientNodeId').val());
-            d3.select("#chart").selectAll('g.node').remove();
-            d3.select("#chart").selectAll('path').remove();
-            d3.select("#chart").selectAll('line.link').remove();
             flavorNetworkSearch($('#ingredientNodeId').val());
         });
         $('#viewExploration').button().bind('click', function(){
-            d3.select("#chart").selectAll('g.node').remove();
-            d3.select("#chart").selectAll('path').remove();
-            d3.select("#chart").selectAll('line.link').remove();
             flavorTreeSearch($('#ingredientNodeId').val());
         });
 
@@ -158,6 +148,10 @@
 
         function flavorTreeSearch(nodeId) {
             d3.json("flavorTree?nodeId="+nodeId, function(json) {
+                d3.select("#chart").selectAll('g.node').remove();
+                d3.select("#chart").selectAll('path').remove();
+                d3.select("#chart").selectAll('line.link').remove();
+
                 root = json;
                 root.x0 = h / 2;
                 root.y0 = 0;
@@ -281,6 +275,10 @@
 
         function flavorNetworkSearch(nodeId) {
             d3.json("flavorNetwork?nodeId="+nodeId, function(json) {
+            d3.select("#chart").selectAll('g.node').remove();
+            d3.select("#chart").selectAll('path').remove();
+            d3.select("#chart").selectAll('line.link').remove();
+
             var force = self.force = d3.layout.force()
             .nodes(json.nodes)
             .links(json.links)
