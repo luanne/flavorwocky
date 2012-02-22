@@ -2,7 +2,7 @@ Flavorwocky
 ========
 
 This is an entry for the Neo4j Heroku Challenge(http://neo4j-challenge.herokuapp.com/) and is a template for Grails with Neo4j and D3.js web applications.
-Inspired by The Flavor Bible by Karen Page and Andrew Dornenburg, this app models flavor affinity between various ingredients in a graph and demonstrates features of the Neo4J REST API.
+The app models flavor affinity between various ingredients in a graph and demonstrates features of the Neo4J REST API.
 
 Demo: http://flavorwocky.herokuapp.com/
 
