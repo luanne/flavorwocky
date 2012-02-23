@@ -88,17 +88,13 @@ class FlavorwockyController {
                     [method: 'GET', to: '/index/node/ingredients/name/' + escapedIngredient2.toLowerCase(), id: 1]
             ]
             def createResp = restClient.post(contentType: JSON, requestContentType: JSON, body: postBody)
-//            println "createResp.status = $createResp.status"
             if (createResp.status == 200) {
                 postBody = []
                 createResp.data.body.self.eachWithIndex {selfArr, i ->
-                    println "selfArr = $selfArr"
                     if (selfArr.size() <= 0) {
                         //no such node exists, so create one
                         postBody.add([method: 'POST', to: '/node', body: [name: i == 0 ? ingredient1 : ingredient2], id: i * 3])
                         //IS-A relationship to Category
-                        println "category1 = $categoryNode1"
-                        println "category2 = $categoryNode2"
                         postBody.add([method: 'POST',
                                 to: "{${(i * 3)}}/relationships".toString(),
                                 body: [to: grailsApplication.config.neo4j.rest.serverendpoint + '/' + (i == 0 ? categoryNode1 : categoryNode2), type: 'IS_A'],
@@ -109,27 +105,20 @@ class FlavorwockyController {
                                 id: i * 3 + 2])
                     } else {
                         //already exists, so just return the value
-                        println "...already exists so just adding to noderef "
                         nodeRef.add selfArr[0] //if there are more than one then it is probably an error!!
-                        println "nodeRef = $nodeRef"
                     }
                 }
                 if (postBody.size() > 0) {
                     createResp = restClient.post(contentType: JSON, requestContentType: JSON, body: postBody)
-                    println "createResp.status = $createResp.status"
                     if (createResp.status == 200) {
-//                        println "createResp = $createResp.data"
-                        println "...created a new node and now adding to noderef"
 
                         createResp.data.each {
                             //we know that the id of the created node is either 0 or 3 since we send it with the batch request
-                            println "it.id = " + it.id
                             if (it.id == 0 || it.id == 3) {
                                 nodeRef.add it.body.self
                             }
                         }
                         //nodeRef.add createResp.data.body.self
-                        println "nodeRef = $nodeRef"
                     }
                 }
             }
@@ -144,17 +133,12 @@ class FlavorwockyController {
 
     private boolean createRelationship(String from, String to, String relation, String affinity) {
         def cypherClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/cypher")
-        println "from = $from"
-        println "to = $to"
         try {
             //check if this relation already exists
             def postBody = [query: 'start n1=node({node1}), n2=node({node2}) match (n1)-[r:PAIRS_WITH]-(n2) return count(r)',
                     params: ['node1': Integer.parseInt(from.substring(from.lastIndexOf('/') + 1)), 'node2': Integer.parseInt(to.substring(to.lastIndexOf('/') + 1))]]
             def createResp = cypherClient.post(contentType: JSON, requestContentType: JSON, body: postBody)
-            println "createResp.status = $createResp.status"
             if (createResp.status == 200) {
-                println "createResp = $createResp.data"
-                println "createResp data size = ${createResp.data.data.size()}"
                 if (createResp.data.data.size() <= 0) {
                     //doesn't exist, so now create it
                     def createClient = createRESTClient("${from}/relationships")
@@ -189,7 +173,6 @@ class FlavorwockyController {
         def createClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/batch")
         def nodeRef = fetchOrCreateNodes(createClient, params.ingredient1, params.ingredient2, params.category1, params.category2)
         //create a PAIRS_WITH relationship between node 1 and node 2 if it doesn't already exist
-//        println "nodeRef = $nodeRef"
         createRelationship(nodeRef[0], nodeRef[1], 'PAIRS_WITH', params.affinity)
 
         render "done"
@@ -202,7 +185,8 @@ class FlavorwockyController {
     }
 
     def getSearchVisualizationAsTreeJson() {
-        println "params = $params"
+        //TODO this is a really bad, inefficient way to build the JSON tree and is only good for demos.
+        //TODO refactor for production or else be forever ashamed
         if (params.nodeId) {
             def nodeId = Integer.parseInt(params.nodeId)  //Integer.parseInt(params.nodeId.substring(params.nodeId.lastIndexOf('/')+1))
             List children = getChildren(1, nodeId, nodeId)
@@ -226,7 +210,6 @@ class FlavorwockyController {
             }
 
             def finalStructure = ["name": ingredientName, "catColor": catColor, "wt": 1, "children": children]
-            println(finalStructure as grails.converters.JSON)
             render finalStructure as grails.converters.JSON
         } else {
             render "error"
@@ -266,7 +249,6 @@ class FlavorwockyController {
     }
 
     def getSearchVisualizationAsNetworkJson() {
-        // println "params = $params"
         if (params.nodeId) {
             def nodeId = Integer.parseInt(params.nodeId)
             def cypherClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/cypher")
@@ -299,7 +281,6 @@ class FlavorwockyController {
                                 def catColor = "black"
                                 if (i != 0) {
                                     catColor = row.get((3 * i) - 2)
-                                    println "catColor = $catColor"
 
                                 }
                                 def nodeProps = ["name": ingredient, "catColor": catColor]
