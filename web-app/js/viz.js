@@ -190,7 +190,7 @@
         nodeEnter.append("circle")
         .attr("r", 1e-6)
         .style("stroke", function(d) {return d.catColor})
-        .style("fill", function(d) { return d.catColor});
+        .style("fill", function(d) { return (d._children && d._children.length>0)?d.catColor:"#fff"});
 
         nodeEnter.append("text")
         .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
@@ -206,7 +206,7 @@
 
         nodeUpdate.select("circle")
         .attr("r", 4.5)
-         .style("fill", function(d) { return d.catColor});
+         .style("fill", function(d) {  return (d._children && d._children.length>0)?d.catColor:"#fff"});
 
         nodeUpdate.select("text")
         .style("fill-opacity", 1);
