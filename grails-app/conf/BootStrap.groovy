@@ -1,3 +1,7 @@
+/*
+Copyright (c) 2012, Luanne Misquitta
+All rights reserved. See License.txt
+ */
 import groovyx.net.http.RESTClient
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.ContentType.JSON
