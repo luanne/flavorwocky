@@ -696,3 +696,10 @@ svg line.link {
     stroke-width: 1.5px;
     stroke: #ccc;
 }
+
+.copyright {
+    position: relative;
+    width: 200px;
+    margin: auto;
+    text-align: center;
+}

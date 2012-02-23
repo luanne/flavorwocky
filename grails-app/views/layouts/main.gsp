@@ -53,7 +53,7 @@ All rights reserved. See License.txt
         					</p>
         				</div>
         			</div>
-        			<div>Copyright &copy; 2012, Luanne Misquitta</div>
+        			<div class="copyright">Copyright &copy; 2012, Luanne Misquitta</div>
 
 		</div>
 		<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
