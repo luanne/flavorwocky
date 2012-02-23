@@ -34,6 +34,7 @@ All rights reserved. See License.txt
 		</div>
 		<g:layoutBody/>
 		<div class="footer" role="contentinfo">
+
 				    <div id="ping-ok" class="ui-widget neo4j-ping">
                         <div class="ui-state-highlight ui-corner-all" style="margin-top: 2px; padding: 0 .7em;">
                             <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
@@ -52,6 +53,7 @@ All rights reserved. See License.txt
         					</p>
         				</div>
         			</div>
+        			<div>Copyright &copy; 2012, Luanne Misquitta</div>
 
 		</div>
 		<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
