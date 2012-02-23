@@ -1,3 +1,7 @@
+/*
+Copyright (c) 2012, Luanne Misquitta
+All rights reserved. See License.txt
+ */
 
 /**
  * Tweet buttons for the site

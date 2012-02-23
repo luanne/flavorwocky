@@ -1,3 +1,8 @@
+/*
+Copyright (c) 2012, Luanne Misquitta
+All rights reserved. See License.txt
+ */
+
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
 
@@ -101,7 +106,7 @@ grails.resources.modules = {
     }
 }
 
-neo4j.rest.serverendpoint = "http://3ae82a555.hosted.neo4j.org:7029/db/data"
-neo4j.rest.username = "eab352a22"
-neo4j.rest.password = "f9c62e493"
+neo4j.rest.serverendpoint = "http://localhost:7474/db/data"
+neo4j.rest.username = ""
+neo4j.rest.password = ""
 
