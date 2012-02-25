@@ -26,8 +26,10 @@ All rights reserved. See License.txt
        <br/><br/>
 
        I thought this app should focus completely on Neo4j so you won't find fancy bells and third party integrations (yet).
-       Read more about what features are used in our blog <link>
-       <br/>
+       Read more about what features are used in our blog:
+       <br/><a href="http://thought-bytes.blogspot.in/2012/02/flavor-of-month-neo4j-add-on-for-heroku.html">Flavor of the month- Neo4j add-on for Heroku</a><br/>
+       <a href="http://thought-bytes.blogspot.in/2012/02/flavor-of-month-neo4j-and-heroku-part-2.html">Flavor of the month- Neo4j add-on for Heroku, part 2</a>
+       <br/> <br/>
         Feel free to add <a href="https://github.com/luanne/flavorwocky/issues?sort=created&direction=desc&state=open" target="_blank">issues</a> or contact me via the <a href="http://thought-bytes.blogspot.com" target="_blank">blog</a> or <a href="https://twitter.com/#!/luannem" target="_blank">twitter</a>.
         <br/>
         -Luanne Misquitta
