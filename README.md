@@ -6,7 +6,7 @@ The app models flavor affinity between various ingredients in a graph and demons
 
 Demo: http://flavorwocky.herokuapp.com/
 
-Blog posts with more information:
+Blog posts with more information: http://thought-bytes.blogspot.in/2012/02/flavor-of-month-neo4j-add-on-for-heroku.html
 
 If you like this app, please rate it on Gensen ()
 
