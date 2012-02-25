@@ -147,6 +147,7 @@
         .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
         function flavorTreeSearch(nodeId) {
+            $('#spinner').show();
             d3.json("flavorTree?nodeId="+nodeId, function(json) {
                 d3.select("#chart").selectAll('g.node').remove();
                 d3.select("#chart").selectAll('path').remove();
@@ -166,6 +167,7 @@
 
                 root.children.forEach(collapse);
                 update(root);
+                $('#spinner').hide();
             });
         }
 
@@ -274,6 +276,7 @@
 
 
         function flavorNetworkSearch(nodeId) {
+            $('#spinner').show();
             d3.json("flavorNetwork?nodeId="+nodeId, function(json) {
             d3.select("#chart").selectAll('g.node').remove();
             d3.select("#chart").selectAll('path').remove();
@@ -329,6 +332,8 @@
 
             node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
             });
+
+            $('#spinner').hide();
             });
 
         }

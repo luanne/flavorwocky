@@ -126,12 +126,13 @@ img {
 .spinner {
 	background: url(../images/spinner.gif) 50% 50% no-repeat transparent;
 	height: 16px;
-	width: 16px;
+	width: 100%;
     padding: 0.5em;
     position: absolute;
     right: 0;
 	top: 0;
 	text-indent: -9999px;
+	text-align: center;
 }
 
 /* NAVIGATION MENU */
@@ -694,4 +695,11 @@ p.helptext {
 svg line.link {
     stroke-width: 1.5px;
     stroke: #ccc;
+}
+
+.copyright {
+    position: relative;
+    width: 200px;
+    margin: auto;
+    text-align: center;
 }
