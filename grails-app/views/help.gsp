@@ -27,7 +27,7 @@ All rights reserved. See License.txt
 
         Go ahead and add a flavor pairing by clicking on Add Pairing, type in your ingredients, pick the categories they belong to, and specify how well they pair.
                  <br/><br/>
- Have fun! If you like this app, please  <g:tweet /> about it and rate it on Gensen.
+ Have fun! If you like this app, please  <g:tweet /> about it and rate it on <a href="http://gensen.herokuapp.com/show/27" target="_blank">Gensen</a>.
 
 	</body>
 </html>
