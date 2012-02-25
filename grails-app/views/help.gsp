@@ -22,13 +22,11 @@ All rights reserved. See License.txt
       <br/><br/>
        The Explore view lets you interactively explore pairings up to three levels deep. <br/> <br/>
        The Interactions view is a network visualization up to five levels deep. This visualization provides an insight into flavor trios that can form the basis for your next kitchen experiment- simply look for triangles in the network.
+        <br/><br/>
 
 
-    <p class="helptext">
         Go ahead and add a flavor pairing by clicking on Add Pairing, type in your ingredients, pick the categories they belong to, and specify how well they pair.
-       </p>
-
- <p class="helptext">
+                 <br/><br/>
  Have fun! If you like this app, please  <g:tweet /> about it and rate it on Gensen.
 
 	</body>
