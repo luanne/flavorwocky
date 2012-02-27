@@ -93,7 +93,13 @@
 
                     if ( bValid ) {
                         jQuery.ajax(createLink, {
-                            success: function() { },
+                            success: function() {
+                                if (whichView == 'tree') {
+                                    flavorTreeSearch($('#ingredientNodeId').val());
+                                } else if (whichView == 'network') {
+                                    flavorNetworkSearch($('#ingredientNodeId').val());
+                                }
+                            },
                             data: {'ingredient1': $('#ingredient1').val(), 'ingredient2': $('#ingredient2').val(),
                                     'category1': $('#category1').val(), 'category2': $('#category2').val(),
                                     'affinity': $('#affinity').val()}
@@ -117,9 +123,11 @@
         flavorTreeSearch($('#ingredientNodeId').val());
 
         $('#viewInteraction').button().bind('click', function(){
+            whichView = 'network';
             flavorNetworkSearch($('#ingredientNodeId').val());
         });
         $('#viewExploration').button().bind('click', function(){
+            whichView = 'tree';
             flavorTreeSearch($('#ingredientNodeId').val());
         });
 

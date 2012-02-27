@@ -58,6 +58,7 @@ All rights reserved. See License.txt
         <script type="text/javascript">
             var autosearchLink = '${createLink(action:'autosearch')}'
             var createLink = '${createLink(action:'create')}'
+            var whichView = 'tree'; //'tree' or 'network'
         </script>
         <script type="text/javascript" src="${resource(dir: 'js', file: 'd3.js')}"></script>
         <script type="text/javascript" src="${resource(dir: 'js', file: 'd3.layout.js')}"></script>
