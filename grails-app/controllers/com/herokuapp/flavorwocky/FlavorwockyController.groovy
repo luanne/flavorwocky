@@ -72,7 +72,10 @@ class FlavorwockyController {
             log.error ce
         }
 
-        [categories: categories, affinity: [0.35: 'Tried and tested', 0.45: 'Extremely good', 0.6: 'Good']]
+        [categories: categories,
+         affinity: [0.35: 'Tried and tested', 0.45: 'Extremely good', 0.6: 'Good'], //hardcoded to simplify stuff
+         latest: getLatestPairings()
+        ]
     }
 
     /**
@@ -408,7 +411,7 @@ class FlavorwockyController {
 
     }
 
-    def getLatestPairings() {
+    private JSONArray getLatestPairings() {
         def neo4jTraverseClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/node/0/traverse/node")
         neo4jTraverseClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
         def postBody = [order: 'breadth_first', relationships: [direction: 'out', type: 'LATEST_PAIRS'], max_depth: 1]
@@ -425,11 +428,11 @@ class FlavorwockyController {
                 }
             }
             catch (HttpResponseException e) {
-
+                log.error e
             }
 
         }
-        render pairProp
+        return pairProp
     }
 
 

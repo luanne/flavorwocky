@@ -51,7 +51,16 @@ All rights reserved. See License.txt
     </div>
     <div id="chart"></div>
     <div id="trios" class="ui-widget-content"></div>
-    <div id="latest" class="ui-widget-content"></div>
+    <div id="latest" class="ui-widget-content">
+        <p>Freshly added</p>
+        <ul>
+        <g:each in="${latest}">
+            <g:set var="key" value="${it.substring(0, it.indexOf(':'))}" />
+            <g:set var="val" value="${it.substring(it.indexOf(':')+1)}" />
+            <li nodeid="${key}"><a href='#'>${val}</a></li>
+        </g:each>
+        </ul>
+    </div>
     <div id="chartOptions">
         <div id="viewExploration">Explore</div>
         <div id="viewInteraction">View Interactions</div>

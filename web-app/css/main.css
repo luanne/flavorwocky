@@ -622,13 +622,13 @@ a.skip {
 #trios {
     float:right;
     font-size: 0.9em;
-    padding: 4px;
     width: 150px;
     height: 200px;
 }
 
 #trios ul {
     list-style: none;
+    margin: 0 4px 0;
 }
 
 #trios li {
@@ -637,18 +637,20 @@ a.skip {
 
 #trios p {
     font-weight: bold;
+    background-color: #ABBF78;
+    text-align: center;
 }
 
 #latest {
     float:right;
     font-size: 0.9em;
-    padding: 4px;
     width: 150px;
     height: 200px;
 }
 
 #latest ul {
     list-style: none;
+    margin: 0 4px 0;
 }
 
 #latest li {
@@ -657,6 +659,8 @@ a.skip {
 
 #latest p {
     font-weight: bold;
+    background-color: #ABBF78;
+    text-align: center;
 }
 
 .ui-autocomplete-loading { background: white url('../images/spinner.gif') right center no-repeat; }
