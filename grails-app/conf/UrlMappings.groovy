@@ -17,6 +17,7 @@ class UrlMappings {
         "/autosearch" (controller: "flavorwocky", action:"autosearch")
         "/flavorTree" (controller: "flavorwocky", action:"getSearchVisualizationAsTreeJson")
         "/flavorNetwork" (controller: "flavorwocky", action:"getSearchVisualizationAsNetworkJson")
+        "/flavorTrios" (controller: "flavorwocky", action:"getFlavorTrios")
         "/about" (view: '/about')
         "/help" (view:  '/help')
 	}

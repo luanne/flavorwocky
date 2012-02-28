@@ -131,7 +131,7 @@ class FlavorwockyController {
         return nodeRef
     }
 
-    private boolean createRelationship(String from, String to, String relation, String affinity) {
+    private boolean createRelationship(String from, String to, String relation, String affinity, String fromName, String toName) {
         def cypherClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/cypher")
         try {
             //check if this relation already exists
@@ -144,7 +144,9 @@ class FlavorwockyController {
                     def createClient = createRESTClient("${from}/relationships")
                     postBody = [to: to, type: relation, data: [wt: affinity]]
                     createResp = createClient.post(contentType: JSON, requestContentType: JSON, body: postBody)
-                    if (createResp.status == 200) {
+
+                    if (createResp.status == 201) {
+                        //  updateRecentPairings(Integer.parseInt(from.substring(from.lastIndexOf('/') + 1)), fromName, toName)
                         return true
                     }
                     else {
@@ -163,6 +165,47 @@ class FlavorwockyController {
 
     }
 
+    private updateRecentPairings(int fromNodeId, String fromName, String toName) {
+        def neo4jTraverseClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/node/0/traverse/node")
+        neo4jTraverseClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
+        def postBody = [order: 'breadth_first', relationships: [direction: 'out', type: 'LATEST_PAIRS'], max_depth: 1]
+        def traverseResp = neo4jTraverseClient.post(contentType: JSON, requestContentType: JSON, body: postBody)
+        def pairNode
+        if (traverseResp.status == 200)
+            if (traverseResp.data.size() <= 0) {
+                println "no pairing node"
+                def pairNodeClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/node")
+                pairNodeClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
+                def createResp = pairNodeClient.post(
+                        body: [name: "latestPairs"],
+                        requestContentType: JSON,
+                        contentType: JSON)
+                if (createResp.status == 201) {
+                    log.info "Created latest pairing node"
+                    pairNode = createResp.data.self
+                    //now create the relation with node 0
+                    def relationClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/node/0/relationships")
+                    relationClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
+
+                    def relationshipResponse = relationClient.post(
+                            body: [to: pairNode, type: 'LATEST_PAIRS'],
+                            requestContentType: JSON,
+                            contentType: JSON)
+                    if (relationshipResponse.status == 201) {
+                        log.info "Created LATEST_PAIRS relationship to"
+                    }
+
+                }
+
+            }
+            else {
+                pairNode = traverseResp.data
+                println "pairNode = $pairNode"
+            }
+
+
+    }
+
     def create() {
         if (!params.ingredient1 || !params.ingredient2 || !params.category1 || !params.category2 || !params.affinity) {
             render "Invalid parameter values"
@@ -173,7 +216,7 @@ class FlavorwockyController {
         def createClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/batch")
         def nodeRef = fetchOrCreateNodes(createClient, params.ingredient1, params.ingredient2, params.category1, params.category2)
         //create a PAIRS_WITH relationship between node 1 and node 2 if it doesn't already exist
-        createRelationship(nodeRef[0], nodeRef[1], 'PAIRS_WITH', params.affinity)
+        createRelationship(nodeRef[0], nodeRef[1], 'PAIRS_WITH', params.affinity, params.ingredient1, params.ingredient2)
 
         render "done"
     }
@@ -324,6 +367,40 @@ class FlavorwockyController {
         }
         def relationProps = ["source": nodeIndex.get(src), "target": nodeIndex.get(target), "dist": distance]
         relationJsonArray.add(relationProps)
+
+    }
+
+    def getFlavorTrios() {
+        //if (params.nodeId) {
+        //   def nodeId = Integer.parseInt(params.nodeId)
+        def nodeId = 25
+        def cypherClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/cypher")
+        def queryStr = 'start n=node({nodeId}) match (n)-[r1:PAIRS_WITH]-(i1)-[r2:PAIRS_WITH]-(i2)-[r3:PAIRS_WITH]-(n) ' +
+                'return n.name as searchName, i1.name as ingred1,i2.name as ingred2, ID(r2) as relId, ID(i1) as ingred1Id'
+        def postBody = [query: queryStr,
+                params: ['nodeId': nodeId]]
+        def trioList = [] //list of pair
+        def relationshipIds = [] //list of pairs_with relationship ids to check for bidirectional pairs
+        try {
+            def queryResp = cypherClient.post(contentType: JSON, requestContentType: JSON, body: postBody)
+            if (queryResp.status == 200) {
+                for (row in queryResp.data.data) {
+                    if (!relationshipIds.contains(row.get(3))) {
+                        relationshipIds.add(row.get(3))
+                        def trioName = row.get(0) + ", " + row.get(1) + " and " + row.get(2)
+                        def trio = ["trio": trioName, "nodeId": row.get(4)]
+                        trioList.add(trio)
+                    }
+                }
+                render trioList
+
+            }
+        }
+        catch (ConnectException ce) {
+            log.error "Connection to server failed"
+            log.error ce
+        }
+        //   }
 
     }
 
