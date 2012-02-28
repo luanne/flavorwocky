@@ -6,8 +6,10 @@ package com.herokuapp.flavorwocky
 
 import groovyx.net.http.RESTClient
 import net.sf.json.JSONNull
+import net.sf.json.JSONArray
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.ContentType.JSON
+import groovyx.net.http.HttpResponseException
 
 class FlavorwockyController {
 
@@ -146,7 +148,7 @@ class FlavorwockyController {
                     createResp = createClient.post(contentType: JSON, requestContentType: JSON, body: postBody)
 
                     if (createResp.status == 201) {
-                        //  updateRecentPairings(Integer.parseInt(from.substring(from.lastIndexOf('/') + 1)), fromName, toName)
+                        updateRecentPairings(Integer.parseInt(from.substring(from.lastIndexOf('/') + 1)), fromName, toName)
                         return true
                     }
                     else {
@@ -171,37 +173,39 @@ class FlavorwockyController {
         def postBody = [order: 'breadth_first', relationships: [direction: 'out', type: 'LATEST_PAIRS'], max_depth: 1]
         def traverseResp = neo4jTraverseClient.post(contentType: JSON, requestContentType: JSON, body: postBody)
         def pairNode
-        if (traverseResp.status == 200)
-            if (traverseResp.data.size() <= 0) {
-                println "no pairing node"
-                def pairNodeClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/node")
-                pairNodeClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
-                def createResp = pairNodeClient.post(
-                        body: [name: "latestPairs"],
-                        requestContentType: JSON,
-                        contentType: JSON)
-                if (createResp.status == 201) {
-                    log.info "Created latest pairing node"
-                    pairNode = createResp.data.self
-                    //now create the relation with node 0
-                    def relationClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/node/0/relationships")
-                    relationClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
-
-                    def relationshipResponse = relationClient.post(
-                            body: [to: pairNode, type: 'LATEST_PAIRS'],
-                            requestContentType: JSON,
-                            contentType: JSON)
-                    if (relationshipResponse.status == 201) {
-                        log.info "Created LATEST_PAIRS relationship to"
+        if (traverseResp.status == 200) {
+            def pairNodeProperties = traverseResp.data.self.get(0)
+            def pairNodeClient = new RESTClient(pairNodeProperties + "/properties/pairs")
+            pairNodeClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
+            try {
+                def pairResp = pairNodeClient.get(contentType: JSON, requestContentType: JSON)
+                if (pairResp.status == 200) {
+                    JSONArray pairProp = pairResp.data
+                    pairProp.add(0, fromNodeId + ":" + fromName + " and " + toName)
+                    if (pairProp.size() > 5) {
+                        pairProp.remove(5)
                     }
+                    def pairPropertyPut = pairNodeClient.put(
+                            body: pairProp,
+                            requestContentType: JSON,
+                            contentType: JSON
+                    )
 
                 }
+            }
+            catch (HttpResponseException e) {
+                if (e.getMessage().equalsIgnoreCase("Not Found")) {
+                    def latestPairs = new JSONArray()
 
+                    latestPairs.add(fromNodeId + ":" + fromName + " and " + toName)
+                    def pairPropertyPut = pairNodeClient.put(
+                            body: latestPairs,
+                            requestContentType: JSON,
+                            contentType: JSON
+                    )
+                }
             }
-            else {
-                pairNode = traverseResp.data
-                println "pairNode = $pairNode"
-            }
+        }
 
 
     }
@@ -402,6 +406,30 @@ class FlavorwockyController {
             }
         }
 
+    }
+
+    def getLatestPairings() {
+        def neo4jTraverseClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/node/0/traverse/node")
+        neo4jTraverseClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
+        def postBody = [order: 'breadth_first', relationships: [direction: 'out', type: 'LATEST_PAIRS'], max_depth: 1]
+        def traverseResp = neo4jTraverseClient.post(contentType: JSON, requestContentType: JSON, body: postBody)
+        JSONArray pairProp
+        if (traverseResp.status == 200) {
+            def pairNodeProperties = traverseResp.data.self.get(0)
+            def pairNodeClient = new RESTClient(pairNodeProperties + "/properties/pairs")
+            pairNodeClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
+            try {
+                def pairResp = pairNodeClient.get(contentType: JSON, requestContentType: JSON)
+                if (pairResp.status == 200) {
+                    pairProp = pairResp.data
+                }
+            }
+            catch (HttpResponseException e) {
+
+            }
+
+        }
+        render pairProp
     }
 
 
