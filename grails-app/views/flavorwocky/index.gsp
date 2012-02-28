@@ -50,6 +50,8 @@ All rights reserved. See License.txt
         </form>
     </div>
     <div id="chart"></div>
+    <div id="trios" class="ui-widget-content"></div>
+    <div id="latest" class="ui-widget-content"></div>
     <div id="chartOptions">
         <div id="viewExploration">Explore</div>
         <div id="viewInteraction">View Interactions</div>

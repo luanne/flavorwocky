@@ -371,36 +371,36 @@ class FlavorwockyController {
     }
 
     def getFlavorTrios() {
-        //if (params.nodeId) {
-        //   def nodeId = Integer.parseInt(params.nodeId)
-        def nodeId = 25
-        def cypherClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/cypher")
-        def queryStr = 'start n=node({nodeId}) match (n)-[r1:PAIRS_WITH]-(i1)-[r2:PAIRS_WITH]-(i2)-[r3:PAIRS_WITH]-(n) ' +
-                'return n.name as searchName, i1.name as ingred1,i2.name as ingred2, ID(r2) as relId, ID(i1) as ingred1Id'
-        def postBody = [query: queryStr,
-                params: ['nodeId': nodeId]]
-        def trioList = [] //list of pair
-        def relationshipIds = [] //list of pairs_with relationship ids to check for bidirectional pairs
-        try {
-            def queryResp = cypherClient.post(contentType: JSON, requestContentType: JSON, body: postBody)
-            if (queryResp.status == 200) {
-                for (row in queryResp.data.data) {
-                    if (!relationshipIds.contains(row.get(3))) {
-                        relationshipIds.add(row.get(3))
-                        def trioName = row.get(0) + ", " + row.get(1) + " and " + row.get(2)
-                        def trio = ["trio": trioName, "nodeId": row.get(4)]
-                        trioList.add(trio)
+        if (params.nodeId) {
+            def nodeId = Integer.parseInt(params.nodeId)
+            //def nodeId = 25
+            def cypherClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/cypher")
+            def queryStr = 'start n=node({nodeId}) match (n)-[r1:PAIRS_WITH]-(i1)-[r2:PAIRS_WITH]-(i2)-[r3:PAIRS_WITH]-(n) ' +
+                    'return n.name as searchName, i1.name as ingred1,i2.name as ingred2, ID(r2) as relId, ID(i1) as ingred1Id'
+            def postBody = [query: queryStr,
+                    params: ['nodeId': nodeId]]
+            def trioList = [] //list of pair
+            def relationshipIds = [] //list of pairs_with relationship ids to check for bidirectional pairs
+            try {
+                def queryResp = cypherClient.post(contentType: JSON, requestContentType: JSON, body: postBody)
+                if (queryResp.status == 200) {
+                    for (row in queryResp.data.data) {
+                        if (!relationshipIds.contains(row.get(3))) {
+                            relationshipIds.add(row.get(3))
+                            def trioName = row.get(0) + ", " + row.get(1) + " and " + row.get(2)
+                            def trio = ["trio": trioName, "nodeId": row.get(4)]
+                            trioList.add(trio)
+                        }
                     }
-                }
-                render trioList
+                    render trioList as grails.converters.JSON
 
+                }
+            }
+            catch (ConnectException ce) {
+                log.error "Connection to server failed"
+                log.error ce
             }
         }
-        catch (ConnectException ce) {
-            log.error "Connection to server failed"
-            log.error ce
-        }
-        //   }
 
     }
 
