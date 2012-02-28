@@ -23,6 +23,7 @@ class BootStrap {
                 //create Category nodes
                 createInitialCategories()
             }
+            createLatestPairings()
 
         } catch (ConnectException ce) {
             log.error "Connection to server failed"
@@ -79,5 +80,40 @@ class BootStrap {
         if(createResp.status == 201) {
             log.info "Created ingredients index"
         }
+    }
+
+    def createLatestPairings() {
+        def neo4jTraverseClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/node/0/traverse/node")
+        neo4jTraverseClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
+        def postBody = [order: 'breadth_first', relationships: [direction: 'out', type: 'LATEST_PAIRS'], max_depth: 1]
+        def traverseResp = neo4jTraverseClient.post(contentType: JSON, requestContentType: JSON, body: postBody)
+        def pairNode
+        if (traverseResp.status == 200)
+            if (traverseResp.data.size() <= 0) {
+                def pairNodeClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/node")
+                pairNodeClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
+                def createResp = pairNodeClient.post(
+                        body: [name: "late"],
+                        requestContentType: JSON,
+                        contentType: JSON)
+                if (createResp.status == 201) {
+                    log.info "Created latest pairing node"
+                    pairNode = createResp.data.self
+
+                    //now create the relation with node 0
+                    def relationClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/node/0/relationships")
+                    relationClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
+
+                    def relationshipResponse = relationClient.post(
+                            body: [to: pairNode, type: 'LATEST_PAIRS'],
+                            requestContentType: JSON,
+                            contentType: JSON)
+                    if (relationshipResponse.status == 201) {
+                        log.info "Created LATEST_PAIRS relationship to"
+                    }
+
+                }
+
+            }
     }
 }
