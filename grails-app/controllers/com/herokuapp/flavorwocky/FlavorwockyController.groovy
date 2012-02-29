@@ -13,6 +13,11 @@ import groovyx.net.http.HttpResponseException
 
 class FlavorwockyController {
 
+    /**
+     * Ingredient autocomplete. After two characters are typed, search for ingredients that start with those two characters
+     * @return Array of autosearch ingredients
+     */
+
     def autosearch() {
         def results
         try {
@@ -38,6 +43,10 @@ class FlavorwockyController {
 
     }
 
+    /**
+     * Check that the neo4j server is up and running
+     * @return boolean, true if the server is up, false otherwise
+     */
     def ping() {
         def serverEndpointOk = false
         try {
@@ -55,6 +64,10 @@ class FlavorwockyController {
         render serverEndpointOk
     }
 
+    /**
+     * Index action
+     * @return Map of categories, affinities and the latest pairings
+     */
     def index() {
         def categories
         //fetch the categories. This is assumed to be 'CATEGORY' type relationships with node 0
@@ -84,8 +97,8 @@ class FlavorwockyController {
      */
     private List fetchOrCreateNodes(RESTClient restClient, String ingredient1, String ingredient2, String categoryNode1, String categoryNode2) {
         List nodeRef = []
-        def escapedIngredient1 = ingredient1.replace(" ", "%20")
-        def escapedIngredient2 = ingredient2.replace(" ", "%20")
+        def escapedIngredient1 = ingredient1.replace(" ", "%20") //Required for the index lookup
+        def escapedIngredient2 = ingredient2.replace(" ", "%20") //Required for the index loojup
         try {
             //fetch the ingredients if they exist
             def postBody = [
@@ -136,6 +149,16 @@ class FlavorwockyController {
         return nodeRef
     }
 
+    /**
+     * Create a relationship between two ingredients if it does not exist already
+     * @param from From ingredient node id
+     * @param to To ingredient node id
+     * @param relation the relationship  (for now, only PAIRS_WITH)
+     * @param affinity the flavor affinity
+     * @param fromName name of the from ingredient
+     * @param toName name of the to ingredient
+     * @return boolean, true if the relationship was created
+     */
     private boolean createRelationship(String from, String to, String relation, String affinity, String fromName, String toName) {
         def cypherClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/cypher")
         try {
@@ -154,9 +177,7 @@ class FlavorwockyController {
                         updateRecentPairings(Integer.parseInt(from.substring(from.lastIndexOf('/') + 1)), fromName, toName)
                         return true
                     }
-                    else {
-                        return false
-                    }
+                    return false
                 }
                 return true
             }
@@ -170,6 +191,12 @@ class FlavorwockyController {
 
     }
 
+    /**
+     * Update the recent pairings
+     * @param fromNodeId Node id of from node
+     * @param fromName Name of from ingredient
+     * @param toName Name of to ingredient
+     */
     private updateRecentPairings(int fromNodeId, String fromName, String toName) {
         def neo4jTraverseClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/node/0/traverse/node")
         neo4jTraverseClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
@@ -188,7 +215,7 @@ class FlavorwockyController {
                     if (pairProp.size() > 5) {
                         pairProp.remove(5)
                     }
-                    def pairPropertyPut = pairNodeClient.put(
+                   pairNodeClient.put(
                             body: pairProp,
                             requestContentType: JSON,
                             contentType: JSON
@@ -196,12 +223,12 @@ class FlavorwockyController {
 
                 }
             }
-            catch (HttpResponseException e) {
+            catch (HttpResponseException e) { //When the property does not exist (i.e. no latest pairs), the REST API throws a 404 which translates to this exception
                 if (e.getMessage().equalsIgnoreCase("Not Found")) {
                     def latestPairs = new JSONArray()
 
                     latestPairs.add(fromNodeId + ":" + fromName + " and " + toName)
-                    def pairPropertyPut = pairNodeClient.put(
+                    pairNodeClient.put(
                             body: latestPairs,
                             requestContentType: JSON,
                             contentType: JSON
@@ -213,6 +240,9 @@ class FlavorwockyController {
 
     }
 
+    /**
+     * Create flavor pair
+     */
     def create() {
         if (!params.ingredient1 || !params.ingredient2 || !params.category1 || !params.category2 || !params.affinity) {
             render "Invalid parameter values"
@@ -234,6 +264,10 @@ class FlavorwockyController {
         return restClient
     }
 
+    /**
+     * Return search results as a tree
+     * @return JSON for tree visualization
+     */
     def getSearchVisualizationAsTreeJson() {
         //TODO this is a really bad, inefficient way to build the JSON tree and is only good for demos.
         //TODO refactor for production or else be forever ashamed
@@ -266,6 +300,13 @@ class FlavorwockyController {
         }
     }
 
+    /**
+     * Get PAIRS_WITH ingredients up to a depth of 3
+     * @param depth depth
+     * @param nodeId start ingredient node
+     * @param parentNodeId ancestor ingredient node
+     * @return List of children
+     */
     private List getChildren(int depth, int nodeId, int parentNodeId) {
         def childrenList = []
 
@@ -298,6 +339,10 @@ class FlavorwockyController {
         return childrenList
     }
 
+    /**
+     * Search results as a network
+     * @return JSON for network visualization
+     */
     def getSearchVisualizationAsNetworkJson() {
         if (params.nodeId) {
             def nodeId = Integer.parseInt(params.nodeId)
@@ -358,7 +403,11 @@ class FlavorwockyController {
         }
     }
 
-    def mapRelation(String src, String target, Map relationshipIndex, List relationJsonArray, Map nodeIndex, float distance) {
+    /**
+     * Helper for constructing network JSON
+     *
+     */
+    private mapRelation(String src, String target, Map relationshipIndex, List relationJsonArray, Map nodeIndex, float distance) {
 
         if (relationshipIndex.containsKey(src)) {
             if (relationshipIndex.get(src).contains(target)) {
@@ -377,13 +426,16 @@ class FlavorwockyController {
 
     }
 
+    /**
+     * Get flavor trios for an ingredient
+     * @return JSON representation of trio list
+     */
     def getFlavorTrios() {
         if (params.nodeId) {
             def nodeId = Integer.parseInt(params.nodeId)
-            //def nodeId = 25
             def cypherClient = createRESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/cypher")
             def queryStr = 'start n=node({nodeId}) match (n)-[r1:PAIRS_WITH]-(i1)-[r2:PAIRS_WITH]-(i2)-[r3:PAIRS_WITH]-(n) ' +
-                    'return n.name as searchName, i1.name as ingred1,i2.name as ingred2, ID(r2) as relId, ID(i1) as ingred1Id'
+                    'return n.name as searchName, i1.name as ingred1,i2.name as ingred2, ID(r2) as relId, ID(i1) as ingred1Id order by i1.name'
             def postBody = [query: queryStr,
                     params: ['nodeId': nodeId]]
             def trioList = [] //list of pair
@@ -411,6 +463,10 @@ class FlavorwockyController {
 
     }
 
+    /**
+     * Get latest pairings
+     * @return JSONArray of latest pairings
+     */
     private JSONArray getLatestPairings() {
         def neo4jTraverseClient = new RESTClient("${grailsApplication.config.neo4j.rest.serverendpoint}/node/0/traverse/node")
         neo4jTraverseClient.auth.basic grailsApplication.config.neo4j.rest.username, grailsApplication.config.neo4j.rest.password
