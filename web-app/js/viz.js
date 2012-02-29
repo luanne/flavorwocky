@@ -83,6 +83,7 @@
         $("#latest li").bind("click", function() {
             $("#ingredientNodeId").val($(this).attr('nodeid'));
             flavorTreeSearch($("#ingredientNodeId").val());
+            flavorTrios($('#ingredientNodeId').val());
         })
 
         $( "#pairing-dialog-form" ).dialog({
