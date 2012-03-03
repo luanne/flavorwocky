@@ -35,12 +35,12 @@ All rights reserved. See License.txt
             <div class="dialog-left">
                 <label for="ingredient1">Ingredient 1</label>
                 <input type="text" name="ingredient1" id="ingredient1" class="text ui-widget-content ui-corner-all" />
-                <g:select name="category1" from="${categories}" optionKey="key" optionValue="value"/>
+                <g:select name="category1" from="${categories}" optionKey="id" optionValue="name"/>
             </div>
             <div class="dialog-right">
                 <label for="ingredient2">Ingredient 2</label>
                 <input type="text" name="ingredient2" id="ingredient2" class="text ui-widget-content ui-corner-all" />
-                <g:select name="category2" from="${categories}"  optionKey="key" optionValue="value"/>
+                <g:select name="category2" from="${categories}"  optionKey="id" optionValue="name"/>
             </div>
             <div class="dialog-somewhere">
                 <label for="affinity">Affinity</label>
