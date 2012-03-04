@@ -19,7 +19,8 @@ environments {
         grails {
             neo4j {
                 type = "rest"
-                location = "http://localhost:7474/db/data/"
+                println "System.getenv('NEO4J_REST_URL') ${System.getenv('NEO4J_REST_URL')}"
+                location = System.getenv('NEO4J_REST_URL') ?: "http://localhost:7474/db/data/"
             }
         }
     }
