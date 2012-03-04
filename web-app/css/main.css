@@ -610,8 +610,57 @@ a.skip {
 
 }
 
+#chart svg {
+    float: left;
+}
+
 #chartOptions {
     margin: 0 0 0 20px;
+    clear: both;
+}
+
+#trios {
+    float:right;
+    font-size: 0.9em;
+    width: 150px;
+    height: 200px;
+}
+
+#trios ul {
+    list-style: none;
+    margin: 0 4px 0;
+}
+
+#trios li {
+    margin: 7px 0;
+}
+
+#trios p {
+    font-weight: bold;
+    background-color: #ABBF78;
+    text-align: center;
+}
+
+#latest {
+    float:right;
+    font-size: 0.9em;
+    width: 150px;
+    height: 200px;
+}
+
+#latest ul {
+    list-style: none;
+    margin: 0 4px 0;
+}
+
+#latest li {
+    margin: 7px 0;
+}
+
+#latest p {
+    font-weight: bold;
+    background-color: #ABBF78;
+    text-align: center;
 }
 
 .ui-autocomplete-loading { background: white url('../images/spinner.gif') right center no-repeat; }

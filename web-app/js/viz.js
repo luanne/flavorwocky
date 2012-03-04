@@ -21,6 +21,7 @@
                         flavorTreeSearch(ui.item.id);
                         $('#ingredientNodeId').val(ui.item.id);
                         $('#searchFeedback').html('');
+                        flavorTrios(ui.item.id);
                     }
                 }
             });
@@ -36,6 +37,7 @@
                                     //make search
                                     flavorTreeSearch(data[0].id);
                                     $('#ingredientNodeId').val(data[0].id);
+                                    flavorTrios(data[0].id);
                                 }
                             },
                             error: function(data, textStatus, jqXHR) {
@@ -78,6 +80,12 @@
             $("#pairing-dialog-form").dialog( "open" );
         });
 
+        $("#latest li").bind("click", function() {
+            $("#ingredientNodeId").val($(this).attr('nodeid'));
+            flavorTreeSearch($("#ingredientNodeId").val());
+            flavorTrios($('#ingredientNodeId').val());
+        })
+
         $( "#pairing-dialog-form" ).dialog({
             autoOpen: false,
             height: 250,
@@ -99,6 +107,7 @@
                                 } else if (whichView == 'network') {
                                     flavorNetworkSearch($('#ingredientNodeId').val());
                                 }
+                                flavorTrios($('#ingredientNodeId').val());
                             },
                             data: {'ingredient1': $('#ingredient1').val(), 'ingredient2': $('#ingredient2').val(),
                                     'category1': $('#category1').val(), 'category2': $('#category2').val(),
@@ -118,17 +127,20 @@
 
 
         //show a random ingredient
-        var showIngr = [11, 25, 22];
+        var showIngr = [49, 13, 57, 24, 44, 11, 25, 22];
         $('#ingredientNodeId').val(showIngr[Math.floor(Math.random()*(showIngr.length))])
         flavorTreeSearch($('#ingredientNodeId').val());
+        flavorTrios($('#ingredientNodeId').val());
 
         $('#viewInteraction').button().bind('click', function(){
             whichView = 'network';
             flavorNetworkSearch($('#ingredientNodeId').val());
+            flavorTrios($('#ingredientNodeId').val());
         });
         $('#viewExploration').button().bind('click', function(){
             whichView = 'tree';
             flavorTreeSearch($('#ingredientNodeId').val());
+            flavorTrios($('#ingredientNodeId').val());
         });
 
 
@@ -136,7 +148,7 @@
     });
 
      var m = [20, 120, 20, 120],
-        w = 900 - m[1] - m[3],
+        w = 750 - m[1] - m[3],
         h = 400 - m[0] - m[2],
         i = 0,
         duration = 500,
@@ -344,4 +356,35 @@
             $('#spinner').hide();
             });
 
+        }
+
+        function flavorTrios(nodeId) {
+            $.ajax('flavorTrios', {
+                         success: function(data, textStatus, jqXHR) {
+                            console.log(data.length);
+                            var tmpList = '';
+                            if (data.length > 0) {
+                                $.each(data, function(index, trioMap) {
+                                    console.log(trioMap.trio);
+                                    tmpList += '<li nodeid="' + trioMap.nodeId + '">'+trioMap.trio+'</li>';
+                                });
+
+                                console.log(tmpList);
+                                tmpList = '<ul>' + tmpList + '</ul>'
+                            }
+                            else {
+                                tmpList = 'No trios found';
+                            }
+                            $('#trios').html('<p>Trios</p>'+tmpList);
+
+                            /*$('#trios li').bind('click', function() {
+                                console.log($(this).attr('nodeid'));
+                            })*/
+                         },
+                         error: function(data, textStatus, jqXHR) {
+                             //console.log(textStatus);
+                         },
+                         data: {'nodeId':nodeId},
+                         dataType: 'json'
+                     });
         }

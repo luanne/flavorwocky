@@ -6,6 +6,9 @@ import com.herokuapp.flavorwocky.Category
 
 class BootStrap {
 
+    /**
+     * Initialize the app
+     */
     def init = { servletContext ->
         //check if there are categories in the db
         if (Category.count()<=0) {
@@ -16,7 +19,10 @@ class BootStrap {
     def destroy = {
     }
 
-    def createInitialCategories() {
+    /**
+     * Create categories and link to the reference node.
+     */
+    private void createInitialCategories() {
         //todo: is this really being batched? need to verify
         Category.withTransaction {
             [

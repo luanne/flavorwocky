@@ -16,7 +16,7 @@ All rights reserved. See License.txt
 	    </form>
         <div id="prompts">
             <div class="promptLabel">
-                Find foods that pair well with
+                Find ingredients that pair well with
                 <br><div id="example">ex. Chicken, Coriander, Mustard, Onion</div>
             </div>
             <input id="food" />
@@ -50,6 +50,17 @@ All rights reserved. See License.txt
         </form>
     </div>
     <div id="chart"></div>
+    <div id="trios" class="ui-widget-content"></div>
+    <div id="latest" class="ui-widget-content">
+        <p>Freshly added</p>
+        <ul>
+        <g:each in="${latest}">
+            <g:set var="key" value="${it.nodeId}" />
+            <g:set var="val" value="${it.pairing}" />
+            <li nodeid="${key}"><a href='#'>${val}</a></li>
+        </g:each>
+        </ul>
+    </div>
     <div id="chartOptions">
         <div id="viewExploration">Explore</div>
         <div id="viewInteraction">View Interactions</div>
