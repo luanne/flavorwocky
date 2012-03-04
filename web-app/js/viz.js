@@ -169,24 +169,26 @@
         function flavorTreeSearch(nodeId) {
             $('#spinner').show();
             d3.json("flavorTree?nodeId="+nodeId, function(json) {
-                d3.select("#chart").selectAll('g.node').remove();
-                d3.select("#chart").selectAll('path').remove();
-                d3.select("#chart").selectAll('line.link').remove();
+                if (json) {
+                    d3.select("#chart").selectAll('g.node').remove();
+                    d3.select("#chart").selectAll('path').remove();
+                    d3.select("#chart").selectAll('line.link').remove();
 
-                root = json;
-                root.x0 = h / 2;
-                root.y0 = 0;
+                    root = json;
+                    root.x0 = h / 2;
+                    root.y0 = 0;
 
-                function collapse(d) {
-                    if (d.children) {
-                        d._children = d.children;
-                        d._children.forEach(collapse);
-                        d.children = null;
+                    function collapse(d) {
+                        if (d.children) {
+                            d._children = d.children;
+                            d._children.forEach(collapse);
+                            d.children = null;
+                        }
                     }
-                }
 
-                root.children.forEach(collapse);
-                update(root);
+                    root.children.forEach(collapse);
+                    update(root);
+                }
                 $('#spinner').hide();
             });
         }
@@ -298,61 +300,63 @@
         function flavorNetworkSearch(nodeId) {
             $('#spinner').show();
             d3.json("flavorNetwork?nodeId="+nodeId, function(json) {
-            d3.select("#chart").selectAll('g.node').remove();
-            d3.select("#chart").selectAll('path').remove();
-            d3.select("#chart").selectAll('line.link').remove();
+                if (json) {
+                    d3.select("#chart").selectAll('g.node').remove();
+                    d3.select("#chart").selectAll('path').remove();
+                    d3.select("#chart").selectAll('line.link').remove();
 
-            var force = self.force = d3.layout.force()
-            .nodes(json.nodes)
-            .links(json.links)
-            .gravity(.05)
-            .distance(function(d) { return 250 * d.dist; })
-            .charge(-100)
-            .size([w, h])
-            .start();
+                    var force = self.force = d3.layout.force()
+                    .nodes(json.nodes)
+                    .links(json.links)
+                    .gravity(.05)
+                    .distance(function(d) { return 250 * d.dist; })
+                    .charge(-100)
+                    .size([w, h])
+                    .start();
 
-            var link = vis.selectAll("line.link")
-            .data(json.links)
-            .enter().append("svg:line")
-            .attr("class", "link")
-            .attr("x1", function(d) { return d.source.x; })
-            .attr("y1", function(d) { return d.source.y; })
-            .attr("x2", function(d) { return d.target.x; })
-            .attr("y2", function(d) { return d.target.y; });
+                    var link = vis.selectAll("line.link")
+                    .data(json.links)
+                    .enter().append("svg:line")
+                    .attr("class", "link")
+                    .attr("x1", function(d) { return d.source.x; })
+                    .attr("y1", function(d) { return d.source.y; })
+                    .attr("x2", function(d) { return d.target.x; })
+                    .attr("y2", function(d) { return d.target.y; });
 
-            var node = vis.selectAll("g.node")
-            .data(json.nodes)
-            .enter().append("svg:g")
-            .attr("class", "node")
-            .call(force.drag);
+                    var node = vis.selectAll("g.node")
+                    .data(json.nodes)
+                    .enter().append("svg:g")
+                    .attr("class", "node")
+                    .call(force.drag);
 
-            // .attr("xlink:href", "https://d3nwyuy0nl342s.cloudfront.net/images/icons/public.png")
-            node.append("svg:circle")
-            .attr("class", "circle")
-            .attr("r",5)
-            .style("fill",function(d) { return d.catColor})
-            .style("stroke",function(d) { return d.catColor})
-            .attr("x", "-8px")
-            .attr("y", "-8px")
-            .attr("width", "16px")
-            .attr("height", "16px")
-            .call(force.drag);
+                    // .attr("xlink:href", "https://d3nwyuy0nl342s.cloudfront.net/images/icons/public.png")
+                    node.append("svg:circle")
+                    .attr("class", "circle")
+                    .attr("r",5)
+                    .style("fill",function(d) { return d.catColor})
+                    .style("stroke",function(d) { return d.catColor})
+                    .attr("x", "-8px")
+                    .attr("y", "-8px")
+                    .attr("width", "16px")
+                    .attr("height", "16px")
+                    .call(force.drag);
 
-            node.append("svg:text")
-            .attr("class", "nodetext")
-            .attr("dx", 12)
-            .attr("dy", ".35em")
-            .text(function(d) { return d.name });
+                    node.append("svg:text")
+                    .attr("class", "nodetext")
+                    .attr("dx", 12)
+                    .attr("dy", ".35em")
+                    .text(function(d) { return d.name });
 
-            force.on("tick", function() {
-            link.attr("x1", function(d) { return d.source.x; })
-            .attr("y1", function(d) { return d.source.y; })
-            .attr("x2", function(d) { return d.target.x; })
-            .attr("y2", function(d) { return d.target.y; });
+                    force.on("tick", function() {
+                    link.attr("x1", function(d) { return d.source.x; })
+                    .attr("y1", function(d) { return d.source.y; })
+                    .attr("x2", function(d) { return d.target.x; })
+                    .attr("y2", function(d) { return d.target.y; });
 
-            node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-            });
+                    node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
+                    });
+                }
             $('#spinner').hide();
             });
 
@@ -361,15 +365,15 @@
         function flavorTrios(nodeId) {
             $.ajax('flavorTrios', {
                          success: function(data, textStatus, jqXHR) {
-                            console.log(data.length);
+                            //console.log(data.length);
                             var tmpList = '';
                             if (data.length > 0) {
                                 $.each(data, function(index, trioMap) {
-                                    console.log(trioMap.trio);
+                                    //console.log(trioMap.trio);
                                     tmpList += '<li nodeid="' + trioMap.nodeId + '">'+trioMap.trio+'</li>';
                                 });
 
-                                console.log(tmpList);
+                                //console.log(tmpList);
                                 tmpList = '<ul>' + tmpList + '</ul>'
                             }
                             else {
