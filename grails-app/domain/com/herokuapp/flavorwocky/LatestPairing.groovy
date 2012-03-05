@@ -10,7 +10,7 @@ class LatestPairing {
 
     static mapWith = "neo4j"
 
-    int nodeId
+    Integer nodeId
     String pairing
     Date dateCreated
 

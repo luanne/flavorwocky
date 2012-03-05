@@ -4,12 +4,9 @@ All rights reserved. See License.txt
  */
 package com.herokuapp.flavorwocky
 
-import groovyx.net.http.RESTClient
-import net.sf.json.JSONNull
 import net.sf.json.JSONArray
-import static groovyx.net.http.ContentType.*
-import static groovyx.net.http.ContentType.JSON
-import groovyx.net.http.HttpResponseException
+import org.neo4j.graphdb.Direction
+import org.neo4j.graphdb.RelationshipType
 
 class FlavorwockyController {
 
@@ -17,7 +14,6 @@ class FlavorwockyController {
      * Ingredient autocomplete. After two characters are typed, search for ingredients that start with those two characters
      * @return Array of autosearch ingredients
      */
-
     def autosearch() {
         def results
         if (params.term) {
@@ -41,7 +37,7 @@ class FlavorwockyController {
      */
     def ping() {
         def serverEndpointOk = false
-        //lets just count the Categories and if they are more than 0 then we assume the server is reachable and initialized.
+        //lets just count the Categories and if there are more than 0 then we assume the server is reachable and initialized.
         if (Category.count()>0) {
             serverEndpointOk = true
         }
@@ -65,7 +61,7 @@ class FlavorwockyController {
      * Fetches the nodes references for ingredients if they exists, else creates them
      * @return List of the node references
      */
-    private List fetchOrCreateNodes(String ingredient1, String ingredient2, String categoryNode1, String categoryNode2) {
+    private List<Ingredient> fetchOrCreateNodes(String ingredient1, String ingredient2, String categoryNode1, String categoryNode2) {
         def storedIngredients = Ingredient.findAllByNameInList([ingredient1, ingredient2])
 
         def ingredient1Instance = storedIngredients.find {it.name==ingredient1}
@@ -78,21 +74,21 @@ class FlavorwockyController {
             ingredient2Instance = new Ingredient(name: ingredient2, category: Category.get(categoryNode2)).save(failOnError: true)
         }
 
-        return [ingredient1Instance, ingredient2Instance]
+        return [ingredient1Instance, ingredient2Instance] as List<Ingredient>
     }
 
     /**
      * Create flavor pair
      */
-    def create() {
-        if (!params.ingredient1 || !params.ingredient2 || !params.category1 || !params.category2 || !params.affinity) {
+    def create(String ingredient1, String ingredient2, String category1, String category2, Float affinity) {
+        if (!ingredient1 || !ingredient2 || !category1 || !category2 || !affinity) {
             render "Invalid parameter values"
             return
         }
 
         Ingredient.withTransaction {
-            def pairedIngredients = fetchOrCreateNodes(params.ingredient1, params.ingredient2, params.category1, params.category2)
-            createRelationship(pairedIngredients)
+            def pairedIngredients = fetchOrCreateNodes(ingredient1, ingredient2, category1, category2)
+            createRelationship(pairedIngredients, affinity)
         }
 
         render "done"
@@ -103,14 +99,25 @@ class FlavorwockyController {
      * @param pairedIngredients List of 2 ingredients
      * @return true if a relationship was created, false if a relationship already exists
      */
-    private boolean createRelationship(List pairedIngredients) {
+    private boolean createRelationship(List<Ingredient> pairedIngredients, Float affinity) {
         def res = Ingredient.cypherStatic("start n1=node({node1}), n2=node({node2}) match (n1)-[r:pairings]-(n2) return count(r)",
                                     [node1: pairedIngredients[0]?.id, node2: pairedIngredients[1]?.id]
                                 )
         if (res.iterator().size() <=0 ) {
             //no relationship exists between these two ingredients, so lets create one
             pairedIngredients[0].addToPairings(pairedIngredients[1])
+
+            /* Relationship properties are not supported by the neo4j plugin. so here is a how to do it using the java api */
+            pairedIngredients[0].save(flush: true)
+            pairedIngredients[0].node.getRelationships(PairingRelationshipType.pairings, Direction.OUTGOING).each {
+                if (it.endNode.id == pairedIngredients[1].id) {
+                    it.setProperty("wt", affinity)
+                }
+            }
+
             updateRecentPairings(pairedIngredients)
+
+
             return true
         }
 
@@ -136,10 +143,10 @@ class FlavorwockyController {
         //TODO this is a really bad, inefficient way to build the JSON tree and is only good for demos.
         //TODO refactor for production or else be forever ashamed
         if (params.nodeId) {
-            def nodeId = Integer.parseInt(params.nodeId)  //Integer.parseInt(params.nodeId.substring(params.nodeId.lastIndexOf('/')+1))
+            def nodeId = Integer.parseInt(params.nodeId)
             List children = getChildren(1, nodeId, nodeId)
             def rootIngredient = Ingredient.get(nodeId)
-            def finalStructure = ["name": rootIngredient.name, "catColor": rootIngredient.category.catColor, "wt": 0.5, "children": children]
+            def finalStructure = ["name": rootIngredient.name, "catColor": rootIngredient.category.catColor, "wt": 1, "children": children]
             render finalStructure as grails.converters.JSON
         } else {
             render "error"
@@ -163,11 +170,11 @@ class FlavorwockyController {
         def res = Ingredient.cypherStatic ("""start n=node({nodeId}), original=node({original})
                                               match (n)-[r:pairings]-(i)-[:category]->(cat)
                                               where not(i=original)
-                                              return i.name as name ,cat.catColor as catColor ,ID(i) as idi""",
+                                              return i.name as name ,cat.catColor as catColor ,ID(i) as idi, r.wt as wt""",
                                             [nodeId: nodeId, original: parentNodeId]
                                           )
         res.iterator().each {
-            def child = ["name": it.name, "catColor": it.catColor, "wt": 0.5]
+            def child = ["name": it.name, "catColor": it.catColor, "wt": it.wt]
             child.put("children", getChildren(depth + 1, it.idi as int, nodeId))
             childrenList.add child
         }
@@ -224,8 +231,7 @@ class FlavorwockyController {
                                     nodeCounter++
                                 }
                                 if (srcIngredient != null) {
-//                                    float distance = it["p${i+1}.wt"]
-                                    float distance = 0.5
+                                    float distance = it["p${i+1}.wt"]
                                     mapRelation(srcIngredient, ingredient, relationshipIndex, relationJsonArray, nodeIndex, distance)
                                 }
                                 srcIngredient = ingredient
@@ -300,5 +306,8 @@ class FlavorwockyController {
         return LatestPairing.list(sort: 'dateCreated', order: 'desc')
     }
 
-
+    enum PairingRelationshipType implements RelationshipType
+    {
+        pairings
+    }
 }
