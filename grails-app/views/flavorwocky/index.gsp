@@ -16,7 +16,7 @@ All rights reserved. See License.txt
 	    </form>
         <div id="prompts">
             <div class="promptLabel">
-                Find foods that pair well with
+                Find ingredients that pair well with
                 <br><div id="example">ex. Chicken, Coriander, Mustard, Onion</div>
             </div>
             <input id="food" />
@@ -35,12 +35,12 @@ All rights reserved. See License.txt
             <div class="dialog-left">
                 <label for="ingredient1">Ingredient 1</label>
                 <input type="text" name="ingredient1" id="ingredient1" class="text ui-widget-content ui-corner-all" />
-                <g:select name="category1" from="${categories}" optionKey="key" optionValue="value"/>
+                <g:select name="category1" from="${categories}" optionKey="id" optionValue="name"/>
             </div>
             <div class="dialog-right">
                 <label for="ingredient2">Ingredient 2</label>
                 <input type="text" name="ingredient2" id="ingredient2" class="text ui-widget-content ui-corner-all" />
-                <g:select name="category2" from="${categories}"  optionKey="key" optionValue="value"/>
+                <g:select name="category2" from="${categories}"  optionKey="id" optionValue="name"/>
             </div>
             <div class="dialog-somewhere">
                 <label for="affinity">Affinity</label>
@@ -55,8 +55,8 @@ All rights reserved. See License.txt
         <p>Freshly added</p>
         <ul>
         <g:each in="${latest}">
-            <g:set var="key" value="${it.substring(0, it.indexOf(':'))}" />
-            <g:set var="val" value="${it.substring(it.indexOf(':')+1)}" />
+            <g:set var="key" value="${it.nodeId}" />
+            <g:set var="val" value="${it.pairing}" />
             <li nodeid="${key}"><a href='#'>${val}</a></li>
         </g:each>
         </ul>
