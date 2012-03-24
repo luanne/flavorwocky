@@ -106,7 +106,7 @@ grails.resources.modules = {
     }
 }
 
-neo4j.rest.serverendpoint = ""
-neo4j.rest.username = ""
-neo4j.rest.password = ""
+//neo4j.rest.serverendpoint = ""
+//neo4j.rest.username = ""
+//neo4j.rest.password = ""
 
