@@ -231,7 +231,7 @@ class FlavorwockyController {
                                     nodeCounter++
                                 }
                                 if (srcIngredient != null) {
-                                    float distance = it["p${i+1}.wt"]
+                                    float distance = Float.valueOf(it["p${i+1}.wt"])
                                     mapRelation(srcIngredient, ingredient, relationshipIndex, relationJsonArray, nodeIndex, distance)
                                 }
                                 srcIngredient = ingredient
