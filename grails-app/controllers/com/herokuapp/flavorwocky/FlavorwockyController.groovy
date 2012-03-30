@@ -231,7 +231,7 @@ class FlavorwockyController {
                                     nodeCounter++
                                 }
                                 if (srcIngredient != null) {
-                                    float distance = Float.valueOf(it["p${i+1}.wt"])
+                                    def distance = it["p${i+1}.wt"]
                                     mapRelation(srcIngredient, ingredient, relationshipIndex, relationJsonArray, nodeIndex, distance)
                                 }
                                 srcIngredient = ingredient
@@ -249,7 +249,7 @@ class FlavorwockyController {
      * Helper for constructing network JSON
      *
      */
-    private void mapRelation(String src, String target, Map relationshipIndex, List relationJsonArray, Map nodeIndex, float distance) {
+    private void mapRelation(String src, String target, Map relationshipIndex, List relationJsonArray, Map nodeIndex, def distance) {
 
         if (relationshipIndex.containsKey(src)) {
             if (relationshipIndex.get(src).contains(target)) {
