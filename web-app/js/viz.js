@@ -128,6 +128,7 @@
 
         //show a random ingredient
         var showIngr = [332,331,215,250];
+
         $('#ingredientNodeId').val(showIngr[Math.floor(Math.random()*(showIngr.length))])
         flavorTreeSearch($('#ingredientNodeId').val());
         flavorTrios($('#ingredientNodeId').val());
