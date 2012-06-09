@@ -1,0 +1,360 @@
+2012-03-27 15:45:08.256+0530: Creating new db @ /Users/luanne/projects/flavorwocky/http:/localhost:7474/db/data/neostore
+2012-03-27 15:45:08.392+0530: Opened [/Users/luanne/projects/flavorwocky/http:/localhost:7474/db/data/nioneo_logical.log.1] clean empty log, version=0, lastTxId=1
+2012-03-27 15:45:08.435+0530: Opened [/Users/luanne/projects/flavorwocky/http:/localhost:7474/db/data/index/lucene.log.1] clean empty log, version=0, lastTxId=1
+2012-03-27 15:45:08.439+0530: TM new log: tm_tx_log.1
+2012-03-27 15:45:08.465+0530: --- STARTUP diagnostics START ---
+2012-03-27 15:45:08.465+0530: Graph Database: org.neo4j.kernel.EmbeddedGraphDatabase StoreId[time:1332843308264, id:5685318861911548290, store version: 13561656364791302]
+2012-03-27 15:45:08.467+0530: Kernel version: Neo4j - Graph Database Kernel 1.6.1
+2012-03-27 15:45:08.467+0530: Neo4j component versions:
+2012-03-27 15:45:08.468+0530:   Neo4j - Graph Database Kernel 1.6.1
+2012-03-27 15:45:08.470+0530: Diagnostics providers:
+    KernelDiagnostics:Versions
+    org.neo4j.kernel.info.DiagnosticsManager
+    SYSTEM_MEMORY
+    JAVA_MEMORY
+    OPERATING_SYSTEM
+    JAVA_VIRTUAL_MACHINE
+    CLASSPATH
+    LIBRARY_PATH
+    SYSTEM_PROPERTIES
+    org.neo4j.kernel.Config
+    NEO_STORE_VERSIONS
+    NEO_STORE_ID_USAGE
+    KernelDiagnostics:StoreFiles
+2012-03-27 15:45:08.473+0530: System memory information:
+    Total Physical memory: 4.00 GB
+    Free Physical memory: 998.23 MB
+    Committed virtual memory: 3.52 GB
+    Total swap space: 128.00 MB
+    Free swap space: 128.00 MB
+2012-03-27 15:45:08.480+0530: JVM memory information:
+    Free  memory: 528.13 MB
+    Total memory: 736.00 MB
+    Max   memory: 736.00 MB
+    Garbage Collector: PS Scavenge: [PS Eden Space, PS Survivor Space]
+    Garbage Collector: PS MarkSweep: [PS Eden Space, PS Survivor Space, PS Old Gen, PS Perm Gen]
+    Memory Pool: Code Cache (Non-heap memory): committed=4.94 MB, used=4.75 MB, max=48.00 MB, threshold=0.00 B
+    Memory Pool: PS Eden Space (Heap memory): committed=192.00 MB, used=156.06 MB, max=192.00 MB, threshold=?
+    Memory Pool: PS Survivor Space (Heap memory): committed=32.00 MB, used=31.99 MB, max=32.00 MB, threshold=?
+    Memory Pool: PS Old Gen (Heap memory): committed=512.00 MB, used=19.82 MB, max=512.00 MB, threshold=0.00 B
+    Memory Pool: PS Perm Gen (Non-heap memory): committed=256.00 MB, used=58.16 MB, max=256.00 MB, threshold=0.00 B
+2012-03-27 15:45:08.487+0530: Operating system information:
+    Operating System: Mac OS X; version: 10.6.8; arch: x86_64; cpus: 2
+    Max number of file descriptors: 10240
+    Number of open file descriptors: 214
+    Process id: 2812@Luanne-Misquittas-MacBook-Pro.local
+    Byte order: LITTLE_ENDIAN
+2012-03-27 15:45:08.490+0530: JVM information:
+    VM Name: Java HotSpot(TM) 64-Bit Server VM
+    VM Vendor: Apple Inc.
+    VM Version: 20.4-b02-402
+    JIT compiler: HotSpot 64-Bit Tiered Compilers
+    VM Arguments: [-Xserver, -Xmx768M, -Xms768M, -XX:PermSize=256m, -XX:MaxPermSize=256m, -Dfile.encoding=UTF-8, -Dgrails.home=/Users/luanne/grails-2.0.1, -Dtools.jar=/Library/Java/Home/lib/tools.jar]
+2012-03-27 15:45:08.492+0530: Java classpath:
+     [loader.0] file:/Users/luanne/grails-2.0.1/lib/commons-cli/commons-cli/jars/commons-cli-1.2.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.bouncycastle/bcpg-jdk15/jars/bcpg-jdk15-1.45.jar
+     [bootstrap] /System/Library/Frameworks/JavaVM.framework/Versions/A/Frameworks/JavaRuntimeSupport.framework/Versions/A/Resources/Java/JavaRuntimeSupport.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-plugin-gsp/jars/grails-plugin-gsp-2.0.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/cglib/cglib/jars/cglib-2.2.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/commons-io/commons-io/jars/commons-io-2.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-datastore-gorm-neo4j/jars/grails-datastore-gorm-neo4j-1.0.0.M13.jar
+     [loader.0] file:/Users/luanne/grails-2.0.1/lib/org.fusesource.jansi/jansi/jars/jansi-1.2.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/xerces/xercesImpl/jars/xercesImpl-2.8.1.jar
+     [loader.2] file:/System/Library/Java/Extensions/vecmath.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-crud/jars/grails-crud-2.0.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-scripts/jars/grails-scripts-2.0.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/commons-fileupload/commons-fileupload/jars/commons-fileupload-1.2.2.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.apache.tomcat.embed/tomcat-embed-logging-juli/jars/tomcat-embed-logging-juli-7.0.25.jar
+     [bootstrap] /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar
+     [loader.2] file:/System/Library/Java/Extensions/libJ3D.jnilib
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.springframework.uaa/org.springframework.uaa.client/bundles/org.springframework.uaa.client-1.0.1.RELEASE.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.neo4j/neo4j-graph-algo/jars/neo4j-graph-algo-1.6.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-datastore-core/jars/grails-datastore-core-1.0.2.RELEASE.jar
+     [loader.2] file:/System/Library/Java/Extensions/QTJava.zip
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.springframework/spring-aspects/jars/spring-aspects-3.1.0.RELEASE.jar
+     [loader.1] file:/Users/luanne/grails-2.0.1/lib/org.codehaus.groovy/groovy-all/jars/groovy-all-1.8.6.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-core/jars/grails-core-2.0.1.jar
+     [loader.2] file:/System/Library/Java/Extensions/j3daudio.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/dom4j/dom4j/jars/dom4j-1.6.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.apache.lucene/lucene-core/jars/lucene-core-3.5.0.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/asm/asm/jars/asm-3.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-logging/jars/grails-logging-2.0.1.jar
+     [loader.2] file:/System/Library/Java/Extensions/libQTJNative.jnilib
+     [loader.0] file:/Users/luanne/grails-2.0.1/lib/org.codehaus.gant/gant_groovy1.8/jars/gant_groovy1.8-1.9.6.jar
+     [loader.2] file:/System/Library/Java/Extensions/j3dcore.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.hibernate/hibernate-commons-annotations/jars/hibernate-commons-annotations-3.2.0.Final.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/com.sun.jersey/jersey-client/bundles/jersey-client-1.4.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-plugin-url-mappings/jars/grails-plugin-url-mappings-2.0.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.codehaus.jackson/jackson-core-asl/jars/jackson-core-asl-1.6.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-bootstrap/jars/grails-bootstrap-2.0.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.apache.ant/ant-launcher/jars/ant-launcher-1.8.2.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/xalan/serializer/jars/serializer-2.7.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/opensymphony/sitemesh/jars/sitemesh-2.4.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-plugin-testing/jars/grails-plugin-testing-2.0.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/javax.servlet/jstl/jars/jstl-1.1.2.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/javassist/javassist/jars/javassist-3.12.0.GA.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/oro/oro/jars/oro-2.0.8.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.fusesource.jansi/jansi/jars/jansi-1.2.1.jar
+     [bootstrap] /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/commons-el/commons-el/jars/commons-el-1.0.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/commons-logging/commons-logging/jars/commons-logging-1.1.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/commons-pool/commons-pool/jars/commons-pool-1.5.6.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.codehaus.groovy/groovy-all/jars/groovy-all-1.8.6.jar
+     [loader.2] file:/System/Library/Java/Extensions/jai_core.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/com.google.protobuf/protobuf-java/jars/protobuf-java-2.3.0.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.apache.httpcomponents/httpclient/jars/httpclient-4.0.3.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.codehaus.groovy.modules.http-builder/http-builder/jars/http-builder-0.5.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/net.sf.ehcache/ehcache-core/jars/ehcache-core-2.4.6.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/net.sf.ezmorph/ezmorph/jars/ezmorph-1.0.6.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/commons-configuration/commons-configuration/jars/commons-configuration-1.6.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.apache.tomcat.embed/tomcat-embed-logging-log4j/jars/tomcat-embed-logging-log4j-7.0.25.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-datastore-gorm-plugin-support/jars/grails-datastore-gorm-plugin-support-1.0.2.RELEASE.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/net.java.dev.jna/jna/jars/jna-3.2.3.jar
+     [loader.1] file:/Users/luanne/grails-2.0.1/dist/grails-bootstrap-2.0.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.springframework/spring-webmvc/jars/spring-webmvc-3.1.0.RELEASE.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.springframework/spring-context-support/jars/spring-context-support-3.1.0.RELEASE.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/com.h2database/h2/jars/h2-1.2.147.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.neo4j/neo4j-lucene-index/jars/neo4j-lucene-index-1.6.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.aspectj/aspectjweaver/jars/aspectjweaver-1.6.10.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.hibernate/hibernate-ehcache/jars/hibernate-ehcache-3.6.7.Final.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/javax.persistence/persistence-api/jars/persistence-api-1.0.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/javax.validation/validation-api/jars/validation-api-1.0.0.GA.jar
+     [bootstrap] /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/jce.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/javax.transaction/jta/jars/jta-1.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.springframework/spring-orm/jars/spring-orm-3.1.0.RELEASE.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.tmatesoft.svnkit/svnkit/jars/svnkit-1.3.5.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.apache.geronimo.specs/geronimo-jta_1.1_spec/jars/geronimo-jta_1.1_spec-1.1.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.slf4j/jcl-over-slf4j/jars/jcl-over-slf4j-1.6.2.jar
+     [loader.2] file:/System/Library/Java/Extensions/AppleScriptEngine.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.slf4j/jul-to-slf4j/jars/jul-to-slf4j-1.6.2.jar
+     [loader.0] file:/Users/luanne/grails-2.0.1/lib/org.apache.ivy/ivy/jars/ivy-2.2.0.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-plugin-scaffolding/jars/grails-plugin-scaffolding-2.0.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/commons-digester/commons-digester/jars/commons-digester-1.8.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-docs/jars/grails-docs-2.0.1.jar
+     [loader.2] file:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/ext/apple_provider.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.springframework/spring-beans/jars/spring-beans-3.1.0.RELEASE.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/aopalliance/aopalliance/jars/aopalliance-1.0.jar
+     [bootstrap] /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/charsets.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-resources/jars/grails-resources-2.0.1.jar
+     [loader.2] file:/System/Library/Java/Extensions/dns_sd.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/xml-resolver/xml-resolver/jars/xml-resolver-1.2.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.neo4j/neo4j-rest-graphdb/jars/neo4j-rest-graphdb-1.6.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/com.googlecode.json-simple/json-simple/jars/json-simple-1.1.jar
+     [loader.2] file:/System/Library/Java/Extensions/MRJToolkit.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/commons-collections/commons-collections/jars/commons-collections-3.2.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-plugin-validation/jars/grails-plugin-validation-2.0.1.jar
+     [loader.2] file:/System/Library/Java/Extensions/libmlib_jai.jnilib
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.springframework/spring-expression/jars/spring-expression-3.1.0.RELEASE.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/log4j/log4j/bundles/log4j-1.2.16.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.springframework/spring-asm/jars/spring-asm-3.1.0.RELEASE.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/xpp3/xpp3_min/jars/xpp3_min-1.1.4c.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.neo4j/neo4j-udc/jars/neo4j-udc-1.6.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.hibernate/hibernate-validator/jars/hibernate-validator-4.1.0.Final.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-datastore-web/jars/grails-datastore-web-1.0.2.RELEASE.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/commons-beanutils/commons-beanutils-core/jars/commons-beanutils-core-1.8.0.jar
+     [loader.2] file:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/ext/dnsns.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-spring/jars/grails-spring-2.0.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-plugin-datasource/jars/grails-plugin-datasource-2.0.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/net.sourceforge.nekohtml/nekohtml/jars/nekohtml-1.9.9.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/net.sf.json-lib/json-lib/jars/json-lib-2.3-jdk15.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-plugin-mimetypes/jars/grails-plugin-mimetypes-2.0.1.jar
+     [loader.2] file:/System/Library/Java/Extensions/mlibwrapper_jai.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.apache.tomcat.embed/tomcat-embed-core/jars/tomcat-embed-core-7.0.25.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-plugin-services/jars/grails-plugin-services-2.0.1.jar
+     [bootstrap] /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.eclipse.jdt.core.compiler/ecj/jars/ecj-3.6.2.jar
+     [loader.2] file:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/ext/localedata.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.aspectj/aspectjrt/jars/aspectjrt-1.6.10.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.scala-lang/scala-library/jars/scala-library-2.9.0-1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.springframework/spring-aop/jars/spring-aop-3.1.0.RELEASE.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-datastore-gorm-test/jars/grails-datastore-gorm-test-1.0.2.RELEASE.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.hibernate.javax.persistence/hibernate-jpa-2.0-api/jars/hibernate-jpa-2.0-api-1.0.1.Final.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.apache.tomcat/tomcat-catalina-ant/jars/tomcat-catalina-ant-7.0.25.jar
+     [loader.2] file:/System/Library/Java/Extensions/libShark.jnilib
+     [loader.2] file:/System/Library/Java/Extensions/libJ3DAudio.jnilib
+     [loader.2] file:/System/Library/Java/Extensions/libAppleScriptEngine.jnilib
+     [bootstrap] /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/ui.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.springframework/spring-context/jars/spring-context-3.1.0.RELEASE.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-plugin-controllers/jars/grails-plugin-controllers-2.0.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/antlr/antlr/jars/antlr-2.7.7.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.hibernate/hibernate-core/jars/hibernate-core-3.6.7.Final.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/com.googlecode.concurrentlinkedhashmap/concurrentlinkedhashmap-lru/jars/concurrentlinkedhashmap-lru-1.2_jdk5.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-plugin-i18n/jars/grails-plugin-i18n-2.0.1.jar
+     [loader.2] file:/System/Library/Java/Extensions/libJ3DUtils.jnilib
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.apache.ant/ant-junit/jars/ant-junit-1.8.2.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.codehaus.jackson/jackson-mapper-asl/jars/jackson-mapper-asl-1.6.1.jar
+     [loader.0] file:/Users/luanne/.grails/2.0.1/projects/flavorwocky/scriptCache/
+     [loader.0] file:/Users/luanne/grails-2.0.1/lib/jline/jline/jars/jline-1.0.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-plugin-servlets/jars/grails-plugin-servlets-2.0.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/javax.ws.rs/jsr311-api/jars/jsr311-api-1.1.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-plugin-tomcat/jars/grails-plugin-tomcat-2.0.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/jline/jline/jars/jline-1.0.jar
+     [loader.2] file:/System/Library/Java/Extensions/j3dutils.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.neo4j/server-api/jars/server-api-1.6.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/commons-codec/commons-codec/jars/commons-codec-1.5.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-plugin-codecs/jars/grails-plugin-codecs-2.0.1.jar
+     [loader.0] file:/Users/luanne/grails-2.0.1/lib/org.apache.ant/ant/jars/ant-1.8.2.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-plugin-log4j/jars/grails-plugin-log4j-2.0.1.jar
+     [loader.2] file:/System/Library/Java/Extensions/jai_codec.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/com.sun.jersey/jersey-core/bundles/jersey-core-1.4.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-datastore-gorm/jars/grails-datastore-gorm-1.0.2.RELEASE.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.apache.tomcat.embed/tomcat-embed-jasper/jars/tomcat-embed-jasper-7.0.25.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.neo4j/neo4j-jmx/jars/neo4j-jmx-1.6.1.jar
+     [loader.2] file:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/ext/sunjce_provider.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.springframework/spring-web/jars/spring-web-3.1.0.RELEASE.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-plugin-converters/jars/grails-plugin-converters-2.0.1.jar
+     [loader.0] file:/Users/luanne/.grails/2.0.1/projects/flavorwocky/resources/
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.neo4j/neo4j-kernel/jars/neo4j-kernel-1.6.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.springframework/spring-jdbc/jars/spring-jdbc-3.1.0.RELEASE.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.apache.ant/ant-trax/jars/ant-trax-1.7.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-datastore-simple/jars/grails-datastore-simple-1.0.2.RELEASE.jar
+     [classpath + loader.1] file:/System/Library/Java/
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-web/jars/grails-web-2.0.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/commons-beanutils/commons-beanutils/jars/commons-beanutils-1.8.3.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/junit/junit/jars/junit-4.10.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/commons-lang/commons-lang/jars/commons-lang-2.6.jar
+     [bootstrap] /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsse.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-plugin-filters/jars/grails-plugin-filters-2.0.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/commons-dbcp/commons-dbcp/jars/commons-dbcp-1.4.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-hibernate/jars/grails-hibernate-2.0.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.bouncycastle/bcprov-jdk15/jars/bcprov-jdk15-1.45.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.springframework/spring-jms/jars/spring-jms-3.1.0.RELEASE.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.neo4j/neo4j-cypher/jars/neo4j-cypher-1.6.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.springframework/spring-test/jars/spring-test-3.1.0.RELEASE.jar
+     [loader.0] file:/Users/luanne/grails-2.0.1/lib/net.java.dev.jna/jna/jars/jna-3.2.3.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-test/jars/grails-test-2.0.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.neo4j/neo4j-graph-matching/jars/neo4j-graph-matching-1.6.1.jar
+     [bootstrap] /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.slf4j/slf4j-api/jars/slf4j-api-1.6.2.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.apache.httpcomponents/httpcore/jars/httpcore-4.0.1.jar
+     [loader.2] file:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/ext/sunpkcs11.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.apache.ant/ant/jars/ant-1.8.2.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/commons-validator/commons-validator/jars/commons-validator-1.3.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.springframework/spring-core/jars/spring-core-3.1.0.RELEASE.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.neo4j/neo4j-community/jars/neo4j-community-1.6.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.grails/grails-plugin-domain-class/jars/grails-plugin-domain-class-2.0.1.jar
+     [loader.0] file:/Users/luanne/.grails/ivy-cache/org.springframework/spring-tx/jars/spring-tx-3.1.0.RELEASE.jar
+2012-03-27 15:45:08.503+0530: Library path:
+    /Users/luanne/projects/flavorwocky
+    /Library/Java/Extensions
+    /System/Library/Java/Extensions
+    /usr/lib/java
+2012-03-27 15:45:08.503+0530: System.properties:
+    sun.java.launcher = SUN_STANDARD
+    sun.management.compiler = HotSpot 64-Bit Tiered Compilers
+    grails.env.default = true
+    tools.jar = /Library/Java/Home/lib/tools.jar
+    grails.env.initializing = true
+    grails.env = development
+    user.name = luanne
+    awt.nativeDoubleBuffering = true
+    user.language = en
+    sun.boot.library.path = /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Libraries
+    user.timezone = GMT+05:30
+    sun.arch.data.model = 64
+    http.nonProxyHosts = local|*.local|169.254/16|*.169.254/16
+    sun.cpu.isalist = 
+    sun.jnu.encoding = MacRoman
+    file.encoding.pkg = sun.io
+    base.name = flavorwocky
+    file.separator = /
+    grails.server.factory = org.grails.plugins.tomcat.TomcatServerFactory
+    user.country = US
+    grails.home = /Users/luanne/grails-2.0.1
+    grails.version = 2.0.1
+    path.separator = :
+    grails.env.set = true
+    sun.io.unicode.encoding = UnicodeLittle
+    awt.toolkit = apple.awt.CToolkit
+    socksNonProxyHosts = local|*.local|169.254/16|*.169.254/16
+    ftp.nonProxyHosts = local|*.local|169.254/16|*.169.254/16
+    user.home = /Users/luanne
+    program.name = grails
+    gopherProxySet = false
+    sun.java.command = org.codehaus.groovy.grails.cli.support.GrailsStarter --main org.codehaus.groovy.grails.cli.GrailsScriptRunner --conf /Users/luanne/grails-2.0.1/conf/groovy-starter.conf --classpath   console
+    base.dir = /Users/luanne/projects/flavorwocky
+    sun.cpu.endian = little
+    sun.os.patch.level = unknown
+    jna.platform.library.path = /usr/lib:/usr/lib
+    mrj.build = 10M3527
+    grails.compile.artefacts.closures.convert = false
+    mrj.version = 1060.1.6.0_29-402
+    user.dir = /Users/luanne/projects/flavorwocky
+    disable.grails.plugin.transform = false
+    groovy.starter.conf = /Users/luanne/grails-2.0.1/conf/groovy-starter.conf
+    file.encoding = UTF-8
+    grails.buildScope = all
+    springloaded.directoriesContainingReloadableCode = /Users/luanne/projects/flavorwocky/target/classes,/Users/luanne/.grails/2.0.1/projects/flavorwocky/plugin-classes
+2012-03-27 15:45:08.504+0530: Neo4j Kernel properties:
+    store_dir=/Users/luanne/projects/flavorwocky/http:/localhost:7474/db/data
+    logical_log=/Users/luanne/projects/flavorwocky/http:/localhost:7474/db/data/nioneo_logical.log
+    node_auto_indexing=false
+    neostore.relationshipstore.db.mapped_memory=100M
+    neostore.nodestore.db.mapped_memory=20M
+    use_memory_mapped_buffers=true
+    rebuild_idgenerators_fast=true
+    neostore.propertystore.db.index.keys.mapped_memory=1M
+    neostore.propertystore.db.arrays.mapped_memory=130M
+    neostore.propertystore.db.strings.mapped_memory=130M
+    neo_store=/Users/luanne/projects/flavorwocky/http:/localhost:7474/db/data/neostore
+    neostore.propertystore.db.index.mapped_memory=1M
+    create=true
+    neostore.propertystore.db.mapped_memory=90M
+    relationship_auto_indexing=false
+2012-03-27 15:45:08.505+0530: Store versions:
+    NeoStore v0.A.0
+    NodeStore v0.A.0
+    RelationshipStore v0.A.0
+    RelationshipTypeStore v0.A.0
+    PropertyStore v0.A.0
+    PropertyIndexStore v0.A.0
+    StringPropertyStore v0.A.0
+    ArrayPropertyStore v0.A.0
+2012-03-27 15:45:08.505+0530: Id usage:
+    NodeStore: used=1 high=0
+    RelationshipStore: used=0 high=-1
+    RelationshipTypeStore: used=0 high=-1
+    PropertyStore: used=0 high=-1
+    PropertyIndexStore: used=0 high=-1
+    StringPropertyStore: used=1 high=0
+    ArrayPropertyStore: used=1 high=0
+2012-03-27 15:45:08.505+0530: Storage files:
+    active_tx_log: 11.00 B
+    index:
+      lucene-store.db: 40.00 B
+      lucene.log.1: 16.00 B
+      lucene.log.active: 4.00 B
+    - Total: 60.00 B
+    lock: 0.00 B
+    messages.log: 25.98 kB
+    neostore: 54.00 B
+    neostore.id: 9.00 B
+    neostore.nodestore.db: 9.00 B
+    neostore.nodestore.db.id: 9.00 B
+    neostore.propertystore.db: 0.00 B
+    neostore.propertystore.db.arrays: 128.00 B
+    neostore.propertystore.db.arrays.id: 9.00 B
+    neostore.propertystore.db.id: 9.00 B
+    neostore.propertystore.db.index: 0.00 B
+    neostore.propertystore.db.index.id: 9.00 B
+    neostore.propertystore.db.index.keys: 38.00 B
+    neostore.propertystore.db.index.keys.id: 9.00 B
+    neostore.propertystore.db.strings: 128.00 B
+    neostore.propertystore.db.strings.id: 9.00 B
+    neostore.relationshipstore.db: 0.00 B
+    neostore.relationshipstore.db.id: 9.00 B
+    neostore.relationshiptypestore.db: 0.00 B
+    neostore.relationshiptypestore.db.id: 9.00 B
+    neostore.relationshiptypestore.db.names: 38.00 B
+    neostore.relationshiptypestore.db.names.id: 9.00 B
+    nioneo_logical.log.1: 16.00 B
+    nioneo_logical.log.active: 4.00 B
+    tm_tx_log.1: 0.00 B
+2012-03-27 15:45:08.508+0530: --- STARTUP diagnostics END ---
+2012-03-27 15:45:08.511+0530: Extension org.neo4j.kernel.KernelExtension[kernel udc] loaded ok
+2012-03-27 15:45:08.572+0530: Extension org.neo4j.kernel.KernelExtension[kernel jmx] loaded ok
+2012-03-27 15:45:23.682+0530: Closed log /Users/luanne/projects/flavorwocky/http:/localhost:7474/db/data/nioneo_logical.log
+2012-03-27 15:45:23.703+0530: NeoStore closed
+2012-03-27 15:45:23.705+0530: Closed log /Users/luanne/projects/flavorwocky/http:/localhost:7474/db/data/index/lucene.log
+2012-03-27 15:45:23.705+0530: NeoStore closed
+2012-03-27 15:45:23.706+0530: TM shutting down

@@ -20,7 +20,7 @@ All rights reserved. See License.txt
                 <br><div id="example">ex. Chicken, Coriander, Mustard, Onion</div>
             </div>
             <input id="food" />
-            <div id="orPart">OR&nbsp;&nbsp;&nbsp;<button id="addPairing">Add Pairing</button>
+            <div id="orPart">OR&nbsp;&nbsp;&nbsp;<button id="addPairing" ${!loggedIn?"disabled":""}>${!loggedIn?"Log in and Add Pairing":"Add Pairing"}</button>
                              <div id="success"></div>
             </div>
             <div id="searchFeedback" class="ui-state-error"></div>
