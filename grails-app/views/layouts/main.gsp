@@ -5,6 +5,7 @@ All rights reserved. See License.txt
  */
 %>
 <!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
 <!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
 <!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
@@ -25,9 +26,19 @@ All rights reserved. See License.txt
         <r:layoutResources />
 	</head>
 	<body>
+	<facebook:initJS appId="${facebook.app.id}"/>
 		<div id="grailsLogo" role="banner">
 		    <a id="logo" href="${grailsApplication.config.grails.serverURL}">Flavorwocky</a>
             <div id="extra">
+                <g:if test="${loggedIn}">
+                 <facebook:logoutLink nextUrl="${createLink(controller:'flavorwocky', action:'logout', absolute:'true')}">Log out</facebook:logoutLink>
+                </g:if>
+                <g:else>
+
+                <facebook:loginLink
+                    cancelUrl="${createLink(controller:'flavorwocky',absolute:'true')}"
+                    redirectUrl="${createLink(controller:'flavorwocky',absolute:'true')}" >Login</facebook:loginLink>
+                </g:else>
                 <a href="about">About</a>
                 <a href="help">Help</a>
                 <g:tweet />

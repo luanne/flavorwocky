@@ -10,6 +10,8 @@ import org.neo4j.graphdb.RelationshipType
 
 class FlavorwockyController {
 
+    def facebookAppService
+
     /**
      * Ingredient autocomplete. After two characters are typed, search for ingredients that start with those two characters
      * @return Array of autosearch ingredients
@@ -49,12 +51,23 @@ class FlavorwockyController {
      * @return Map of categories, affinities and the latest pairings
      */
     def index() {
+        def loggedIn
+        if(facebookAppService.userId) {
+            loggedIn=true
+        }
         def categories = Category.list()
         //affinity values are hard-coded over here for simplicity
         [categories: categories,
                 affinity: [0.35: 'Tried and tested', 0.45: 'Extremely good', 0.6: 'Good'],
-                latest: getLatestPairings()
+                latest: getLatestPairings(),
+                loggedIn: loggedIn
         ]
+    }
+
+    def logout() {
+        session.removeAttribute('user') //somehow the session is not invalidated in the below call
+        facebookAppService.invalidateUser()
+        redirect(action:'index')
     }
 
     /**

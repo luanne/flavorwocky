@@ -80,6 +80,10 @@
             $("#pairing-dialog-form").dialog( "open" );
         });
 
+        $("#login").click(function() {
+                    $("#login-dialog-form").dialog( "open" );
+                });
+
         $("#latest li").bind("click", function() {
             $("#ingredientNodeId").val($(this).attr('nodeid'));
             flavorTreeSearch($("#ingredientNodeId").val());
