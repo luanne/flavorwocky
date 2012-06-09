@@ -31,13 +31,14 @@ All rights reserved. See License.txt
 		    <a id="logo" href="${grailsApplication.config.grails.serverURL}">Flavorwocky</a>
             <div id="extra">
                 <g:if test="${loggedIn}">
-                 <facebook:logoutLink nextUrl="${createLink(controller:'flavorwocky', action:'logout', absolute:'true')}">Log out</facebook:logoutLink>
+                 Hi ${session.userName}!&nbsp;
+                 <facebook:logoutLink nextUrl="${createLink(controller:'flavorwocky', action:'logout', absolute:'true')}">Log Out</facebook:logoutLink>
                 </g:if>
                 <g:else>
 
                 <facebook:loginLink
-                    cancelUrl="${createLink(controller:'flavorwocky',absolute:'true')}"
-                    redirectUrl="${createLink(controller:'flavorwocky',absolute:'true')}" >Login</facebook:loginLink>
+                    cancelUrl="${createLink(controller:'flavorwocky', absolute:'true')}"
+                    redirectUrl="${createLink(controller:'flavorwocky',action:'login', absolute:'true')}" >Login</facebook:loginLink>
                 </g:else>
                 <a href="about">About</a>
                 <a href="help">Help</a>

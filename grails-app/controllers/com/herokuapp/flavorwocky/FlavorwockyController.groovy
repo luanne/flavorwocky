@@ -7,10 +7,12 @@ package com.herokuapp.flavorwocky
 import net.sf.json.JSONArray
 import org.neo4j.graphdb.Direction
 import org.neo4j.graphdb.RelationshipType
+import grails.plugins.facebooksdk.FacebookGraphClient
 
 class FlavorwockyController {
 
     def facebookAppService
+    def facebookClient
 
     /**
      * Ingredient autocomplete. After two characters are typed, search for ingredients that start with those two characters
@@ -52,7 +54,7 @@ class FlavorwockyController {
      */
     def index() {
         def loggedIn
-        if(facebookAppService.userId) {
+        if(session.userId) {
             loggedIn=true
         }
         def categories = Category.list()
@@ -64,9 +66,20 @@ class FlavorwockyController {
         ]
     }
 
+    def login() {
+        if(facebookAppService.userId) {
+            session.userId = facebookAppService.userId
+            facebookClient = new FacebookGraphClient(facebookAppService.getUserAccessToken())
+            def user = facebookClient.fetchObject("me")
+            session.userName=user.name
+        }
+        redirect(action: 'index')
+
+    }
+
     def logout() {
-        session.removeAttribute('user') //somehow the session is not invalidated in the below call
-        facebookAppService.invalidateUser()
+        session.removeAttribute('userId') //somehow the session is not invalidated in the below call
+        //facebookAppService.invalidateUser()
         redirect(action:'index')
     }
 
