@@ -72,6 +72,7 @@ class FlavorwockyController {
             facebookClient = new FacebookGraphClient(facebookAppService.getUserAccessToken())
             def user = facebookClient.fetchObject("me")
             session.userName=user.name
+            session.location = user.location
         }
         redirect(action: 'index')
 
