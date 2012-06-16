@@ -16,6 +16,7 @@ class User {
     static constraints = {
         name (blank: false)
         userId (blank: false)
+        location (nullable: true)
     }
 
 }

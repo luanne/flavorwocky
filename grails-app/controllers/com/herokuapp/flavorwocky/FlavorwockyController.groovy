@@ -88,9 +88,8 @@ class FlavorwockyController {
      * Fetches the nodes references for ingredients if they exists, else creates them
      * @return List of the node references
      */
-    private List<Ingredient> fetchOrCreateNodes(String ingredient1, String ingredient2, String categoryNode1, String categoryNode2) {
+    private def fetchOrCreateNodes(String ingredient1, String ingredient2, String categoryNode1, String categoryNode2) {
         def storedIngredients = Ingredient.findAllByNameInList([ingredient1, ingredient2])
-
         def ingredient1Instance = storedIngredients.find {it.name==ingredient1}
         def ingredient2Instance = storedIngredients.find {it.name==ingredient2}
         if (!ingredient1Instance) {
@@ -101,7 +100,43 @@ class FlavorwockyController {
             ingredient2Instance = new Ingredient(name: ingredient2, category: Category.get(categoryNode2)).save(failOnError: true)
         }
 
-        return [ingredient1Instance, ingredient2Instance] as List<Ingredient>
+        return [ingredient1Instance, ingredient2Instance] //as List<Ingredient>
+    }
+
+
+    /**
+     * Fetches a location, else creates it
+     * @return User
+     */
+    private Location fetchOrCreateLocation() {
+        def location = Location.findByLocationId(session.location.id)
+        if(!location) {
+            location = new Location(locationId: session.location.id, name:  session.location.name).save(failOnError: true)
+        }
+
+        return location
+
+    }
+
+    /**
+     * Fetches the user who created the pairing, else creates him
+     * @return User
+     */
+    private User fetchOrCreateUser() {
+        def user = User.findByUserId(session.userId)
+        println "user = $user"
+
+
+        if (!user) {
+            def location
+            if(!session.location==null) {
+                location=fetchOrCreateLocation()
+            }
+println "location $location"
+            user = new User(userId: session.userId, name: session.userName, location: location).save(failOnError: true)
+        }
+
+        return user
     }
 
     /**
@@ -114,8 +149,28 @@ class FlavorwockyController {
         }
 
         Ingredient.withTransaction {
+
             def pairedIngredients = fetchOrCreateNodes(ingredient1, ingredient2, category1, category2)
+            println "here 3"
             createRelationship(pairedIngredients, affinity)
+            println "here 4"
+            def user = fetchOrCreateUser()
+            println "affinity = $affinity"
+            println "affinity = ${affinity.class}"
+            def pairing = new Pairing(createdOnMillis: new Date().time, affinity: affinity).save(failOnError: true)
+
+            //println "pairing $pairing"
+            pairedIngredients.each{
+                println "it = ${it.class}"
+                pairing.addToContains1 it
+            }
+            println "here 5"
+            pairing.save()
+            println "here 6"
+            user.addToCreates pairing
+            println "here 7"
+            user.save()
+            println "here 8"
         }
 
         render "done"
@@ -158,8 +213,12 @@ class FlavorwockyController {
             latestPairings[0].delete()
         }
 
+        println "paired0" + pairedIngredients[0].id
+        println "paired1" + pairedIngredients[1].id
+
         new LatestPairing(nodeId: pairedIngredients[0].id, pairing: pairedIngredients[0].name + " and " + pairedIngredients[1].name)
             .save(failOneError: true)
+        print "after new latest pairing"
     }
 
     /**

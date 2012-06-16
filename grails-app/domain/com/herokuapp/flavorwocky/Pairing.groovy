@@ -7,13 +7,13 @@ class Pairing {
 
     static mapWith = "neo4j"
 
-    Date createdOn
+    long createdOnMillis  //Grails plugin stores a date as a string instead of a long
     Float affinity
 
-    static hasMany = [contains: Ingredient]
+    static hasMany = [contains1: Ingredient]
 
     static constraints = {
-        createdOn (blank: false)
+        createdOnMillis (blank: false)
         affinity (blank: false)
     }
 

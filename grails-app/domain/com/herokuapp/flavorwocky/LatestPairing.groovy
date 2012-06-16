@@ -13,6 +13,9 @@ class LatestPairing {
     Integer nodeId
     String pairing
     Date dateCreated
+   // String userName
+   // String userId
+
 
     static constraints = {
         nodeId (blank: false)
