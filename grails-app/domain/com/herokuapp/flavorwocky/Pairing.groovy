@@ -9,8 +9,9 @@ class Pairing {
 
     long createdOnMillis  //Grails plugin stores a date as a string instead of a long
     Float affinity
+    User user
 
-    static hasMany = [contains1: Ingredient]
+    static hasMany = [hasIngredient: Ingredient]
 
     static constraints = {
         createdOnMillis (blank: false)

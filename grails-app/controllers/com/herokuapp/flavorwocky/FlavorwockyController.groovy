@@ -54,6 +54,16 @@ class FlavorwockyController {
      */
     def index() {
         def loggedIn
+
+        /** Uncomment to work in offline mode **/
+        session.userId = "123"
+        session.userName="luanne"
+        session.location=null
+        /** Uncomment to work in offline mode **/
+
+
+
+
         if(session.userId) {
             loggedIn=true
         }
@@ -124,7 +134,6 @@ class FlavorwockyController {
      */
     private User fetchOrCreateUser() {
         def user = User.findByUserId(session.userId)
-        println "user = $user"
 
 
         if (!user) {
@@ -132,7 +141,6 @@ class FlavorwockyController {
             if(!session.location==null) {
                 location=fetchOrCreateLocation()
             }
-println "location $location"
             user = new User(userId: session.userId, name: session.userName, location: location).save(failOnError: true)
         }
 
@@ -151,26 +159,17 @@ println "location $location"
         Ingredient.withTransaction {
 
             def pairedIngredients = fetchOrCreateNodes(ingredient1, ingredient2, category1, category2)
-            println "here 3"
             createRelationship(pairedIngredients, affinity)
-            println "here 4"
-            def user = fetchOrCreateUser()
-            println "affinity = $affinity"
-            println "affinity = ${affinity.class}"
-            def pairing = new Pairing(createdOnMillis: new Date().time, affinity: affinity).save(failOnError: true)
 
-            //println "pairing $pairing"
-            pairedIngredients.each{
-                println "it = ${it.class}"
-                pairing.addToContains1 it
-            }
-            println "here 5"
-            pairing.save()
-            println "here 6"
-            user.addToCreates pairing
-            println "here 7"
+            def user = fetchOrCreateUser()
             user.save()
-            println "here 8"
+
+            def pairing = new Pairing(createdOnMillis: new Date().time, affinity: affinity, user: user).save(failOnError: true)
+
+            pairedIngredients.each{
+                pairing.addToHasIngredient it
+            }
+            pairing.save(flush: true)
         }
 
         render "done"
@@ -213,12 +212,8 @@ println "location $location"
             latestPairings[0].delete()
         }
 
-        println "paired0" + pairedIngredients[0].id
-        println "paired1" + pairedIngredients[1].id
-
-        new LatestPairing(nodeId: pairedIngredients[0].id, pairing: pairedIngredients[0].name + " and " + pairedIngredients[1].name)
+        new LatestPairing(nodeId: pairedIngredients[0].id, pairing: pairedIngredients[0].name + " and " + pairedIngredients[1].name, userId: session.userId, userName: session.userName)
             .save(failOneError: true)
-        print "after new latest pairing"
     }
 
     /**

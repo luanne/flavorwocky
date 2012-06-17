@@ -11,7 +11,6 @@ class User {
     String userId
     Location location
 
-    static hasMany = [creates: Pairing]
 
     static constraints = {
         name (blank: false)
