@@ -135,7 +135,6 @@ class FlavorwockyController {
     private User fetchOrCreateUser() {
         def user = User.findByUserId(session.userId)
 
-
         if (!user) {
             def location
             if(!session.location==null) {
@@ -195,14 +194,9 @@ class FlavorwockyController {
                     it.setProperty("wt", affinity)
                 }
             }
-
-            updateRecentPairings(pairedIngredients)
-
-
-            return true
         }
-
-        return false
+        updateRecentPairings(pairedIngredients)
+        return true
     }
 
     private void updateRecentPairings(List pairedIngredients) {
