@@ -57,7 +57,7 @@ All rights reserved. See License.txt
         <g:each in="${latest}">
             <g:set var="key" value="${it.nodeId}" />
             <g:set var="val" value="${it.pairing}" />
-            <li nodeid="${key}"><a href='#'>${val}</a></li>
+            <li nodeid="${key}"><a href='#'>${val}</a><br/>by ${it.userName==null?"Anonymous":it.userName}</li>
         </g:each>
         </ul>
     </div>
