@@ -9,6 +9,14 @@ All rights reserved. See License.txt
 	<head>
 		<meta name="layout" content="main">
 		<g:javascript library="jquery" />
+		<script language="javascript">
+
+        				if (window.location.href.indexOf("herokuapp")>0)
+        				{
+        					window.location.href="http://www.flavorwocky.com";
+        				}
+        		</script>
+
 	</head>
 	<body>
 	    <form id="safe">
