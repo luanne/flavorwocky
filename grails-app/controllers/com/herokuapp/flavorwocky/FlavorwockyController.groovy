@@ -56,9 +56,9 @@ class FlavorwockyController {
         def loggedIn
 
         /** Uncomment to work in offline mode **/
-        session.userId = "123"
-        session.userName="luanne"
-        session.location=null
+      //  session.userId = "123"
+      //  session.userName="luanne"
+      //  session.location=null
         /** Uncomment to work in offline mode **/
 
 
