@@ -19,7 +19,7 @@ class UrlMappings {
         "/flavorNetwork" (controller: "flavorwocky", action:"getSearchVisualizationAsNetworkJson")
         "/flavorTrios" (controller: "flavorwocky", action:"getFlavorTrios")
         "/latestPairings" (controller: "flavorwocky", action:"getLatestPairings")
-        "/about" (view: '/about')
-        "/help" (view:  '/help')
+        "/about" (controller: 'workaround' , action: 'about')
+        "/help" (controller: 'workaround' , action: 'help')
 	}
 }
