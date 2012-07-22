@@ -40,6 +40,7 @@ grails.project.dependency.resolution = {
 
         // runtime 'mysql:mysql-connector-java:5.1.16'
         compile "org.neo4j:neo4j-rest-graphdb:1.6"
+        build 'org.twitter4j:twitter4j-core:2.2.5'
     }
 
     plugins {
