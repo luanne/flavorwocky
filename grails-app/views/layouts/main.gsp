@@ -35,7 +35,7 @@ All rights reserved. See License.txt
                  <facebook:logoutLink nextUrl="${createLink(controller:'flavorwocky', action:'logout', absolute:'true')}">Log Out</facebook:logoutLink>
                 </g:if>
                 <g:else>
-
+                <a href="${createLink(controller:'flavorwocky', action:'requestLogin', absolute:'true')}">Login with twitter</a>
                 <facebook:loginLink
                     cancelUrl="${createLink(controller:'flavorwocky', absolute:'true')}"
                     redirectUrl="${createLink(controller:'flavorwocky',action:'login', absolute:'true')}"><img src="${resource(dir: 'images', file: 'login-button.png')}" alt="Login with Facebook"></facebook:loginLink>
