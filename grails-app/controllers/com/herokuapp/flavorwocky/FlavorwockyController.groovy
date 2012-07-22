@@ -101,7 +101,7 @@ class FlavorwockyController {
     def requestLogin = {
         def twitterClient = new TwitterFactory().getInstance()
         def returnUrl = g.createLink(controller: 'flavorwocky', action: 'processLogin', absolute:true).toString()
-        log.debug "Generating request with return url of [${returnUrl}]"
+        println "Generating request with return url of [${returnUrl}]"
         def requestToken = generateRequestToken(twitterClient, returnUrl)
         session.twitter = twitterClient
         session.requestToken = requestToken
@@ -110,16 +110,18 @@ class FlavorwockyController {
 
     def processLogin = {
 
-        log.debug "Processing Login Return from Twitter"
+        println "Processing Login Return from Twitter"
         if (!session.requestToken) {
             redirect(action: 'requestLogin')
         } else {
             def accessToken = session.twitter.getOAuthAccessToken(session.requestToken, params.oauth_verifier)
-            log.debug "Attempting validate..."
+            println "Attempting validate..."
             def twitterUser = session.twitter.verifyCredentials()
-            log.debug "Validate successful for ${twitterUser.screenName}"
-            session.user = twitterUser
-            redirect(action: 'displayDetails')
+            println "Validate successful for " + twitterUser.screenName
+            session.userName = twitterUser.screenName
+            session.location = twitterUser.location
+            session.userId = twitterUser.id
+            redirect(action: 'index')
         }
     }
 

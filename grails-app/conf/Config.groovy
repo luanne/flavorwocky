@@ -106,7 +106,7 @@ grails.resources.modules = {
     }
 }
 
-grails.plugins.facebooksdk.appId= 42
+grails.plugins.facebooksdk.appId= 232544706856919
 grails.plugin.facebooksdk.appPermissions = "user_location"
 grails.plugins.facebooksdk.appSecret = 'e3f12f758c6a423d00f04029e7c60fc7'
 
