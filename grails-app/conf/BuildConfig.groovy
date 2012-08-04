@@ -43,6 +43,7 @@ grails.project.dependency.resolution = {
         build 'org.twitter4j:twitter4j-core:2.2.5'
     }
 
+
     plugins {
         //runtime ":hibernate:$grailsVersion"
         runtime ":jquery:1.7.1"
