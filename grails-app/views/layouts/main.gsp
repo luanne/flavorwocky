@@ -40,7 +40,7 @@ All rights reserved. See License.txt
                 <a href="${createLink(controller:'flavorwocky', action:'requestLogin', absolute:'true')}"><img src="${resource(dir: 'images', file: 'login-twitter.png')}" alt="Login with Twitter"></a>
                 <facebook:loginLink
                     cancelUrl="${createLink(controller:'flavorwocky', absolute:'true')}"
-                    redirectUrl="${createLink(controller:'flavorwocky',action:'login', absolute:'true')}"><img src="${resource(dir: 'images', file: 'login-button-copy.png')}" alt="Login with Facebook"></facebook:loginLink>
+                    redirectUrl="${createLink(controller:'flavorwocky',action:'login', absolute:'true')}"><img src="${resource(dir: 'images', file: 'login-button.png')}" alt="Login with Facebook"></facebook:loginLink>
                 </g:else>
                 <a href="about">About</a>
                 <a href="help">Help</a>
