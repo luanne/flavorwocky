@@ -1,6 +1,7 @@
 *.ipl
 *.ipr
 *.iws
+*.iml
 *Db.properties
 *Db.script
 .settings
