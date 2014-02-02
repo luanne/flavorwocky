@@ -3,7 +3,7 @@ environments {
         grails {
             neo4j {
                 type = "rest"
-                location = "http://localhost:7474/db/data/"
+                location = System.env['GRAPHENEDB_URL'] ?: "http://localhost:7474/db/data/"
             }
         }
     }
@@ -19,7 +19,7 @@ environments {
         grails {
             neo4j {
                 type = "rest"
-                location = "dummy"
+                location = System.env['GRAPHENEDB_URL'] ?: "http://localhost:7474/db/data/"
             }
         }
     }
