@@ -45,6 +45,8 @@ All rights reserved. See License.txt
        <br/> <br/>
         Feel free to add <a href="https://github.com/luanne/flavorwocky/issues?sort=created&direction=desc&state=open" target="_blank">issues</a> or contact me via the <a href="http://thought-bytes.blogspot.com" target="_blank">blog</a> or <a href="https://twitter.com/#!/luannem" target="_blank">twitter</a>.
         <br/>
+
+        Update: Flavorwocky was declared the winner! Read more <a href="http://blog.neo4j.org/2012/03/neo4j-heroku-challenge-winner-and.html">here</a>
         -Luanne Misquitta
 
         </p>
