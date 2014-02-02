@@ -19,7 +19,7 @@ environments {
         grails {
             neo4j {
                 type = "rest"
-                location = System.env['GRAPHENEDB_URL'] ?: "http://localhost:7474/db/data/"
+                location = "dummy"
             }
         }
     }
