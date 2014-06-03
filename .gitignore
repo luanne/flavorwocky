@@ -11,4 +11,5 @@ eclipse
 stacktrace.log
 target
 /plugins
-
+.idea
+credentials.txt
