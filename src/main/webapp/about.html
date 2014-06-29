@@ -1,84 +1,109 @@
 <!doctype html>
 <html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link href="css/main.css" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
     <title>Flavorwocky</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/main.css" type="text/css">
-    <link rel="stylesheet" href="css/mobile.css" type="text/css">
-    <meta name="layout" content="main">
-    <title>About</title>
     <script type="text/javascript">
 
-          var _gaq = _gaq || [];
-          _gaq.push(['_setAccount', 'UA-32833228-1']);
-          _gaq.push(['_trackPageview']);
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32833228-1']);
+        _gaq.push(['_trackPageview']);
 
-          (function() {
+        (function() {
             var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
             ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-          })();
+        })();
+
 
 
     </script>
 </head>
 <body>
-<div id="grailsLogo" role="banner">
-    <a id="logo" href="http://www.flavorwocky.com">Flavorwocky</a>
 
-    <div id="extra">
-        <a href="about.html">About</a>
-        <a href="help.html">Help</a>
+<div class="container-fluid">
+    <div class="row header">
+        <div class="col-md-10">
+            <h1><a href="index.html">Flavorwocky</a></h1>
+        </div>
+        <div class="col-md-1 navlinks">
+            <a href="about.html">About</a>
+        </div>
+        <div class="col-md-1 navlinks">
+            <a href="help.html">Help</a>
+        </div>
     </div>
+    <div class="row" style="margin-top: 25px;">
+        <div class="col-md-12">
+            <h2>About Flavorwocky</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            This app models ingredient pairs or flavor affinities and is my entry for the <a
+                href="http://neo4j-challenge.herokuapp.com/" target="_blank">Neo4j Heroku Challenge</a>.
+            <br/><br/>
+            Why <i>Flavorwocky</i>? Well, I said "what should I call the app?", and my husband said "<a
+                href="http://en.wikipedia.org/wiki/Jabberwocky">jabberwocky</a>". It couldn't be called Jabberwocky of
+            course,
+            so behold- Flavorwocky.
+            <br/><br/>
+            It uses Grails 2.0 and the Neo4j add-on for Heroku to provide a basic template for anyone who wants to get
+            up and
+            running with Grails and Neo4j on Heroku.
+            The neat visualization is thanks to the <a href="http://mbostock.github.com/d3/" target="_blank">D3.js</a>
+            library.
+            <br/><br/>
+            A graph is a good fit for this domain, so, using Neo4j, we model the way ingredients in a great dish pair
+            together
+            based on their flavor affinity.<br/>
+            The current version of this app captures flavor pairings and how well ingredients pair together, and then
+            allows one
+            to search by ingredient and view complementary combinations. Needless to say, this just scratches the
+            surface of the
+            possible features for an app like this.
+            <br/><br/>
+
+            I thought this app should focus completely on Neo4j so you won't find fancy bells and third party
+            integrations
+            (yet).
+            Read more about what features are used in our blog:
+            <br/><a href="http://thought-bytes.blogspot.in/2012/02/flavor-of-month-neo4j-add-on-for-heroku.html">Flavor
+            of the
+            month- Neo4j add-on for Heroku</a><br/>
+            <a href="http://thought-bytes.blogspot.in/2012/02/flavor-of-month-neo4j-and-heroku-part-2.html">Flavor of
+                the month-
+                Neo4j add-on for Heroku, part 2</a>
+            <br/> <br/>
+            Feel free to add <a
+                href="https://github.com/luanne/flavorwocky/issues?sort=created&direction=desc&state=open"
+                target="_blank">issues</a> or contact me via the <a href="http://thought-bytes.blogspot.com"
+                                                                    target="_blank">blog</a> or <a
+                href="https://twitter.com/#!/luannem" target="_blank">twitter</a>.
+            <br/>
+
+            Update: Flavorwocky was declared the winner! Read more <a
+                href="http://blog.neo4j.org/2012/03/neo4j-heroku-challenge-winner-and.html">here</a>
+            -Luanne Misquitta
+
+        </div>
+
+    </div>
+
 </div>
-<h1>About Flavorwocky</h1>
-
-<p class="helptext">
-    This app models ingredient pairs or flavor affinities and is my entry for the <a
-        href="http://neo4j-challenge.herokuapp.com/" target="_blank">Neo4j Heroku Challenge</a>.
-    <br/><br/>
-    Why <i>Flavorwocky</i>? Well, I said "what should I call the app?", and my husband said "<a
-        href="http://en.wikipedia.org/wiki/Jabberwocky">jabberwocky</a>". It couldn't be called Jabberwocky of course,
-    so behold- Flavorwocky.
-    <br/><br/>
-    It uses Grails 2.0 and the Neo4j add-on for Heroku to provide a basic template for anyone who wants to get up and
-    running with Grails and Neo4j on Heroku.
-    The neat visualization is thanks to the <a href="http://mbostock.github.com/d3/" target="_blank">D3.js</a> library.
-    <br/><br/>
-    A graph is a good fit for this domain, so, using Neo4j, we model the way ingredients in a great dish pair together
-    based on their flavor affinity.<br/>
-    The current version of this app captures flavor pairings and how well ingredients pair together, and then allows one
-    to search by ingredient and view complementary combinations. Needless to say, this just scratches the surface of the
-    possible features for an app like this.
-    <br/><br/>
-
-    I thought this app should focus completely on Neo4j so you won't find fancy bells and third party integrations
-    (yet).
-    Read more about what features are used in our blog:
-    <br/><a href="http://thought-bytes.blogspot.in/2012/02/flavor-of-month-neo4j-add-on-for-heroku.html">Flavor of the
-    month- Neo4j add-on for Heroku</a><br/>
-    <a href="http://thought-bytes.blogspot.in/2012/02/flavor-of-month-neo4j-and-heroku-part-2.html">Flavor of the month-
-        Neo4j add-on for Heroku, part 2</a>
-    <br/> <br/>
-    Feel free to add <a href="https://github.com/luanne/flavorwocky/issues?sort=created&direction=desc&state=open"
-                        target="_blank">issues</a> or contact me via the <a href="http://thought-bytes.blogspot.com"
-                                                                            target="_blank">blog</a> or <a
-        href="https://twitter.com/#!/luannem" target="_blank">twitter</a>.
-    <br/>
-
-    Update: Flavorwocky was declared the winner! Read more <a
-        href="http://blog.neo4j.org/2012/03/neo4j-heroku-challenge-winner-and.html">here</a>
-    -Luanne Misquitta
-
-</p>
-
-<div class="footer" role="contentinfo">
-
-
-    <div class="copyright">Copyright &copy; 2014, Luanne Misquitta</div>
-
+<div class="row footer">
+    <div class="col-md-12 text-center" style="padding-top: 10px;">Copyright &copy; 2014 Luanne Misquitta</div>
 </div>
+
 </body>
 </html>
