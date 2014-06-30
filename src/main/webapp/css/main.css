@@ -75,3 +75,11 @@ a:visited {
     background:#c2d699;
 }
 
+.css-form input.ng-invalid.ng-dirty {
+    border-color: #FA787E;
+}
+
+.css-form input.ng-valid.ng-dirty {
+    border-color: #177917;
+}
+
