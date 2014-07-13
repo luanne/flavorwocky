@@ -1,12 +1,12 @@
 <!doctype html>
-<html>
-<html>
+<html ng-app>
 <head lang="en">
     <meta charset="UTF-8">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link href="css/main.css" rel="stylesheet">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="js/angular.min.js"></script>
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -26,22 +26,13 @@
 
 
 
+
     </script>
 </head>
 <body>
 
 <div class="container-fluid">
-    <div class="row header">
-        <div class="col-md-10">
-            <h1><a href="index.html">Flavorwocky</a></h1>
-        </div>
-        <div class="col-md-1 navlinks">
-            <a href="about.html">About</a>
-        </div>
-        <div class="col-md-1 navlinks">
-            <a href="help.html">Help</a>
-        </div>
-    </div>
+    <ng-include src="'header.html'"></ng-include>
     <div class="row" style="margin-top: 25px;">
         <div class="col-md-12">
             <h2>About Flavorwocky</h2>
@@ -101,9 +92,7 @@
     </div>
 
 </div>
-<div class="row footer">
-    <div class="col-md-12 text-center" style="padding-top: 10px;">Copyright &copy; 2014 Luanne Misquitta</div>
-</div>
+<ng-include src="'footer.html'"></ng-include>
 
 </body>
 </html>
