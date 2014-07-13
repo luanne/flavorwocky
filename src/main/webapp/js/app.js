@@ -34,6 +34,8 @@
        };
         this.addPairing =function() {
            console.log(this.pairing.ingredient1);
+           console.log(this.pairing.ingredient2);
+           console.log(this.pairing.affinity);
         };
     });
 

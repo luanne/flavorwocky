@@ -45,19 +45,19 @@ a:visited {
 }
 
 .btn-primary, .btn-primary:active, .btn-primary:focus{
-    background: #73865a;
-    border: #73865a;
+    background: #D59901;
+    border: #D59901;
 }
 
-.btn-primary:hover{
-    background: #a5b882;
-    border: #73865a;
+.btn-primary:hover, .btn-primary:disabled{
+    background: #F5C243;
+    border: #F6E0A8;
   }
 
 .modal-header {
     padding:9px 15px;
     border-bottom:1px solid #eee;
-    background-color: #c2d699;
+    background-color: #ffc57b;
     -webkit-border-top-left-radius: 5px;
     -webkit-border-top-right-radius: 5px;
     -moz-border-radius-topleft: 5px;
