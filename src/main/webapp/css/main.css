@@ -8,13 +8,16 @@ body,html{
 
 
 .header {
-    background:#c2d699;
+ /*   background:#c2d699;*/
 }
 .navlinks {
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
+.search {
+    margin-top: 72px;
+}
 h1 > a{
     text-decoration: none;
 }
@@ -68,11 +71,11 @@ a:visited {
     padding: 0 15px;
     margin-left: 0px;
     margin-right: 0px;
-    background:#c2d699;
+    background:#ffc57b;
 }
 
 .panel-default>.panel-heading {
-    background:#c2d699;
+    background:#ffc57b;
 }
 
 .css-form input.ng-invalid.ng-dirty {
