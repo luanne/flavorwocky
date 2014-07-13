@@ -126,7 +126,7 @@
                 </div>
                 <div class="panel-body">
                     <ul class="list-unstyled">
-                        <li ng-repeat="trio in trioController.trios">{{trio.name}}</li>
+                        <li ng-repeat="trio in trioController.trios">{{trio}}</li>
                     </ul>
                 </div>
             </div>
@@ -137,7 +137,9 @@
                 </div>
                 <div class="panel-body">
                     <ul class="list-unstyled">
-                        <li ng-repeat="addition in freshController.additions"><a href="#">{{addition.name}}</a></li>
+                        <li ng-repeat="addition in freshController.additions">
+                            <a href="#">{{addition.firstIngredient.name}} and {{addition.secondIngredient.name}}</a>
+                        </li>
                     </ul>
                 </div>
             </div>

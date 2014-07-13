@@ -4,31 +4,27 @@
 
 (function () {
     var app = angular.module('flavors', [ ]);
-    app.controller('TrioController', function() {
-        this.trios= [
-            {
-                name: "Bacon, cheese, onion"
-            },
-            {
-                name: "Avocado, lime, bacon"
-            },
-            {
-                name: "Chicken, mushrooms, onion"
-            }
 
-        ];
+    app.controller('TrioController', ['$http',function($http) {
+    var flavors=this;
+    flavors.trios=[];
+
+    $http.get('/api/trios/i1').success(function(data) {
+        flavors.trios=data;
     });
 
-    app.controller('FreshAdditionsController', function() {
-        this.additions= [
-            {
-                name: "Bacon and cheese"
-            },
-            {
-                name: "Basil and Pine nuts"
-            }
-        ];
-    });
+    }]);
+
+    app.controller('FreshAdditionsController', ['$http',function($http) {
+        var flavors=this;
+        flavors.additions=[];
+
+        $http.get('/api/latestPairings').success(function(data) {
+            flavors.additions=data;
+        });
+
+
+    }]);
 
     app.controller('PairingController', function() {
        this.pairing={
