@@ -6,6 +6,7 @@ package com.flavorwocky.domain.ingredient;
 public class Ingredient {
 
     private String name;
+    private Category category;
 
     public Ingredient() {
     }
@@ -22,5 +23,11 @@ public class Ingredient {
         this.name = name;
     }
 
+    public Category getCategory() {
+        return category;
+    }
 
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 }

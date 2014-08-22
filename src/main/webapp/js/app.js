@@ -19,7 +19,7 @@
         var flavors=this;
         flavors.additions=[];
 
-        $http.get('/api/latestPairings').success(function(data) {
+        $http.get('/api/pairing/latest').success(function(data) {
             flavors.additions=data;
         });
 
@@ -32,10 +32,16 @@
            ingredient2: "",
            affinity: "Tried"
        };
+
         this.addPairing =function() {
            console.log(this.pairing.ingredient1);
            console.log(this.pairing.ingredient2);
            console.log(this.pairing.affinity);
+           console.log(JSON.stringify(this.pairing));
+          /* $http.post("/api/pairing",JSON.stringify(this.pairing)).success(function(data) {
+
+                  });*/
+
         };
     });
 

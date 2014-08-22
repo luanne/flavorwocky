@@ -3,10 +3,7 @@ package com.flavorwocky.api;
 import com.flavorwocky.domain.ingredient.Ingredient;
 import com.flavorwocky.domain.pairing.Pairing;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +13,7 @@ import java.util.List;
 @Path("/")
 public class FlavorApi {
 
-    @Path("latestPairings")
+    @Path("pairing/latest")
     @GET
     @Produces("application/json")
     public List<Pairing> getLatestPairings() {
@@ -41,6 +38,14 @@ public class FlavorApi {
         trios.add("Bacon, Clams, Potatoes");
         trios.add("Bacon, Honey, Chicken");
         return trios;
+    }
+
+    @Path("pairing")
+    @POST
+    @Consumes("application/json")
+    public boolean addPairing(FlavorPair pair) {
+        return true;
+
     }
 
 }
