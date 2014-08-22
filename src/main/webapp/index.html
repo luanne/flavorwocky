@@ -155,8 +155,8 @@
 <script src="js/typeahead.js"></script>
 <script>
     $(document).ready(function() {
-        var data=['apple','applesauce'];
-        $("input").typeahead(
+        $.get( "/api/ingredients", function( data ) {
+                $("input").typeahead(
                 {
 
                     source: function(query,process) {
@@ -165,6 +165,7 @@
                     minLength:2
                 }
         )
+        });
     });
 
 </script>

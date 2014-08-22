@@ -2,6 +2,8 @@ package com.flavorwocky.api;
 
 import com.flavorwocky.domain.ingredient.Ingredient;
 import com.flavorwocky.domain.pairing.Pairing;
+import com.flavorwocky.service.IngredientService;
+import com.flavorwocky.service.PairingService;
 
 import javax.ws.rs.*;
 import java.util.ArrayList;
@@ -34,10 +36,14 @@ public class FlavorApi {
     @GET
     @Produces("application/json")
     public List<String> getTrios(@PathParam("ingredient") String ingredient) {
-        List<String> trios = new ArrayList<>();
-        trios.add("Bacon, Clams, Potatoes");
-        trios.add("Bacon, Honey, Chicken");
-        return trios;
+        return new PairingService().getTrios(ingredient);
+    }
+
+    @Path("ingredients")
+    @GET
+    @Produces("application/json")
+    public List<String> getIngredients() {
+        return new IngredientService().getAllIngredients();
     }
 
     @Path("pairing")
