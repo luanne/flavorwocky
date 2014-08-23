@@ -1,157 +1,3 @@
-    function updateTips( t ) {
-        var tips = $( ".validateTips" );
-        tips
-            .text( t )
-            .addClass( "ui-state-highlight" );
-       setTimeout(function() {
-            tips.removeClass( "ui-state-highlight", 1500 );
-        }, 500 );
-    }
-
-    var ingredient1 = $('#ingredient1')
-    var ingredient2 = $('#ingredient2')
-    var allFields = $( [] ).add(ingredient1).add(ingredient2);
-
-    $(function() {
-        $( "#food" ).autocomplete({
-                source: "autosearch",
-                minLength: 2,
-                select: function(event, ui ) {
-                    if (ui.item) {
-                        flavorTreeSearch(ui.item.id);
-                        $('#ingredientNodeId').val(ui.item.id);
-                        $('#searchFeedback').html('');
-                        flavorTrios(ui.item.id);
-                    }
-                }
-            });
-        $("#food").bind('keypress', function(e) {
-                if (e.which == 13) {
-                        jQuery.ajax(autosearchLink, {
-                            success: function(data, textStatus, jqXHR) {
-                                if (data.length<=0) {
-                                    $('#searchFeedback').html('No such ingredient found');
-                                } else if (data.length>=2) {
-                                    $('#searchFeedback').html('Too many ingredients found. Please narrow your search');
-                                } else if (data.length==1) {
-                                    //make search
-                                    flavorTreeSearch(data[0].id);
-                                    $('#ingredientNodeId').val(data[0].id);
-                                    flavorTrios(data[0].id);
-                                }
-                            },
-                            error: function(data, textStatus, jqXHR) {
-                                $('#searchFeedback').html('Oops! Probably a 5xx error');
-                            },
-                            data: {'term':$("#food").val()}
-                        });
-                }
-        });
-
-        $( "#ingredient1").autocomplete({
-                source: "autosearch",
-                minLength: 2,
-                select: function(event, ui ) {
-                    if (ui.item) {
-                        //alert(ui.item.value );
-                        //alert(ui.item.id );
-                    }
-                }
-            });
-
-        $( "#ingredient2").autocomplete({
-                source: "autosearch",
-                minLength: 2,
-                select: function(event, ui ) {
-                    if (ui.item) {
-                        //alert(ui.item.value );
-                        //alert(ui.item.id );
-                    }
-                }
-            });
-
-
-        $("#addPairing").button({
-            icons: { primary: "ui-icon-newwin" }
-        });
-
-        $("#addPairing").click(function() {
-            $( ".validateTips" ).text('Add two ingredients that pair well');
-            $("#pairing-dialog-form").dialog( "open" );
-        });
-
-        $("#login").click(function() {
-                    $("#login-dialog-form").dialog( "open" );
-                });
-
-        $("#latest li").bind("click", function() {
-            $("#ingredientNodeId").val($(this).attr('nodeid'));
-            flavorTreeSearch($("#ingredientNodeId").val());
-            flavorTrios($('#ingredientNodeId').val());
-        })
-
-        $( "#pairing-dialog-form" ).dialog({
-            autoOpen: false,
-            height: 250,
-            width: 600,
-            modal: true,
-            buttons: {
-                "Create Pairing": function() {
-                    var bValid = true;
-                    allFields.removeClass( "ui-state-error" );
-
-                    bValid = bValid && checkNotBlank( ingredient1, "first");
-                    bValid = bValid && checkNotBlank( ingredient2, "second");
-
-                    if ( bValid ) {
-                        jQuery.ajax(createLink, {
-                            success: function() {
-                                if (whichView == 'tree') {
-                                    flavorTreeSearch($('#ingredientNodeId').val());
-                                } else if (whichView == 'network') {
-                                    flavorNetworkSearch($('#ingredientNodeId').val());
-                                }
-                                flavorTrios($('#ingredientNodeId').val());
-                            },
-                            data: {'ingredient1': $('#ingredient1').val(), 'ingredient2': $('#ingredient2').val(),
-                                    'category1': $('#category1').val(), 'category2': $('#category2').val(),
-                                    'affinity': $('#affinity').val()}
-                        });
-                        $( this ).dialog( "close" );
-                    }
-                },
-                Cancel: function() {
-                    $( this ).dialog( "close" );
-                }
-            },
-            close: function() {
-                allFields.val( "" ).removeClass( "ui-state-error" );
-            }
-        });
-
-
-        //show a random ingredient
-        var showIngr = [332,331,215,250];
-
-        $('#ingredientNodeId').val(showIngr[Math.floor(Math.random()*(showIngr.length))])
-        flavorTreeSearch($('#ingredientNodeId').val());
-        flavorTrios($('#ingredientNodeId').val());
-
-        $('#viewInteraction').button().bind('click', function(){
-            whichView = 'network';
-            flavorNetworkSearch($('#ingredientNodeId').val());
-            flavorTrios($('#ingredientNodeId').val());
-        });
-        $('#viewExploration').button().bind('click', function(){
-            whichView = 'tree';
-            flavorTreeSearch($('#ingredientNodeId').val());
-            flavorTrios($('#ingredientNodeId').val());
-        });
-
-
-
-    });
-
      var m = [20, 120, 20, 120],
         w = 750 - m[1] - m[3],
         h = 400 - m[0] - m[2],
@@ -165,15 +11,15 @@
         var diagonal = d3.svg.diagonal()
         .projection(function(d) { return [d.y, d.x]; });
 
+
         var vis = d3.select("#chart").append("svg")
         .attr("width", w + m[1] + m[3])
         .attr("height", h + m[0] + m[2])
         .append("g")
         .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
-        function flavorTreeSearch(nodeId) {
-            $('#spinner').show();
-            d3.json("flavorTree?nodeId="+nodeId, function(json) {
+        function flavorTreeSearch(ingredient) {
+            d3.json("/api/search?ingredient="+ingredient, function(json) {
                 if (json) {
                     d3.select("#chart").selectAll('g.node').remove();
                     d3.select("#chart").selectAll('path').remove();
@@ -194,7 +40,6 @@
                     root.children.forEach(collapse);
                     update(root);
                 }
-                $('#spinner').hide();
             });
         }
 
@@ -204,7 +49,7 @@
         var nodes = tree.nodes(root).reverse();
 
         // Normalize for fixed-depth.
-        nodes.forEach(function(d) { d.y = d.depth * 275 * d.wt; });
+        nodes.forEach(function(d) { d.y = d.depth * 275 * d.affinity; });
 
         // Update the nodes…
         var node = vis.selectAll("g.node")
@@ -218,8 +63,8 @@
 
         nodeEnter.append("circle")
         .attr("r", 1e-6)
-        .style("stroke", function(d) {return d.catColor})
-        .style("fill", function(d) { return (d._children && d._children.length>0)?d.catColor:"#fff"});
+        .style("stroke", function(d) {return d.categoryColor})
+        .style("fill", function(d) { return (d._children && d._children.length>0)?d.categoryColor:"#fff"});
 
         nodeEnter.append("text")
         .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
@@ -235,7 +80,7 @@
 
         nodeUpdate.select("circle")
         .attr("r", 4.5)
-         .style("fill", function(d) {  return (d._children && d._children.length>0)?d.catColor:"#fff"});
+         .style("fill", function(d) {  return (d._children && d._children.length>0)?d.categoryColor:"#fff"});
 
         nodeUpdate.select("text")
         .style("fill-opacity", 1);
@@ -367,33 +212,3 @@
 
         }
 
-        function flavorTrios(nodeId) {
-            $.ajax('flavorTrios', {
-                         success: function(data, textStatus, jqXHR) {
-                            //console.log(data.length);
-                            var tmpList = '';
-                            if (data.length > 0) {
-                                $.each(data, function(index, trioMap) {
-                                    //console.log(trioMap.trio);
-                                    tmpList += '<li nodeid="' + trioMap.nodeId + '">'+trioMap.trio+'</li>';
-                                });
-
-                                //console.log(tmpList);
-                                tmpList = '<ul>' + tmpList + '</ul>'
-                            }
-                            else {
-                                tmpList = 'No trios found';
-                            }
-                            $('#trios').html('<p>Trios</p>'+tmpList);
-
-                            /*$('#trios li').bind('click', function() {
-                                console.log($(this).attr('nodeid'));
-                            })*/
-                         },
-                         error: function(data, textStatus, jqXHR) {
-                             //console.log(textStatus);
-                         },
-                         data: {'nodeId':nodeId},
-                         dataType: 'json'
-                     });
-        }

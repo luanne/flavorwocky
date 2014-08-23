@@ -15,6 +15,7 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
     },
     setIngredient : function(ing) {
         currentIngredient = ing;
+        flavorTreeSearch(ing);
         $http.get('/api/trios/' + ing).success(function(data) {
               trios=data;
               $rootScope.$broadcast('trios:updated',trios);
@@ -23,7 +24,9 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
     },
     getTrios : function() {
        return trios;
-    }
+    },
+
+
   };
 }]);
 
@@ -85,5 +88,8 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
 
         };
     });
+
+
+
 
 })();

@@ -46,6 +46,46 @@ public class FlavorApi {
         return new IngredientService().getAllIngredients();
     }
 
+    @Path("search")
+    @GET
+    @Produces("application/json")
+    public FlavorTree getFlavorTree(@QueryParam("ingredient") String ingredient) {
+        FlavorTree flavorTree = new FlavorTree();
+        flavorTree.setName("Chicken");
+        flavorTree.setAffinity("1");
+        flavorTree.setCategoryColor("brown");
+
+        FlavorTree child1 = new FlavorTree();
+        child1.setName("Thyme");
+        child1.setAffinity("0.5");
+        child1.setCategoryColor("green");
+
+        FlavorTree child2 = new FlavorTree();
+        child2.setName("Onion");
+        child2.setAffinity("0.35");
+        child2.setCategoryColor("yellow");
+
+        List<FlavorTree> children1 = new ArrayList<>();
+        children1.add(child1);
+        children1.add(child2);
+        flavorTree.setChildren(children1);
+
+
+        FlavorTree child3 = new FlavorTree();
+        child3.setName("Potato");
+        child3.setAffinity("0.6");
+        child3.setCategoryColor("blue");
+
+
+        List<FlavorTree> children2 = new ArrayList<>();
+        children2.add(child3);
+
+        child1.setChildren(children2);
+        return flavorTree;
+
+
+    }
+
     @Path("pairing")
     @POST
     @Consumes("application/json")
