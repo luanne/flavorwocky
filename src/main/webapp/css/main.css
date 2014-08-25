@@ -95,13 +95,13 @@ a:visited {
 }
 
 .node text {
-  font-size: 11px;
+  font-size: 13px;
 }
 
 path.link {
   fill: none;
   stroke: #ccc;
-  stroke-width: 1.5px;
+  stroke-width: 2.5px;
 }
 
 

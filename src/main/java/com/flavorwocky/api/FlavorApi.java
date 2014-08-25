@@ -1,6 +1,7 @@
 package com.flavorwocky.api;
 
 import com.flavorwocky.domain.ingredient.Ingredient;
+import com.flavorwocky.domain.pairing.FlavorTree;
 import com.flavorwocky.domain.pairing.Pairing;
 import com.flavorwocky.service.IngredientService;
 import com.flavorwocky.service.PairingService;
@@ -50,7 +51,7 @@ public class FlavorApi {
     @GET
     @Produces("application/json")
     public FlavorTree getFlavorTree(@QueryParam("ingredient") String ingredient) {
-        FlavorTree flavorTree = new FlavorTree();
+       /* FlavorTree flavorTree = new FlavorTree();
         flavorTree.setName("Chicken");
         flavorTree.setAffinity("1");
         flavorTree.setCategoryColor("brown");
@@ -82,7 +83,8 @@ public class FlavorApi {
 
         child1.setChildren(children2);
         return flavorTree;
-
+*/
+        return new PairingService().getFlavorTree(ingredient);
 
     }
 

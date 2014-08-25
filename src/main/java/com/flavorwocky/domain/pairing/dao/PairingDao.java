@@ -1,6 +1,7 @@
 package com.flavorwocky.domain.pairing.dao;
 
 import com.flavorwocky.db.ConnectionFactory;
+import com.flavorwocky.domain.pairing.FlavorTree;
 import com.flavorwocky.domain.pairing.Pairing;
 import com.flavorwocky.exception.DbException;
 
@@ -10,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by luanne on 11/06/14.
@@ -56,11 +58,63 @@ public class PairingDao {
                     trios.add(rs.getString("firstName") + ", " + rs.getString("secondName") + ", " + rs.getString("thirdName"));
                 }
             }
-            rs.close();
+            if (rs != null) {
+                rs.close();
+            }
             ps.close();
         } catch (SQLException sqle) {
             throw new DbException("Error fetching trios for " + ingredient, sqle);
         }
         return trios;
+    }
+
+    public FlavorTree getFlavorTree(String ingredient) {
+        String query = "match p=(i:Ingredient {name:{1}})-[r:PAIRS_WITH*0..3]->(i2)-[:category]->(cat) return p;";
+        final Connection conn = ConnectionFactory.getInstance().getServerConnection();
+        FlavorTree root = new FlavorTree();
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, ingredient);
+            ResultSet rs = ps.executeQuery();
+            while (rs != null && rs.next()) {
+                List<Map<String, Object>> path = (List<Map<String, Object>>) rs.getObject("p");
+                System.out.println("path = " + path);
+                root.setName((String) path.get(0).get("name"));
+                root.setAffinity("1");
+
+                int count = 1;
+                FlavorTree parent = root;
+                while (count < path.size() - 1) { //the last element on the path is the category of the final ingredient
+                    if (path.get(count).size() == 0) {  //Category relation, no attributes
+                        count++;
+                        break;
+                    }
+                    String affinity;
+                    try {
+                        affinity = Double.toString((Double) path.get(count).get("affinity"));
+                    } catch (ClassCastException cce) {
+                        affinity = (String) path.get(count).get("affinity");
+                    }
+                    count++;
+                    String name = (String) path.get(count).get("name");
+                    if (!parent.getChildren().contains(new FlavorTree(name))) {
+                        FlavorTree child = new FlavorTree();
+                        child.setAffinity(affinity);
+                        child.setName(name);
+                        parent.addChild(child);
+                    }
+                    parent = parent.getChildByName(name);
+                    count++;
+                }
+                parent.setCategoryColor((String) path.get(count).get("catColor"));
+            }
+
+            if (rs != null) {
+                rs.close();
+            }
+            ps.close();
+        } catch (SQLException sqle) {
+            throw new DbException("Error fetching trios for " + ingredient, sqle);
+        }
+        return root;
     }
 }

@@ -1,5 +1,5 @@
      var m = [20, 120, 20, 120],
-        w = 750 - m[1] - m[3],
+        w = 950 - m[1] - m[3],
         h = 400 - m[0] - m[2],
         i = 0,
         duration = 500,
@@ -49,7 +49,7 @@
         var nodes = tree.nodes(root).reverse();
 
         // Normalize for fixed-depth.
-        nodes.forEach(function(d) { d.y = d.depth * 275 * d.affinity; });
+        nodes.forEach(function(d) { d.y = d.depth * 325 * d.affinity; });   //was275
 
         // Update the nodes…
         var node = vis.selectAll("g.node")
@@ -79,7 +79,7 @@
         .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
 
         nodeUpdate.select("circle")
-        .attr("r", 4.5)
+        .attr("r", 5.0) //was 4.5
          .style("fill", function(d) {  return (d._children && d._children.length>0)?d.categoryColor:"#fff"});
 
         nodeUpdate.select("text")
