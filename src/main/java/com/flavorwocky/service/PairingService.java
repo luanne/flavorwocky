@@ -1,7 +1,7 @@
 package com.flavorwocky.service;
 
 import com.flavorwocky.domain.pairing.FlavorTree;
-import com.flavorwocky.domain.pairing.dao.PairingDao;
+import com.flavorwocky.domain.pairing.PairingDao;
 
 import java.util.List;
 

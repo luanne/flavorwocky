@@ -1,12 +1,19 @@
 package com.flavorwocky.api;
 
 import com.flavorwocky.domain.ingredient.Ingredient;
+import com.flavorwocky.domain.pairing.Affinity;
 import com.flavorwocky.domain.pairing.FlavorTree;
 import com.flavorwocky.domain.pairing.Pairing;
 import com.flavorwocky.service.IngredientService;
 import com.flavorwocky.service.PairingService;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,9 +98,16 @@ public class FlavorApi {
     @Path("pairing")
     @POST
     @Consumes("application/json")
-    public boolean addPairing(FlavorPair pair) {
-        return true;
-
+    public void addPairing(FlavorPair pair) {
+        Pairing pairing = new Pairing();
+        Ingredient ing1 = new Ingredient();
+        ing1.setName(pair.getIngredient1());
+        Ingredient ing2 = new Ingredient();
+        ing2.setName(pair.getIngredient2());
+        pairing.setFirstIngredient(ing1);
+        pairing.setSecondIngredient(ing2);
+        pairing.setAffinity(Affinity.valueOf(pair.getAffinity()));
+        pairing.save();
     }
 
 }

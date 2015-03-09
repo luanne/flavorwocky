@@ -1,6 +1,6 @@
 package com.flavorwocky.service;
 
-import com.flavorwocky.domain.ingredient.db.IngredientDao;
+import com.flavorwocky.domain.ingredient.IngredientDao;
 
 import java.util.List;
 

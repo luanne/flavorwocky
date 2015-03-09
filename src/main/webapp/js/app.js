@@ -13,7 +13,7 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
     getIngredient: function() {
       return currentIngredient;
     },
-    setIngredient : function(ing) {
+    search : function(ing) {
         currentIngredient = ing;
         flavorTreeSearch(ing);
         $http.get('/api/trios/' + ing).success(function(data) {
@@ -38,7 +38,7 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
           ingredientData.trios =[];
 
           this.search =function($item, $model, $label) {
-                SearchService.setIngredient($item);
+                SearchService.search($item);
            };
 
           $http.get('/api/ingredients').success(function(data) {
@@ -70,24 +70,31 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
 
     }]);
 
-    app.controller('PairingController', function() {
-       this.pairing={
+    app.controller('PairingController', ['$http', 'SearchService', function($http,SearchService)  {
+        var pairingData = this;
+       pairingData.pairing={
            ingredient1: "",
            ingredient2: "",
            affinity: "Tried"
        };
+       pairingData.ingredients=[];
 
-        this.addPairing =function() {
-           console.log(this.pairing.ingredient1);
-           console.log(this.pairing.ingredient2);
-           console.log(this.pairing.affinity);
-           console.log(JSON.stringify(this.pairing));
-          /* $http.post("/api/pairing",JSON.stringify(this.pairing)).success(function(data) {
 
-                  });*/
+        pairingData.addPairing =function() {
+           console.log(pairingData.pairing.ingredient1);
+           console.log(pairingData.pairing.ingredient2);
+           console.log(pairingData.pairing.affinity);
+           console.log(JSON.stringify(pairingData.pairing));
+           $http.post("/api/pairing",JSON.stringify(this.pairing)).success(function(data) {
+            alert("pairing saved");
+           });
 
         };
-    });
+
+        $http.get('/api/ingredients').success(function(data) {
+           pairingData.ingredients=data;
+       });
+    }]);
 
 
 

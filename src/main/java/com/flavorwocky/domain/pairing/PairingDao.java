@@ -1,8 +1,6 @@
-package com.flavorwocky.domain.pairing.dao;
+package com.flavorwocky.domain.pairing;
 
 import com.flavorwocky.db.ConnectionFactory;
-import com.flavorwocky.domain.pairing.FlavorTree;
-import com.flavorwocky.domain.pairing.Pairing;
 import com.flavorwocky.exception.DbException;
 
 import java.sql.Connection;
@@ -23,16 +21,21 @@ public class PairingDao {
         final Connection conn = ConnectionFactory.getInstance().getServerConnection();
         final String query = "merge (i1:Ingredient {name: {1}}) " +
                 "merge (i2:Ingredient {name: {2}}) " +
-                "with i1,i2 " +
-                "merge (i1)<-[:hasIngredient]-(p:Pairing)-[:hasIngredient]->(i2) " +
+                "merge (cat:Category {name: {4}}) " +
+                "with i1,i2,cat " +
+                "merge (i1)<-[:hasIngredient]-(p:PA)-[:hasIngredient]->(i2) " +
                 "on create set p.affinity={3}, p.allAffinities=[{3}] " +
                 "on match set p.allAffinities=coalesce(p.allAffinities,[]) + {3} " +
-                "merge (i1)-[:pairsWith]-(i2)";
+                "merge (i1)-[:PAIRS_WITH {affinity: {3}}]-(i2) " +
+                "merge (i1)-[:category]->(cat) " +
+                "merge (i2)-[:category]->(cat) ";
 
         try (PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, pairing.getFirstIngredient().getName());
             ps.setString(2, pairing.getSecondIngredient().getName());
             ps.setDouble(3, pairing.getAffinity().getWeight());
+            ps.setString(4, "Placeholder");
+
             ps.execute();
             ps.close();
         } catch (SQLException sqle) {
@@ -69,7 +72,7 @@ public class PairingDao {
     }
 
     public FlavorTree getFlavorTree(String ingredient) {
-        String query = "match p=(i:Ingredient {name:{1}})-[r:PAIRS_WITH*0..3]->(i2)-[:category]->(cat) return p;";
+        String query = "match p=(i:Ingredient {name:{1}})-[r:PAIRS_WITH*0..3]-(i2)-[:category]->(cat) return p;";
         final Connection conn = ConnectionFactory.getInstance().getServerConnection();
         FlavorTree root = new FlavorTree();
         try (PreparedStatement ps = conn.prepareStatement(query)) {

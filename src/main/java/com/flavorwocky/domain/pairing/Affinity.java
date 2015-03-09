@@ -5,7 +5,7 @@ package com.flavorwocky.domain.pairing;
  */
 public enum Affinity {
     TRIED_TESTED(0.6),
-    EXTREMELY_GOOD(0.45),
+    EXCELLENT(0.45),
     GOOD(0.35);
 
 

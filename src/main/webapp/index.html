@@ -43,22 +43,30 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" id="ingredient1" placeholder="First Ingredient"
-                                   ng-model="pairingController.pairing.ingredient1" required>
+                            <span><input type="text" class="form-control" id="ingredient1"
+                                         placeholder="First Ingredient"
+                                         ng-model="pairingController.pairing.ingredient1"
+                                         typeahead="ing for ing in pairingController.ingredients | filter:$viewValue "
+                                         required> </span>
+                            <span><select name="cat">
+                                <option value="1">Eggs</option>
+                            </select></span>
                         </div>
                         <div id="pairsWithLabel" class="col-sm-2">pairs with</div>
                         <div class="col-sm-4">
                             <input type="text" class="form-control" id="ingredient2" placeholder="Second Ingredient"
-                                   ng-model="pairingController.pairing.ingredient2" required>
+                                   ng-model="pairingController.pairing.ingredient2"
+                                   typeahead="ing for ing in pairingController.ingredients | filter:$viewValue "
+                                   required>
                         </div>
                     </div>
                     <div class="form-group">
                         <div id="affinityLabel" class="col-sm-4">and the combination is</div>
                         <div class="col-sm-6">
                             <select class="form-control" ng-model="pairingController.pairing.affinity">
-                                <option value="Tried">Tried and tested</option>
-                                <option value="Excellent">Excellent</option>
-                                <option value="Good">Good</option>
+                                <option value="TRIED_TESTED">Tried and tested</option>
+                                <option value="EXCELLENT">Excellent</option>
+                                <option value="GOOD">Good</option>
                             </select>
                         </div>
                     </div>

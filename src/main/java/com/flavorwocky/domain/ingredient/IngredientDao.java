@@ -1,4 +1,4 @@
-package com.flavorwocky.domain.ingredient.db;
+package com.flavorwocky.domain.ingredient;
 
 import com.flavorwocky.db.ConnectionFactory;
 import com.flavorwocky.exception.DbException;

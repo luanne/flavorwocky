@@ -1,6 +1,7 @@
 package com.flavorwocky.domain.pairing;
 
 import com.flavorwocky.domain.ingredient.Ingredient;
+import com.flavorwocky.exception.DbException;
 
 /**
  * Created by luanne on 11/06/14.
@@ -35,7 +36,9 @@ public class Pairing {
         this.affinity = affinity;
     }
 
-   /* public void save() throws DbException{
+    public void save() throws DbException {
+        firstIngredient.setName(Character.toUpperCase(firstIngredient.getName().charAt(0)) + firstIngredient.getName().substring(1));
+        secondIngredient.setName(Character.toUpperCase(secondIngredient.getName().charAt(0)) + secondIngredient.getName().substring(1));
         new PairingDao().save(this);
-    }*/
+    }
 }
