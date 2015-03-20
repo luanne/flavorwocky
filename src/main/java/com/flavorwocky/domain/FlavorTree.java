@@ -1,4 +1,4 @@
-package com.flavorwocky.domain.pairing;
+package com.flavorwocky.domain;
 
 import java.util.ArrayList;
 import java.util.List;

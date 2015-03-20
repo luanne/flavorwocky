@@ -1,27 +1,15 @@
 package com.flavorwocky.service;
 
-import com.flavorwocky.domain.pairing.FlavorTree;
-import com.flavorwocky.domain.pairing.PairingDao;
+import com.flavorwocky.domain.FlavorTree;
+import com.flavorwocky.domain.Pairing;
 
 import java.util.List;
 
-/**
- * Created by luanne on 22/08/14.
- */
-public class PairingService {
+public interface PairingService {
 
-    public List<String> getTrios(String ingredient) {
-        PairingDao pairingDao = new PairingDao();
-        List<String> trios = pairingDao.getTrios(ingredient);
-        if (trios.size() == 0) {
-            trios.add("No trios found");
-        }
-        return trios;
-    }
+    public List<String> getTrios(String ingredient);
 
-    public FlavorTree getFlavorTree(String ingredient) {
-        return new PairingDao().getFlavorTree(ingredient);
-    }
+    public FlavorTree getFlavorTree(String ingredient);
 
-
+    public void addPairing(Pairing pairing);
 }

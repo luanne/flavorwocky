@@ -1,15 +1,11 @@
 package com.flavorwocky.domain.pairing;
 
-import com.flavorwocky.db.ConnectionFactory;
+import com.flavorwocky.domain.FlavorTree;
+import com.flavorwocky.domain.Pairing;
 import com.flavorwocky.exception.DbException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by luanne on 11/06/14.
@@ -18,8 +14,8 @@ public class PairingDao {
 
     protected void save(Pairing pairing) throws DbException {
 
-        final Connection conn = ConnectionFactory.getInstance().getServerConnection();
-        final String query = "merge (i1:Ingredient {name: {1}}) " +
+        //  final Connection conn = ConnectionFactory.getInstance().getServerConnection();
+      /*  final String query = "merge (i1:Ingredient {name: {1}}) " +
                 "merge (i2:Ingredient {name: {2}}) " +
                 "merge (cat:Category {name: {4}}) " +
                 "with i1,i2,cat " +
@@ -40,13 +36,13 @@ public class PairingDao {
             ps.close();
         } catch (SQLException sqle) {
             throw new DbException("Error saving pairing " + pairing.getFirstIngredient().getName() + ", " + pairing.getSecondIngredient().getName(), sqle);
-        }
+        }*/
     }
 
 
     public List<String> getTrios(String ingredient) throws DbException {
         List<String> trios = new ArrayList<>();
-        List<Long> rels = new ArrayList<>();
+       /* List<Long> rels = new ArrayList<>();
 
         final Connection conn = ConnectionFactory.getInstance().getServerConnection();
         final String query = "match (ing1:Ingredient {name: {1}})-[r1:PAIRS_WITH]-(ing2)-[r2:PAIRS_WITH]-(ing3)-[r3:PAIRS_WITH]-(ing1) return ing1.name as firstName, ing2.name as secondName,ing3.name as thirdName, ID(r2) as relId";
@@ -67,15 +63,15 @@ public class PairingDao {
             ps.close();
         } catch (SQLException sqle) {
             throw new DbException("Error fetching trios for " + ingredient, sqle);
-        }
+        }*/
         return trios;
     }
 
     public FlavorTree getFlavorTree(String ingredient) {
         String query = "match p=(i:Ingredient {name:{1}})-[r:PAIRS_WITH*0..3]-(i2)-[:category]->(cat) return p;";
-        final Connection conn = ConnectionFactory.getInstance().getServerConnection();
+        //final Connection conn = ConnectionFactory.getInstance().getServerConnection();
         FlavorTree root = new FlavorTree();
-        try (PreparedStatement ps = conn.prepareStatement(query)) {
+        /*try (PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, ingredient);
             ResultSet rs = ps.executeQuery();
             while (rs != null && rs.next()) {
@@ -117,7 +113,7 @@ public class PairingDao {
             ps.close();
         } catch (SQLException sqle) {
             throw new DbException("Error fetching trios for " + ingredient, sqle);
-        }
+        }*/
         return root;
     }
 }

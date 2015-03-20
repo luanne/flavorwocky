@@ -1,1 +1,1 @@
-web: sh target/bin/webapp
+web: java -Dserver.port=$PORT -jar target/flavorwocky.jar

@@ -19,7 +19,7 @@
         .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
         function flavorTreeSearch(ingredient) {
-            d3.json("/api/search?ingredient="+ingredient, function(json) {
+            d3.json("/api/search/" +ingredient, function(json) {
                 if (json) {
                     d3.select("#chart").selectAll('g.node').remove();
                     d3.select("#chart").selectAll('path').remove();

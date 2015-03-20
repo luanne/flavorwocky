@@ -42,7 +42,10 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
            };
 
           $http.get('/api/ingredients').success(function(data) {
-                     ingredientData.ingredients=data;
+                     jQuery.each(data, function(index,value) {
+                        ingredientData.ingredients.push(value.name);
+                     });
+                     //ingredientData.ingredients=data;
                  });
 
       }]);

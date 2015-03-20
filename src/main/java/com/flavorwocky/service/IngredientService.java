@@ -4,9 +4,6 @@ import com.flavorwocky.domain.ingredient.IngredientDao;
 
 import java.util.List;
 
-/**
- * Created by luanne on 23/08/14.
- */
 public class IngredientService {
 
     public List<String> getAllIngredients() {

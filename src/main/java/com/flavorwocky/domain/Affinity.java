@@ -1,8 +1,5 @@
-package com.flavorwocky.domain.pairing;
+package com.flavorwocky.domain;
 
-/**
- * Created by luanne on 11/06/14.
- */
 public enum Affinity {
     TRIED_TESTED(0.6),
     EXCELLENT(0.45),
