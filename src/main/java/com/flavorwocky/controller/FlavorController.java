@@ -1,10 +1,9 @@
 package com.flavorwocky.controller;
 
-import com.flavorwocky.api.FlavorPair;
-import com.flavorwocky.domain.Affinity;
+import com.flavorwocky.domain.FlavorPair;
 import com.flavorwocky.domain.FlavorTree;
 import com.flavorwocky.domain.Ingredient;
-import com.flavorwocky.domain.Pairing;
+import com.flavorwocky.domain.LatestPairing;
 import com.flavorwocky.repository.IngredientRepository;
 import com.flavorwocky.service.PairingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -28,23 +26,12 @@ public class FlavorController {
     PairingService pairingService;
 
     @RequestMapping(value = "pairing", method = RequestMethod.POST, consumes = "application/json")
-    public void create(@RequestBody FlavorPair pair) {
-        Ingredient ing1 = new Ingredient();
-        ing1.setName(pair.getIngredient1());
-        Ingredient ing2 = new Ingredient();
-        ing2.setName(pair.getIngredient2());
-
-        Pairing pairing = new Pairing();
-        pairing.setFirst(ing1);
-        pairing.setSecond(ing2);
-        pairing.setAffinity(Affinity.valueOf(pair.getAffinity()));
-
-        pairingService.addPairing(pairing);
+    public void addPair(@RequestBody FlavorPair pair) {
+        pairingService.addPairing(pair);
     }
 
     @RequestMapping(value = "ingredients", method = RequestMethod.GET)
-    public Iterable<Ingredient> list(final HttpServletResponse response) {
-        response.setHeader("Cache-Control", "no-cache");
+    public Iterable<Ingredient> getIngredients() {
         return ingredientRepository.findAll(0);
     }
 
@@ -56,5 +43,11 @@ public class FlavorController {
     @RequestMapping(value = "trios/{ingredient}", method = RequestMethod.GET)
     public List<String> getTrios(@PathVariable("ingredient") String ingredient) {
         return pairingService.getTrios(ingredient);
+    }
+
+    @RequestMapping(value = "pairings/latest", method = RequestMethod.GET)
+    public Iterable<LatestPairing> getLatestPairings() {
+        Iterable<LatestPairing> latestPairings = pairingService.getLatestPairings();
+        return latestPairings;
     }
 }

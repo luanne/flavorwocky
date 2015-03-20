@@ -151,7 +151,8 @@
                 <div class="panel-body">
                     <ul class="list-unstyled">
                         <li ng-repeat="addition in freshController.additions">
-                            <a href="#">{{addition.firstIngredient.name}} and {{addition.secondIngredient.name}}</a>
+                            <a href="#" ng-click="loadLatestPairing({{addition.ingredient1}})">{{addition.ingredient1}}
+                                and {{addition.ingredient2}}</a>
                         </li>
                     </ul>
                 </div>

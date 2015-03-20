@@ -15,6 +15,7 @@ public class Pairing {
     private Ingredient second;
     private Affinity affinity;
 
+
     public Pairing() {
     }
 
@@ -41,10 +42,4 @@ public class Pairing {
     public void setAffinity(Affinity affinity) {
         this.affinity = affinity;
     }
-
-    /*public void save() throws DbException {
-        firstIngredient.setName(Character.toUpperCase(firstIngredient.getName().charAt(0)) + firstIngredient.getName().substring(1));
-        secondIngredient.setName(Character.toUpperCase(secondIngredient.getName().charAt(0)) + secondIngredient.getName().substring(1));
-        new PairingDao().save(this);
-    }*/
 }

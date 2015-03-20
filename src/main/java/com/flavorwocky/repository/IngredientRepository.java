@@ -15,4 +15,5 @@ public interface IngredientRepository extends GraphRepository<Ingredient> {
 
     @Query("match (ing1:Ingredient {name: {0}})-[r1:PAIRS_WITH]-(ing2)-[r2:PAIRS_WITH]-(ing3)-[r3:PAIRS_WITH]-(ing1) return ing1.name as firstName, ing2.name as secondName,ing3.name as thirdName, ID(r2) as relId")
     Iterable<Map<String, Object>> getTrios(String ingredient);
+
 }

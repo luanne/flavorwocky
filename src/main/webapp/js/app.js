@@ -62,13 +62,17 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
 
     }]);
 
-    app.controller('FreshAdditionsController', ['$http',function($http) {
+    app.controller('FreshAdditionsController', ['$http', 'SearchService',function($http,SearchService) {
         var flavors=this;
         flavors.additions=[];
 
-        $http.get('/api/pairing/latest').success(function(data) {
+        $http.get('/api/pairings/latest').success(function(data) {
             flavors.additions=data;
         });
+
+        flavors.loadLatestPairing = function(ingredient) {
+             SearchService.search(ingredient);
+        }
 
 
     }]);

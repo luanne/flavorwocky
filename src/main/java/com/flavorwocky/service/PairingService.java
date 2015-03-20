@@ -1,7 +1,8 @@
 package com.flavorwocky.service;
 
+import com.flavorwocky.domain.FlavorPair;
 import com.flavorwocky.domain.FlavorTree;
-import com.flavorwocky.domain.Pairing;
+import com.flavorwocky.domain.LatestPairing;
 
 import java.util.List;
 
@@ -11,5 +12,7 @@ public interface PairingService {
 
     public FlavorTree getFlavorTree(String ingredient);
 
-    public void addPairing(Pairing pairing);
+    public void addPairing(FlavorPair flavorPair);
+
+    public Iterable<LatestPairing> getLatestPairings();
 }
