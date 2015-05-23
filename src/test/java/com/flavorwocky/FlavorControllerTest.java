@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.neo4j.ogm.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -30,6 +31,8 @@ public class FlavorControllerTest {
     IngredientRepository ingredientRepository;
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired Session session;
 
     @Before
     public void setup() {

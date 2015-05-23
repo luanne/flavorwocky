@@ -1,5 +1,6 @@
 package com.flavorwocky.controller;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.flavorwocky.domain.*;
@@ -43,8 +44,8 @@ public class FlavorController {
     }
 
     @RequestMapping(value = "pairings/latest", method = RequestMethod.GET)
-    public Iterable<LatestPairing> getLatestPairings() {
-        Iterable<LatestPairing> latestPairings = pairingService.getLatestPairings();
+    public Collection<LatestPairing> getLatestPairings() {
+        Collection<LatestPairing> latestPairings = pairingService.getLatestPairings();
         return latestPairings;
     }
 

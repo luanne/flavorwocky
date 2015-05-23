@@ -1,9 +1,6 @@
 package com.flavorwocky.service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.flavorwocky.domain.*;
 import com.flavorwocky.repository.IngredientRepository;
@@ -118,7 +115,7 @@ public class PairingServiceImpl implements PairingService {
         ingredient1.addPairing(pairing);
         //ingredient1.getPairings().add(pairing);
         //ingredient2.getPairings().add(pairing);
-        pairingRepository.save(pairing);
+        ingredientRepository.save(ingredient1);
 
 
         //Add the pairing as a latest pairing
@@ -132,8 +129,8 @@ public class PairingServiceImpl implements PairingService {
     }
 
     @Override
-    public Iterable<LatestPairing> getLatestPairings() {
-        Iterable<LatestPairing> pairings = neo4jSession.loadAll(LatestPairing.class, new SortOrder().add(SortOrder.Direction.DESC, "dateAdded"), new Pagination(0, 5));
+    public Collection<LatestPairing> getLatestPairings() {
+        Collection<LatestPairing> pairings = neo4jSession.loadAll(LatestPairing.class, new SortOrder().add(SortOrder.Direction.DESC, "dateAdded"), new Pagination(0, 5));
         return pairings;
     }
 

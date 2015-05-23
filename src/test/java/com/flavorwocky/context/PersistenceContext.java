@@ -8,8 +8,10 @@
 
 package com.flavorwocky.context;
 
+
 import org.neo4j.ogm.session.Session;
 import org.neo4j.ogm.session.SessionFactory;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableNeo4jRepositories("com.flavorwocky.repository")
 @EnableTransactionManagement
 @ComponentScan("com.flavorwocky")
+@EnableAutoConfiguration
 public class PersistenceContext extends Neo4jConfiguration {
 
     public static final int NEO4J_PORT = 7479;

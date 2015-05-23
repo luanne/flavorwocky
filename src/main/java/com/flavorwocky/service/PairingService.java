@@ -1,10 +1,11 @@
 package com.flavorwocky.service;
 
+import java.util.Collection;
+import java.util.List;
+
 import com.flavorwocky.domain.FlavorPair;
 import com.flavorwocky.domain.FlavorTree;
 import com.flavorwocky.domain.LatestPairing;
-
-import java.util.List;
 
 public interface PairingService {
 
@@ -14,5 +15,5 @@ public interface PairingService {
 
     public void addPairing(FlavorPair flavorPair);
 
-    public Iterable<LatestPairing> getLatestPairings();
+    public Collection<LatestPairing> getLatestPairings();
 }
