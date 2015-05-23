@@ -12,7 +12,7 @@ import com.flavorwocky.repository.PairingRepository;
 import org.neo4j.helpers.collection.IteratorUtil;
 import org.neo4j.ogm.cypher.query.Pagination;
 import org.neo4j.ogm.cypher.query.SortOrder;
-import org.neo4j.ogm.session.Neo4jSession;
+import org.neo4j.ogm.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ public class PairingServiceImpl implements PairingService {
     @Autowired
     PairingRepository pairingRepository;
 
-    @Autowired Neo4jSession neo4jSession;
+    @Autowired Session neo4jSession;
 
     public List<String> getTrios(String ingredient) {
         List<String> trios = new ArrayList<>();

@@ -29,7 +29,7 @@ public class FlavorController {
 
     @RequestMapping(value = "ingredients", method = RequestMethod.GET)
     public Iterable<Ingredient> getIngredients() {
-        return ingredientRepository.findAll();
+        return ingredientRepository.findAll(0);
     }
 
     @RequestMapping(value = "search/{ingredient}", method = RequestMethod.GET)

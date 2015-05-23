@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import com.flavorwocky.context.PersistenceContext;
 import com.flavorwocky.repository.CategoryRepository;
 import com.flavorwocky.repository.IngredientRepository;
+import com.flavorwocky.repository.PairingRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.neo4j.helpers.collection.IteratorUtil;
@@ -23,6 +24,9 @@ public class DomainTest {
 
     @Autowired
     IngredientRepository ingredientRepository;
+
+    @Autowired
+    PairingRepository pairingRepository;
 
 
     @Test
@@ -85,13 +89,16 @@ public class DomainTest {
         chicken.setCategory(meat);
         ingredientRepository.save(chicken);
 
+        System.out.println("----------------------------------------------------------------- CHICKEN SAVED");
         Ingredient carrot = new Ingredient("Carrot");
         carrot.setCategory(veg);
         ingredientRepository.save(carrot);
+        System.out.println("----------------------------------------------------------------- CARROT SAVED");
 
         Ingredient butter = new Ingredient("Butter");
         butter.setCategory(dairy);
         ingredientRepository.save(butter);
+        System.out.println("----------------------------------------------------------------- BUTTER SAVED");
 
         Pairing pairing = new Pairing();
         pairing.setFirst(chicken);
@@ -99,6 +106,7 @@ public class DomainTest {
         pairing.setAffinity(Affinity.EXCELLENT);
         carrot.addPairing(pairing);
         ingredientRepository.save(chicken);
+        System.out.println("----------------------------------------------------------------- CHICKEN-CARROT SAVED");
 
         Pairing pairing2 = new Pairing();
         pairing2.setFirst(chicken);
@@ -106,6 +114,8 @@ public class DomainTest {
         pairing2.setAffinity(Affinity.EXCELLENT);
         carrot.addPairing(pairing2);
         ingredientRepository.save(chicken);
+        System.out.println("----------------------------------------------------------------- CHICKEN-BUTTER SAVED");
+
 
         Pairing pairing3 = new Pairing();
         pairing3.setFirst(carrot);

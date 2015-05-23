@@ -27,6 +27,11 @@ public class PersistenceContext extends Neo4jConfiguration {
 
     public static final int NEO4J_PORT = 7479;
 
+    public PersistenceContext() {
+        System.setProperty("username", "neo4j");
+        System.setProperty("password", "neo");
+    }
+
     @Override
     public SessionFactory getSessionFactory() {
         return new SessionFactory("com.flavorwocky.domain");
@@ -34,6 +39,7 @@ public class PersistenceContext extends Neo4jConfiguration {
 
     @Bean
     public Neo4jServer neo4jServer() {
+        //   return new RemoteServer("http://localhost:7474");
         return new InProcessServer();
     }
 
