@@ -2,7 +2,7 @@
 <html ng-app="flavors">
 <head lang="en">
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link href="css/main.css" rel="stylesheet">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,6 +25,8 @@
         })();
 
 
+
+
     </script>
 </head>
 <body>
@@ -36,47 +38,78 @@
             <form id="addForm" name="addForm" role="form" class="form-horizontal css-form" novalidate>
 
                 <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
-                        class="sr-only">Close</span></button>
-                <h4 class="modal-title">Add Pairing</h4>
-            </div>
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span
+                            class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Add Pairing</h4>
+                </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <div class="col-sm-4">
-                            <span><input type="text" class="form-control" id="ingredient1"
-                                         placeholder="First Ingredient"
-                                         ng-model="pairingController.pairing.ingredient1"
-                                         typeahead="ing for ing in pairingController.ingredients | filter:$viewValue "
-                                         required> </span>
-                            <span><select name="cat">
-                                <option value="1">Eggs</option>
-                            </select></span>
+                        <div class="row">
+                            <div class="col-md-1">&nbsp;</div>
+                            <div class="col-md-5">
+                                <label for="ingredient1">Ingredient</label>
+                                <input type="text" class="form-control" id="ingredient1"
+                                       placeholder="First Ingredient"
+                                       ng-model="pairingController.pairing.ingredient1"
+                                       typeahead="ing for ing in pairingController.ingredientNames | filter:$viewValue "
+                                       typeahead-on-select="pairingController.showCategory($item, $model, $label,1)"
+                                       required>
+                            </div>
+                            <div class="col-md-5">
+                                <label for="cat1">Category</label>
+                                <select class="form-control" name="cat1" id="cat1">
+                                    <option ng-repeat="cat in pairingController.categories">{{cat.name}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-1">&nbsp;</div>
                         </div>
-                        <div id="pairsWithLabel" class="col-sm-2">pairs with</div>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" id="ingredient2" placeholder="Second Ingredient"
-                                   ng-model="pairingController.pairing.ingredient2"
-                                   typeahead="ing for ing in pairingController.ingredients | filter:$viewValue "
-                                   required>
+                        <div class="row row-centered addPairing">
+                            <div class="col-md-12 col-centered">
+                                <div id="pairsWithLabel"><label>pairs with</label></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div id="affinityLabel" class="col-sm-4">and the combination is</div>
-                        <div class="col-sm-6">
-                            <select class="form-control" ng-model="pairingController.pairing.affinity">
-                                <option value="TRIED_TESTED">Tried and tested</option>
-                                <option value="EXCELLENT">Excellent</option>
-                                <option value="GOOD">Good</option>
+                        <div class="row addPairing">
+                            <div class="col-md-1">&nbsp;</div>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" id="ingredient2" placeholder="Second Ingredient"
+                                       ng-model="pairingController.pairing.ingredient2"
+                                       typeahead="ing for ing in pairingController.ingredientNames | filter:$viewValue "
+                                       required>
+                            </div>
+                            <div class="col-md-5">
+                                <select class="form-control" name="cat2">
+                                    <option ng-repeat="cat in pairingController.categories">{{cat.name}}</option>
                             </select>
+                            </div>
+                            <div class="col-md-1">&nbsp;</div>
                         </div>
                     </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" ng-disabled="addForm.$invalid"
-                        ng-click="pairingController.addPairing(pairing)">Add
-                </button>
-            </div>
+                    <div class="row row-centered addPairing">
+                        <div id="affinityLabel" class="col-md-12 col-centered">
+                            <label>and the combination is</label>
+                        </div>
+                    </div>
+                    <div class="row addPairing">
+                        <div class="form-group">
+                            <div class="col-md-3">&nbsp;</div>
+                            <div class="col-md-6">
+                                <select class="form-control" ng-model="pairingController.pairing.affinity">
+                                    <option value="TRIED_TESTED" selected>Tried and tested</option>
+                                    <option value="EXCELLENT">Excellent</option>
+                                    <option value="GOOD">Good</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">&nbsp;</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" ng-disabled="addForm.$invalid"
+                            ng-click="pairingController.addPairing(pairing)">Add
+                    </button>
+                </div>
             </form>
         </div>
         <!-- /.modal-content -->
@@ -95,9 +128,9 @@
             <h1><a href="index.html"><img src="images/logo.png"/></a></h1>
         </div>
         <div class="col-md-8 text-center search">
-        <form role="form" class="form-horizontal">
-            <div class="form-group" ng-controller="SearchController as searchController">
-                <label for="search" class="col-sm-5 control-label">Find foods that pair well with <br/>
+            <form role="form" class="form-horizontal">
+                <div class="form-group" ng-controller="SearchController as searchController">
+                    <label for="search" class="col-sm-5 control-label">Find foods that pair well with <br/>
                         <small style="font-weight: normal">e.g. Chicken, Coriander, Mustard, Onion</small>
                     </label>
 
@@ -163,12 +196,13 @@
 </div>
 <ng-include src="'footer.html'"></ng-include>
 
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
 <script type="text/javascript" src="js/viz.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/ui-bootstrap-tpls-0.11.0.min.js"></script>
 <!--<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js.map"></script>-->
 <!--<script src="js/typeahead.js"></script>-->

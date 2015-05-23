@@ -11,15 +11,16 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.1.11.RELEASE</version>
+        <version>1.2.3.RELEASE</version>
     </parent>
 
     <properties>
-        <spring.version>4.1.4.RELEASE</spring.version>
+        <spring.version>4.1.6.RELEASE</spring.version>
         <neo4j.version>2.1.7</neo4j.version>
         <sdn.version>4.0.0.BUILD-SNAPSHOT</sdn.version>
+        <springdatacommons.version>1.11.0.BUILD-SNAPSHOT</springdatacommons.version>
+
         <jetty.version>9.0.5.v20130815</jetty.version>
-        <!-- <springdata.commons>1.10.0.BUILD-SNAPSHOT</springdata.commons>-->
     </properties>
 
     <dependencies>
@@ -65,12 +66,18 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.graphaware.neo4j</groupId>
-            <artifactId>tests</artifactId>
-            <version>2.1.7.28</version>
-            <scope>test</scope>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-neo4j</artifactId>
+            <version>${sdn.version}</version>
+            <type>test-jar</type>
         </dependency>
-        <!--    <dependency>
+        <!-- <dependency>
+             <groupId>com.graphaware.neo4j</groupId>
+             <artifactId>tests</artifactId>
+             <version>2.1.7.28</version>
+             <scope>test</scope>
+         </dependency>-->
+        <dependency>
                 <groupId>org.neo4j</groupId>
                 <artifactId>neo4j-kernel</artifactId>
                 <version>${neo4j.version}</version>
@@ -83,15 +90,15 @@
                 <version>${neo4j.version}</version>
                 <type>test-jar</type>
             </dependency>
-            <dependency>
-                <groupId>org.neo4j</groupId>
-                <artifactId>neo4j-ogm-test</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>-->
+        <!--  <dependency>
+              <groupId>org.neo4j</groupId>
+              <artifactId>neo4j-ogm-test</artifactId>
+              <version>1.0-SNAPSHOT</version>
+          </dependency>-->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
-            <version>1.10.0.BUILD-SNAPSHOT</version>
+            <version>${springdatacommons.version}</version>
         </dependency>
         <!--  <dependency>
               <groupId>com.fasterxml.jackson.core</groupId>
@@ -100,6 +107,23 @@
           </dependency>
   -->
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>spring-libs-snapshot</id>
+            <name>Spring</name>
+            <url>http://repo.spring.io/libs-snapshot</url>
+        </repository>
+
+        <repository>
+            <id>neo4j</id>
+            <url>http://m2.neo4j.org/content/repositories/releases</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+
+    </repositories>
 
     <build>
         <finalName>flavorwocky</finalName>

@@ -82,9 +82,13 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
        pairingData.pairing={
            ingredient1: "",
            ingredient2: "",
-           affinity: "Tried"
+           cat1:"Dairy",
+           cat2:"Dairy",
+           affinity: "TRIED_TESTED"
        };
        pairingData.ingredients=[];
+       pairingData.categories=[];
+       pairingData.ingredientNames = [];
 
 
         pairingData.addPairing =function() {
@@ -98,9 +102,27 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
 
         };
 
+      pairingData.showCategory =function($item, $model, $label,catNumber) {
+           jQuery.each(pairingData.ingredients, function(index,value) {
+                            if(value.name == $item) {
+                                if(catNumber==1) {
+                                    pairingData.pairing.cat1 = value.category;
+                                }
+                            }
+                      });
+       };
+
+
         $http.get('/api/ingredients').success(function(data) {
            pairingData.ingredients=data;
+           jQuery.each(data, function(index,value) {
+                 pairingData.ingredientNames.push(value.name);
+           });
+
        });
+        $http.get('/api/categories').success(function(data) {
+                  pairingData.categories=data;
+        });
     }]);
 
 

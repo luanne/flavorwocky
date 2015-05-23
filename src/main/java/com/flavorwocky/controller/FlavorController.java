@@ -1,19 +1,13 @@
 package com.flavorwocky.controller;
 
-import com.flavorwocky.domain.FlavorPair;
-import com.flavorwocky.domain.FlavorTree;
-import com.flavorwocky.domain.Ingredient;
-import com.flavorwocky.domain.LatestPairing;
+import java.util.List;
+
+import com.flavorwocky.domain.*;
+import com.flavorwocky.repository.CategoryRepository;
 import com.flavorwocky.repository.IngredientRepository;
 import com.flavorwocky.service.PairingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/")
@@ -21,6 +15,9 @@ public class FlavorController {
 
     @Autowired
     IngredientRepository ingredientRepository;
+
+    @Autowired
+    CategoryRepository categoryRepository;
 
     @Autowired
     PairingService pairingService;
@@ -32,7 +29,7 @@ public class FlavorController {
 
     @RequestMapping(value = "ingredients", method = RequestMethod.GET)
     public Iterable<Ingredient> getIngredients() {
-        return ingredientRepository.findAll(0);
+        return ingredientRepository.findAll();
     }
 
     @RequestMapping(value = "search/{ingredient}", method = RequestMethod.GET)
@@ -49,5 +46,10 @@ public class FlavorController {
     public Iterable<LatestPairing> getLatestPairings() {
         Iterable<LatestPairing> latestPairings = pairingService.getLatestPairings();
         return latestPairings;
+    }
+
+    @RequestMapping(value = "categories", method = RequestMethod.GET)
+    public Iterable<Category> getCategories() {
+        return categoryRepository.findAll();
     }
 }

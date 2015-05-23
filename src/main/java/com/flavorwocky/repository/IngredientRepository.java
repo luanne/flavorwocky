@@ -1,14 +1,17 @@
 package com.flavorwocky.repository;
 
+import java.util.List;
+import java.util.Map;
+
 import com.flavorwocky.domain.Ingredient;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.GraphRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Map;
-
 @Repository
 public interface IngredientRepository extends GraphRepository<Ingredient> {
+
+    List<Ingredient> findByName(String name);
 
     @Query("match p=(i:Ingredient {name:{0}})-[r:PAIRS_WITH*0..3]-(i2)-[:HAS_CATEGORY]->(cat) return p;")
     Iterable<Map<String, Object>> getFlavorPaths(String ingredientName);

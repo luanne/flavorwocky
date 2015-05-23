@@ -1,25 +1,20 @@
 package com.flavorwocky.service;
 
-import com.flavorwocky.domain.Affinity;
-import com.flavorwocky.domain.Category;
-import com.flavorwocky.domain.FlavorPair;
-import com.flavorwocky.domain.FlavorTree;
-import com.flavorwocky.domain.Ingredient;
-import com.flavorwocky.domain.LatestPairing;
-import com.flavorwocky.domain.Pairing;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import com.flavorwocky.domain.*;
 import com.flavorwocky.repository.IngredientRepository;
 import com.flavorwocky.repository.LatestPairingRepository;
 import com.flavorwocky.repository.PairingRepository;
 import org.neo4j.helpers.collection.IteratorUtil;
+import org.neo4j.ogm.cypher.query.Pagination;
+import org.neo4j.ogm.cypher.query.SortOrder;
+import org.neo4j.ogm.session.Neo4jSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeSet;
 
 @Service
 public class PairingServiceImpl implements PairingService {
@@ -32,6 +27,8 @@ public class PairingServiceImpl implements PairingService {
 
     @Autowired
     PairingRepository pairingRepository;
+
+    @Autowired Neo4jSession neo4jSession;
 
     public List<String> getTrios(String ingredient) {
         List<String> trios = new ArrayList<>();
@@ -87,8 +84,8 @@ public class PairingServiceImpl implements PairingService {
     @Override
     public void addPairing(FlavorPair flavorPair) {
         //TODO index on name
-        Ingredient ingredient1 = IteratorUtil.firstOrNull(ingredientRepository.findByProperty("name", flavorPair.getIngredient1()));
-        Ingredient ingredient2 = IteratorUtil.firstOrNull(ingredientRepository.findByProperty("name", flavorPair.getIngredient2()));
+        Ingredient ingredient1 = IteratorUtil.firstOrNull(ingredientRepository.findByName(flavorPair.getIngredient1()));
+        Ingredient ingredient2 = IteratorUtil.firstOrNull(ingredientRepository.findByName(flavorPair.getIngredient2()));
         Pairing pairing = null;
         if (ingredient1 != null && ingredient2 != null) {
             for (Pairing p : ingredient1.getPairings()) {
@@ -118,45 +115,26 @@ public class PairingServiceImpl implements PairingService {
         pairing.setFirst(ingredient1);
         pairing.setSecond(ingredient2);
         pairing.setAffinity(Affinity.valueOf(flavorPair.getAffinity()));
-        ingredient1.getPairings().add(pairing);
-        ingredient2.getPairings().add(pairing);
+        ingredient1.addPairing(pairing);
+        //ingredient1.getPairings().add(pairing);
+        //ingredient2.getPairings().add(pairing);
         pairingRepository.save(pairing);
 
+
         //Add the pairing as a latest pairing
-        Iterable<LatestPairing> latestPairings = latestPairingRepository.findAll();
-        TreeSet sortedPairings = new TreeSet<>(new PairingDateComparator());
-        for (LatestPairing p : latestPairings) {
-            sortedPairings.add(p);
+        Iterable<LatestPairing> latestPairings = neo4jSession.loadAll(LatestPairing.class, new SortOrder().add(SortOrder.Direction.DESC, "dateAdded"), new Pagination(1, 5));
+        for (LatestPairing latestPairing : latestPairings) {
+            latestPairingRepository.delete(latestPairing);
         }
-        if (sortedPairings.size() >= 5) {
-            latestPairingRepository.delete((LatestPairing) sortedPairings.first());
-        }
+
         LatestPairing latestPairing = new LatestPairing(ingredient1.getName(), ingredient2.getName(), new Date());
         latestPairingRepository.save(latestPairing);
     }
 
     @Override
     public Iterable<LatestPairing> getLatestPairings() {
-        Iterable<LatestPairing> pairings = latestPairingRepository.findAll();
-        TreeSet sortedPairings = new TreeSet<>(new PairingDateComparator());
-        for (LatestPairing p : pairings) {
-            sortedPairings.add(p);
-        }
-        return sortedPairings.descendingSet();
+        Iterable<LatestPairing> pairings = neo4jSession.loadAll(LatestPairing.class, new SortOrder().add(SortOrder.Direction.DESC, "dateAdded"), new Pagination(0, 5));
+        return pairings;
     }
-
-    private class PairingDateComparator implements Comparator<LatestPairing> {
-
-        @Override
-        public int compare(LatestPairing o1, LatestPairing o2) {
-            return Long.valueOf(o1.getDateAdded().getTime()).compareTo(o2.getDateAdded().getTime());
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            return super.equals(obj);
-        }
-    }
-
 
 }

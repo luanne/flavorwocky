@@ -1,10 +1,10 @@
 package com.flavorwocky.domain;
 
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
-
 import java.util.HashSet;
 import java.util.Set;
+
+import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Relationship;
 
 @NodeEntity
 public class Ingredient {
@@ -15,7 +15,7 @@ public class Ingredient {
     @Relationship(type = "HAS_CATEGORY", direction = "OUTGOING")
     private Category category;
 
-    @Relationship(type = "PAIRS_WITH")
+    @Relationship(type = "PAIRS_WITH", direction = "UNDIRECTED")
     private Set<Pairing> pairings = new HashSet<>();
 
     public Ingredient() {

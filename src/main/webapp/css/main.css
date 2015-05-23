@@ -104,4 +104,20 @@ path.link {
   stroke-width: 2.5px;
 }
 
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:center;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
+
+.addPairing {
+    margin-top: 30px;
+}
+
 

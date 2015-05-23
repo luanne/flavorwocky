@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CategoryRepository extends GraphRepository<Category> {
+
+	Category findByName(String name);
 }
