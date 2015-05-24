@@ -11,6 +11,9 @@ import org.springframework.data.neo4j.server.Neo4jServer;
 import org.springframework.data.neo4j.server.RemoteServer;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * @author Luanne Misquitta
+ */
 @Configuration
 @ComponentScan("com.flavorwocky")
 @EnableAutoConfiguration
@@ -18,31 +21,36 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableNeo4jRepositories("com.flavorwocky.repository")
 public class Application extends Neo4jConfiguration {
 
-    public Application() {
-        System.setProperty("username", "neo4j");
-        System.setProperty("password", "neo");
-    }
+	final String grapheneUrl;
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
+	public Application() {
+		grapheneUrl = System.getenv("GRAPHENEDB_URL");
+		if (grapheneUrl == null || grapheneUrl.length() == 0) {
+			throw new RuntimeException("GRAPHENEDB_URL not available");
+		}
+		System.setProperty("username", grapheneUrl.substring(7, grapheneUrl.indexOf(":", 7)));
+		System.setProperty("password", grapheneUrl.substring(grapheneUrl.indexOf(":", 7) + 1, grapheneUrl.indexOf("@")));
+	}
 
-    //
-    @Override
-    public Neo4jServer neo4jServer() {
-        return new RemoteServer("http://localhost:7474");
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class, args);
+	}
+
+	@Override
+	public Neo4jServer neo4jServer() {
+		return new RemoteServer("http://" + grapheneUrl.substring(grapheneUrl.indexOf("@") + 1));
+	}
 
 
-    @Override
-    public SessionFactory getSessionFactory() {
-        return new SessionFactory("com.flavorwocky.domain");
-    }
+	@Override
+	public SessionFactory getSessionFactory() {
+		return new SessionFactory("com.flavorwocky.domain");
+	}
 
-    @Override
-    @Bean
-    @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-    public Session getSession() throws Exception {
-        return super.getSession();
-    }
+	@Override
+	@Bean
+	@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
+	public Session getSession() throws Exception {
+		return super.getSession();
+	}
 }

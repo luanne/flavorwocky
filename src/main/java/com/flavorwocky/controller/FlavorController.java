@@ -11,48 +11,50 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * @author Luanne Misquitta
+ */
 @RestController
 @RequestMapping("/api/")
 public class FlavorController {
 
-    @Autowired
-    IngredientRepository ingredientRepository;
+	@Autowired
+	IngredientRepository ingredientRepository;
 
-    @Autowired
-    CategoryRepository categoryRepository;
+	@Autowired
+	CategoryRepository categoryRepository;
 
-    @Autowired
-    PairingService pairingService;
+	@Autowired
+	PairingService pairingService;
 
-    @Transactional
-    @RequestMapping(value = "pairing", method = RequestMethod.POST, consumes = "application/json")
-    public void addPair(@RequestBody FlavorPair pair) {
-        pairingService.addPairing(pair);
-    }
+	@Transactional
+	@RequestMapping(value = "pairing", method = RequestMethod.POST, consumes = "application/json")
+	public void addPair(@RequestBody FlavorPair pair) {
+		pairingService.addPairing(pair);
+	}
 
-    @RequestMapping(value = "ingredients", method = RequestMethod.GET)
-    public Iterable<Ingredient> getIngredients() {
-        return ingredientRepository.findAll(0);
-    }
+	@RequestMapping(value = "ingredients", method = RequestMethod.GET)
+	public Iterable<Ingredient> getIngredients() {
+		return ingredientRepository.findAll(0);
+	}
 
-    @RequestMapping(value = "search/{ingredient}", method = RequestMethod.GET)
-    public FlavorTree getFlavorTree(@PathVariable("ingredient") String ingredient) {
-        return pairingService.getFlavorTree(ingredient);
-    }
+	@RequestMapping(value = "search/{ingredient}", method = RequestMethod.GET)
+	public FlavorTree getFlavorTree(@PathVariable("ingredient") String ingredient) {
+		return pairingService.getFlavorTree(ingredient);
+	}
 
-    @RequestMapping(value = "trios/{ingredient}", method = RequestMethod.GET)
-    public List<String> getTrios(@PathVariable("ingredient") String ingredient) {
-        return pairingService.getTrios(ingredient);
-    }
+	@RequestMapping(value = "trios/{ingredient}", method = RequestMethod.GET)
+	public List<String> getTrios(@PathVariable("ingredient") String ingredient) {
+		return pairingService.getTrios(ingredient);
+	}
 
-    @RequestMapping(value = "pairings/latest", method = RequestMethod.GET)
-    public Collection<LatestPairing> getLatestPairings() {
-        Collection<LatestPairing> latestPairings = pairingService.getLatestPairings();
-        return latestPairings;
-    }
+	@RequestMapping(value = "pairings/latest", method = RequestMethod.GET)
+	public Collection<LatestPairing> getLatestPairings() {
+		return pairingService.getLatestPairings();
+	}
 
-    @RequestMapping(value = "categories", method = RequestMethod.GET)
-    public Iterable<Category> getCategories() {
-        return categoryRepository.findAll();
-    }
+	@RequestMapping(value = "categories", method = RequestMethod.GET)
+	public Iterable<Category> getCategories() {
+		return categoryRepository.findAll();
+	}
 }

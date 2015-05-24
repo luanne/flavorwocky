@@ -28,27 +28,27 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAutoConfiguration
 public class PersistenceContext extends Neo4jConfiguration {
 
-    public static final int NEO4J_PORT = 7479;
+	public static final int NEO4J_PORT = 7479;
 
-    public PersistenceContext() {
-        System.setProperty("username", "neo4j");
-        System.setProperty("password", "neo");
-    }
+	public PersistenceContext() {
+		System.setProperty("username", "neo4j");
+		System.setProperty("password", "neo");
+	}
 
-    @Override
-    public SessionFactory getSessionFactory() {
-        return new SessionFactory("com.flavorwocky.domain");
-    }
+	@Override
+	public SessionFactory getSessionFactory() {
+		return new SessionFactory("com.flavorwocky.domain");
+	}
 
-    @Bean
-    public Neo4jServer neo4jServer() {
-        //   return new RemoteServer("http://localhost:7474");
-        return new InProcessServer();
-    }
+	@Bean
+	public Neo4jServer neo4jServer() {
+		//   return new RemoteServer("http://localhost:7474");
+		return new InProcessServer();
+	}
 
-    @Override
-    @Bean
-    public Session getSession() throws Exception {
-        return super.getSession();
-    }
+	@Override
+	@Bean
+	public Session getSession() throws Exception {
+		return super.getSession();
+	}
 }

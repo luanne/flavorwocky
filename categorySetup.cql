@@ -1,0 +1,11 @@
+CREATE (a:Category {name:'Eggs and Dairy' , categoryColor: '#ffffff'})
+CREATE (b:Category {name:'Meat' , categoryColor: '#FF0000'})
+CREATE (c:Category {name:'Vegetable' , categoryColor: '#009933'})
+CREATE (d:Category {name:'Seafood' , categoryColor: '#0000CC'})
+CREATE (e:Category {name:'Fruit' , categoryColor: '#FF9900'})
+CREATE (f:Category {name:'Nuts and Grains' , categoryColor: '#993333'})
+CREATE (g:Category {name:'Herbs and Spices' , categoryColor: '#FFF2BA'})
+CREATE (h:Category {name:'Condiments' , categoryColor: '#CC66FF'})
+CREATE (i1:Ingredient {name:'Bacon'})-[:HAS_CATEGORY]->(b)
+CREATE (i2:Ingredient {name:'Mushroom'})-[:HAS_CATEGORY]->(c)
+CREATE (i1)-[:PAIRS_WITH {affinity:'EXCELLENT'}]->(i2);
