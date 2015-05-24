@@ -75,7 +75,7 @@ public class PairingServiceImpl implements PairingService {
 				parent = parent.getChildByName(name);
 				count++;
 			}
-			parent.setCategoryColor((String) path.get(count).get("catColor"));
+			parent.setCategoryColor((String) path.get(count).get("categoryColor"));
 		}
 
 		return root;
