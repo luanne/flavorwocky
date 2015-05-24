@@ -8,6 +8,7 @@
 app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
   var currentIngredient=undefined;
   var trios = [];
+  var freshAdditions = [];
 
   return {
     getIngredient: function() {
@@ -20,11 +21,19 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
               trios=data;
               $rootScope.$broadcast('trios:updated',trios);
            });
+         $http.get('/api/pairings/latest').success(function(data) {
+              freshAdditions=data;
+              $rootScope.$broadcast('freshAdditions:updated',freshAdditions);
+         });
+
 
     },
     getTrios : function() {
        return trios;
     },
+    getFreshAdditions: function() {
+        return freshAdditions;
+    }
 
 
   };
@@ -62,7 +71,7 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
 
     }]);
 
-    app.controller('FreshAdditionsController', ['$http', 'SearchService',function($http,SearchService) {
+    app.controller('FreshAdditionsController', ['$http', '$scope','SearchService',function($http,$scope,SearchService) {
         var flavors=this;
         flavors.additions=[];
 
@@ -70,9 +79,13 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
             flavors.additions=data;
         });
 
-        flavors.loadLatestPairing = function(ingredient) {
+        $scope.loadLatestPairing = function(ingredient) {
              SearchService.search(ingredient);
-        }
+        };
+
+        $scope.$on('freshAdditions:updated', function(event,data) {
+             flavors.additions=data;
+        });
 
 
     }]);
@@ -82,8 +95,8 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
        pairingData.pairing={
            ingredient1: "",
            ingredient2: "",
-           cat1:"Dairy",
-           cat2:"Dairy",
+           category1:"Dairy",
+           category2:"Dairy",
            affinity: "TRIED_TESTED"
        };
        pairingData.ingredients=[];
@@ -97,7 +110,10 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
            console.log(pairingData.pairing.affinity);
            console.log(JSON.stringify(pairingData.pairing));
            $http.post("/api/pairing",JSON.stringify(this.pairing)).success(function(data) {
-            alert("pairing saved");
+             $('#myModal').modal('hide');
+             SearchService.search(pairingData.pairing.ingredient1);
+             pairingData.pairing.ingredient1="";
+             pairingData.pairing.ingredient2="";
            });
 
         };
@@ -106,7 +122,7 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
            jQuery.each(pairingData.ingredients, function(index,value) {
                             if(value.name == $item) {
                                 if(catNumber==1) {
-                                    pairingData.pairing.cat1 = value.category;
+                                    pairingData.pairing.category1 = value.category;
                                 }
                             }
                       });
@@ -123,6 +139,7 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
         $http.get('/api/categories').success(function(data) {
                   pairingData.categories=data;
         });
+        SearchService.search('Bacon');
     }]);
 
 

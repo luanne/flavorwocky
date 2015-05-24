@@ -96,6 +96,7 @@ public class FlavorControllerTest {
     }
 
     @Test
+    @Ignore
     public void shouldBeAbleToFetchTrios() {
         FlavorPair flavorPair = new FlavorPair();
         flavorPair.setIngredient1("Chicken");

@@ -3,6 +3,7 @@ package com.flavorwocky.service;
 import java.util.*;
 
 import com.flavorwocky.domain.*;
+import com.flavorwocky.repository.CategoryRepository;
 import com.flavorwocky.repository.IngredientRepository;
 import com.flavorwocky.repository.LatestPairingRepository;
 import com.flavorwocky.repository.PairingRepository;
@@ -21,6 +22,9 @@ public class PairingServiceImpl implements PairingService {
 
     @Autowired
     LatestPairingRepository latestPairingRepository;
+
+    @Autowired
+    CategoryRepository categoryRepository;
 
     @Autowired
     PairingRepository pairingRepository;
@@ -49,7 +53,6 @@ public class PairingServiceImpl implements PairingService {
         FlavorTree root = new FlavorTree();
         for (Map<String, Object> row : results) {
             List<Map<String, Object>> path = (List<Map<String, Object>>) row.get("p");
-            System.out.println("path = " + path);
             root.setName((String) path.get(0).get("name"));
             root.setAffinity("1");
 
@@ -83,29 +86,26 @@ public class PairingServiceImpl implements PairingService {
         //TODO index on name
         Ingredient ingredient1 = IteratorUtil.firstOrNull(ingredientRepository.findByName(flavorPair.getIngredient1()));
         Ingredient ingredient2 = IteratorUtil.firstOrNull(ingredientRepository.findByName(flavorPair.getIngredient2()));
-        Pairing pairing = null;
+        Pairing pairing;
         if (ingredient1 != null && ingredient2 != null) {
             for (Pairing p : ingredient1.getPairings()) {
                 if (p.getFirst().getName().equals(ingredient2.getName()) || p.getSecond().getName().equals(ingredient2.getName())) {
-                    //The pairing exists, bail
-                    pairing = p;
-                    break;
+                    return;
                 }
-            }
-            if (pairing != null) {
-                return;
             }
         }
         if (ingredient1 == null) {
             ingredient1 = new Ingredient();
             ingredient1.setName(flavorPair.getIngredient1());
-            ingredient1.setCategory(new Category(flavorPair.getCategory1()));
+            Category category = categoryRepository.findByName(flavorPair.getCategory1());
+            ingredient1.setCategory(category);
             ingredientRepository.save(ingredient1);
         }
         if (ingredient2 == null) {
             ingredient2 = new Ingredient();
             ingredient2.setName(flavorPair.getIngredient2());
-            ingredient2.setCategory(new Category(flavorPair.getCategory2()));
+            Category category = categoryRepository.findByName(flavorPair.getCategory2());
+            ingredient2.setCategory(category);
             ingredientRepository.save(ingredient2);
         }
         pairing = new Pairing();
@@ -113,10 +113,7 @@ public class PairingServiceImpl implements PairingService {
         pairing.setSecond(ingredient2);
         pairing.setAffinity(Affinity.valueOf(flavorPair.getAffinity()));
         ingredient1.addPairing(pairing);
-        //ingredient1.getPairings().add(pairing);
-        //ingredient2.getPairings().add(pairing);
         ingredientRepository.save(ingredient1);
-
 
         //Add the pairing as a latest pairing
         Iterable<LatestPairing> latestPairings = neo4jSession.loadAll(LatestPairing.class, new SortOrder().add(SortOrder.Direction.DESC, "dateAdded"), new Pagination(1, 5));
@@ -130,8 +127,7 @@ public class PairingServiceImpl implements PairingService {
 
     @Override
     public Collection<LatestPairing> getLatestPairings() {
-        Collection<LatestPairing> pairings = neo4jSession.loadAll(LatestPairing.class, new SortOrder().add(SortOrder.Direction.DESC, "dateAdded"), new Pagination(0, 5));
-        return pairings;
+        return neo4jSession.loadAll(LatestPairing.class, new SortOrder().add(SortOrder.Direction.DESC, "dateAdded"), new Pagination(0, 5), 0);
     }
 
 }
