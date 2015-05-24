@@ -10,7 +10,6 @@ import com.flavorwocky.domain.*;
 import com.flavorwocky.repository.CategoryRepository;
 import com.flavorwocky.repository.IngredientRepository;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.neo4j.ogm.session.Session;
@@ -22,7 +21,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(classes = {PersistenceContext.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@Ignore
 public class FlavorControllerTest {
 
 	@Autowired
@@ -93,53 +91,6 @@ public class FlavorControllerTest {
 		assertEquals(Affinity.EXCELLENT, pairing.getAffinity());
 		assertEquals("Chicken", pairing.getFirst().getName());
 		assertEquals("Carrot", pairing.getSecond().getName());
-	}
-
-	@Test
-	@Ignore
-	public void shouldBeAbleToFetchTrios() {
-		FlavorPair flavorPair = new FlavorPair();
-		flavorPair.setIngredient1("Chicken");
-		flavorPair.setIngredient2("Carrot");
-		flavorPair.setCategory1("Meat");
-		flavorPair.setCategory2("Vegetable");
-		flavorPair.setAffinity(Affinity.EXCELLENT.name());
-		flavorController.addPair(flavorPair);
-
-		FlavorPair flavorPair2 = new FlavorPair();
-		flavorPair2.setIngredient1("Chicken");
-		flavorPair2.setIngredient2("Butter");
-		flavorPair2.setCategory1("Meat");
-		flavorPair2.setCategory2("Dairy");
-		flavorPair2.setAffinity(Affinity.EXCELLENT.name());
-		flavorController.addPair(flavorPair2);
-
-		FlavorPair flavorPair3 = new FlavorPair();
-		flavorPair3.setIngredient1("Carrot");
-		flavorPair3.setIngredient2("Butter");
-		flavorPair3.setCategory1("Vegetable");
-		flavorPair3.setCategory2("Dairy");
-		flavorPair3.setAffinity(Affinity.EXCELLENT.name());
-		flavorController.addPair(flavorPair3);
-
-		FlavorPair flavorPair4 = new FlavorPair();
-		flavorPair4.setIngredient1("Carrot");
-		flavorPair4.setIngredient2("Coriander");
-		flavorPair4.setCategory1("Vegetable");
-		flavorPair4.setCategory2("Vegetable");
-		flavorPair4.setAffinity(Affinity.EXCELLENT.name());
-		flavorController.addPair(flavorPair4);
-
-		FlavorPair flavorPair5 = new FlavorPair();
-		flavorPair5.setIngredient1("Chicken");
-		flavorPair5.setIngredient2("Coriander");
-		flavorPair5.setCategory1("Meat");
-		flavorPair5.setCategory2("Vegetable");
-		flavorPair5.setAffinity(Affinity.EXCELLENT.name());
-		flavorController.addPair(flavorPair5);
-
-		List<String> trios = flavorController.getTrios("Chicken");
-		assertEquals(2, trios.size());
 	}
 
 	@Test
