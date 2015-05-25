@@ -16,7 +16,6 @@ import org.springframework.data.neo4j.server.RemoteServer;
 @Configuration
 @ComponentScan("com.flavorwocky")
 @EnableAutoConfiguration
-//@EnableTransactionManagement
 @EnableNeo4jRepositories("com.flavorwocky.repository")
 public class Application extends Neo4jConfiguration {
 

@@ -95,8 +95,8 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
        pairingData.pairing={
            ingredient1: "",
            ingredient2: "",
-           category1:"Dairy",
-           category2:"Dairy",
+           category1:"Fruit",
+           category2:"Meat",
            affinity: "TRIED_TESTED"
        };
        pairingData.ingredients=[];

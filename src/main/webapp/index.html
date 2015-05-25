@@ -53,12 +53,12 @@
                                        placeholder="First Ingredient"
                                        ng-model="pairingController.pairing.ingredient1"
                                        typeahead="ing for ing in pairingController.ingredientNames | filter:$viewValue "
-                                       typeahead-on-select="pairingController.showCategory($item, $model, $label,1)"
                                        required>
                             </div>
                             <div class="col-md-5">
                                 <label for="category1">Category</label>
-                                <select class="form-control" name="category1" id="category1">
+                                <select class="form-control" name="category1" id="category1"
+                                        ng-model="pairingController.pairing.category1">
                                     <option ng-repeat="cat in pairingController.categories">{{cat.name}}</option>
                                 </select>
                             </div>
@@ -78,7 +78,8 @@
                                        required>
                             </div>
                             <div class="col-md-5">
-                                <select class="form-control" name="category2">
+                                <select class="form-control" name="category2"
+                                        ng-model="pairingController.pairing.category2">
                                     <option ng-repeat="cat in pairingController.categories">{{cat.name}}</option>
                             </select>
                             </div>

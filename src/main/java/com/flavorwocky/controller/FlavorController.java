@@ -53,6 +53,6 @@ public class FlavorController {
 
 	@RequestMapping(value = "categories", method = RequestMethod.GET)
 	public Iterable<Category> getCategories() {
-		return categoryRepository.findAll();
+		return categoryRepository.findAll(0);
 	}
 }
