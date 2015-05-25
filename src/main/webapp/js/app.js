@@ -9,6 +9,7 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
   var currentIngredient=undefined;
   var trios = [];
   var freshAdditions = [];
+  var ingredients = [];
 
   return {
     getIngredient: function() {
@@ -33,6 +34,17 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
     },
     getFreshAdditions: function() {
         return freshAdditions;
+    },
+    setIngredients: function(data) {
+        ingredients = data;
+    },
+    addIngredient: function(data) {
+         if(!jQuery.inArray(data, ingredients)) {
+                 ingredients.push(data);
+         }
+        ingredients.push(data);
+        $rootScope.$broadcast('ingredients:updated',ingredients);
+
     }
 
 
@@ -40,7 +52,7 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
 }]);
 
 
-     app.controller('SearchController', ['$http', 'SearchService', function($http,SearchService)  {
+     app.controller('SearchController', ['$http', '$scope','SearchService', function($http,$scope,SearchService)  {
           var ingredientData = this;
           ingredientData.ingredient=SearchService.getIngredient();
           ingredientData.ingredients = [];
@@ -50,11 +62,20 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
                 SearchService.search($item);
            };
 
+           this.addIngredient = function(ingredient) {
+
+           };
+
+            $scope.$on('ingredients:updated', function(event,data) {
+                    ingredientData.ingredients=data;
+                  });
+
+
           $http.get('/api/ingredients').success(function(data) {
                      jQuery.each(data, function(index,value) {
                         ingredientData.ingredients.push(value.name);
                      });
-                     //ingredientData.ingredients=data;
+                    SearchService.setIngredients(ingredientData.ingredients);
                  });
 
       }]);
@@ -112,8 +133,11 @@ app.factory("SearchService", ['$rootScope','$http',function($rootScope,$http) {
            $http.post("/api/pairing",JSON.stringify(this.pairing)).success(function(data) {
              $('#myModal').modal('hide');
              SearchService.search(pairingData.pairing.ingredient1);
+             SearchService.addIngredient(pairingData.pairing.ingredient1);
+             SearchService.addIngredient(pairingData.pairing.ingredient2);
              pairingData.pairing.ingredient1="";
              pairingData.pairing.ingredient2="";
+
            });
 
         };

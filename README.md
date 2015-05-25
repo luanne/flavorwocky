@@ -13,7 +13,7 @@ Deploying Locally
 * Set up Neo4j 2.2.x
 * `> git clone git@github.com:luanne/flavorwocky.git`
 * `> git checkout sdn`
-* The application runs on Heroku and uses the GrapheneDB plugin. It has been set up to use the environment variable called GRAPHENEDB_URL. Create an environment variable on your machine called GRAPHENEDB_URL with value of the form http://<neo4j-server-username>:<neo4j-server-password@<neo4j-host>:<neo4j-port> e.g. http://neo4j:neo@localhost:7474 
+* The application runs on Heroku and uses the GrapheneDB add on. It has been set up to use the environment variable called GRAPHENEDB_URL. Create an environment variable on your machine called GRAPHENEDB_URL with value of the form http://<neo4j-server-username>:<neo4j-server-password@<neo4j-host>:<neo4j-port> e.g. http://neo4j:neo@localhost:7474 
 * Make sure your local Neo4j server is running
 * Create categories using the `categorySetup.cql` script
 * `>mvn clean spring-boot:run`

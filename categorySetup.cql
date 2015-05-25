@@ -1,4 +1,4 @@
-CREATE (a:Category {name:'Eggs and Dairy' , categoryColor: '#FFFFE6'})
+CREATE (a:Category {name:'Eggs and Dairy' , categoryColor: '#D6C2AD'})
 CREATE (b:Category {name:'Meat' , categoryColor: '#FF0000'})
 CREATE (c:Category {name:'Vegetable' , categoryColor: '#009933'})
 CREATE (d:Category {name:'Seafood' , categoryColor: '#0000CC'})
