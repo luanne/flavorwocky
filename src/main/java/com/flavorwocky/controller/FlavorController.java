@@ -8,6 +8,7 @@ import com.flavorwocky.repository.CategoryRepository;
 import com.flavorwocky.repository.IngredientRepository;
 import com.flavorwocky.service.PairingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class FlavorController {
 	@Autowired
 	PairingService pairingService;
 
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@RequestMapping(value = "pairing", method = RequestMethod.POST, consumes = "application/json")
 	public void addPair(@RequestBody FlavorPair pair) {
 		pairingService.addPairing(pair);
