@@ -9,6 +9,7 @@ import org.springframework.data.neo4j.config.Neo4jConfiguration;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 import org.springframework.data.neo4j.server.Neo4jServer;
 import org.springframework.data.neo4j.server.RemoteServer;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author Luanne Misquitta
@@ -16,6 +17,7 @@ import org.springframework.data.neo4j.server.RemoteServer;
 @Configuration
 @ComponentScan("com.flavorwocky")
 @EnableAutoConfiguration
+@EnableTransactionManagement
 @EnableNeo4jRepositories("com.flavorwocky.repository")
 public class Application extends Neo4jConfiguration {
 

@@ -31,6 +31,11 @@ public class PairingServiceImpl implements PairingService {
 
 	@Autowired Session neo4jSession;
 
+	@Override
+	public Iterable<Ingredient> getIngredientNames() {
+		return ingredientRepository.findAll(0);
+	}
+
 	public List<String> getTrios(String ingredient) {
 		List<String> trios = new ArrayList<>();
 		List<Number> rels = new ArrayList<>();
