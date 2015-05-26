@@ -6,7 +6,7 @@ and has been rewritten to use Spring Data Neo4j 4.
 
 Demo: http://www.flavorwocky.com
 
-A guide to building Flavorwocky with Spring Data Neo4j 4: 
+A guide to building Flavorwocky with Spring Data Neo4j 4: https://www.airpair.com/neo4j/posts/the-essence-of-spring-data-neo4j-4
 
 Deploying Locally
 =================
