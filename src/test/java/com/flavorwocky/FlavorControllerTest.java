@@ -1,14 +1,25 @@
 package com.flavorwocky;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.flavorwocky.context.PersistenceContext;
 import com.flavorwocky.controller.FlavorController;
-import com.flavorwocky.domain.*;
+import com.flavorwocky.domain.Affinity;
+import com.flavorwocky.domain.Category;
+import com.flavorwocky.domain.FlavorPair;
+import com.flavorwocky.domain.Ingredient;
+import com.flavorwocky.domain.LatestPairing;
+import com.flavorwocky.domain.Pairing;
 import com.flavorwocky.repository.CategoryRepository;
 import com.flavorwocky.repository.IngredientRepository;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +62,11 @@ public class FlavorControllerTest {
 		Ingredient yoghurt = new Ingredient("Yoghurt");
 		yoghurt.setCategory(dairy);
 		ingredientRepository.save(Arrays.asList(chicken, carrot, butter, yoghurt, coriander));
+	}
+
+	@After
+	public void tearDown() {
+		session.purgeDatabase();
 	}
 
 	@Test

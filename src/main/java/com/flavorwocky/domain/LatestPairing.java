@@ -2,13 +2,18 @@ package com.flavorwocky.domain;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.typeconversion.DateLong;
 
 
 @NodeEntity
+@JsonIdentityInfo(generator = JSOGGenerator.class)
 public class LatestPairing {
 
+	@JsonProperty("id")
 	Long id;
 
 	@DateLong

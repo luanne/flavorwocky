@@ -3,6 +3,9 @@ package com.flavorwocky.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
@@ -10,8 +13,10 @@ import org.neo4j.ogm.annotation.Relationship;
  * @author Luanne Misquitta
  */
 @NodeEntity
+@JsonIdentityInfo(generator = JSOGGenerator.class)
 public class Ingredient {
 
+	@JsonProperty("id")
 	private Long id;
 	private String name;
 
