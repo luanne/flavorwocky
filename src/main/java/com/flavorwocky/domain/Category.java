@@ -15,6 +15,7 @@ public class Category {
 	private Long id;
 
 	private String name;
+	private String categoryColor;
 
 	public Category() {
 	}
@@ -29,5 +30,9 @@ public class Category {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getCategoryColor() {
+		return categoryColor;
 	}
 }

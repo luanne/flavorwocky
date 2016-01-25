@@ -1,8 +1,18 @@
 package com.flavorwocky.service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
-import com.flavorwocky.domain.*;
+import com.flavorwocky.domain.Affinity;
+import com.flavorwocky.domain.Category;
+import com.flavorwocky.domain.FlavorPair;
+import com.flavorwocky.domain.FlavorTree;
+import com.flavorwocky.domain.Ingredient;
+import com.flavorwocky.domain.LatestPairing;
+import com.flavorwocky.domain.Pairing;
 import com.flavorwocky.repository.CategoryRepository;
 import com.flavorwocky.repository.IngredientRepository;
 import com.flavorwocky.repository.LatestPairingRepository;
@@ -33,7 +43,8 @@ public class PairingServiceImpl implements PairingService {
 
 	@Override
 	public Iterable<Ingredient> getIngredientNames() {
-		return ingredientRepository.findAll(0);
+		Iterable<Ingredient> ingredients = ingredientRepository.findAll(0);
+		return ingredients;
 	}
 
 	public List<String> getTrios(String ingredient) {
@@ -57,30 +68,30 @@ public class PairingServiceImpl implements PairingService {
 		Iterable<Map<String, Object>> results = ingredientRepository.getFlavorPaths(ingredient);
 		FlavorTree root = new FlavorTree();
 		for (Map<String, Object> row : results) {
-			List<Map<String, Object>> path = (List<Map<String, Object>>) row.get("p");
-			root.setName((String) path.get(0).get("name"));
+			List<Object> nodes = (List<Object>) row.get("nodes");
+			List<Object> rels = (List<Object>) row.get("rels");
+
+			Ingredient rootIngredient = (Ingredient) nodes.get(0);
+			root.setName(rootIngredient.getName());
 			root.setAffinity("1");
+			root.setCategoryColor(rootIngredient.getCategory().getCategoryColor());
 
 			int count = 1;
 			FlavorTree parent = root;
-			while (count < path.size() - 1) { //the last element on the path is the category of the final ingredient
-				if (path.get(count).size() == 0) {  //Category relation, no attributes
-					count++;
-					break;
-				}
-				String affinity = (String) path.get(count).get("affinity");
+			while (count < nodes.size() - 1) { //the last node on the path is the category of the final ingredient
+
+				Pairing pairing = (Pairing) rels.get(count - 1);
+				Ingredient paired = (Ingredient) nodes.get(count);
 				count++;
-				String name = (String) path.get(count).get("name");
-				if (!parent.getChildren().contains(new FlavorTree(name))) {
+				if (!parent.getChildren().contains(new FlavorTree(paired.getName()))) {
 					FlavorTree child = new FlavorTree();
-					child.setAffinity(Double.toString(Affinity.valueOf(affinity).getWeight()));
-					child.setName(name);
+					child.setAffinity(Double.toString(pairing.getAffinity().getWeight()));
+					child.setName(paired.getName());
+					child.setCategoryColor(paired.getCategory().getCategoryColor());
 					parent.addChild(child);
 				}
-				parent = parent.getChildByName(name);
-				count++;
+				parent = parent.getChildByName(paired.getName());
 			}
-			parent.setCategoryColor((String) path.get(count).get("categoryColor"));
 		}
 
 		return root;
