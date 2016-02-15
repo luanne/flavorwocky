@@ -17,9 +17,9 @@
     <properties>
         <spring.version>4.2.4.RELEASE</spring.version>
         <neo4j.version>2.3.2</neo4j.version>
-        <sdn.version>4.1.0.BUILD-SNAPSHOT</sdn.version>
+        <sdn.version>4.1.0.M1</sdn.version>
         <springdatacommons.version>1.12.0.BUILD-SNAPSHOT</springdatacommons.version>
-        <neo4j-ogm.version>2.0.0-SNAPSHOT</neo4j-ogm.version>
+        <neo4j-ogm.version>2.0.0-M02</neo4j-ogm.version>
 
         <jetty.version>9.0.5.v20130815</jetty.version>
     </properties>
@@ -83,9 +83,8 @@
 
         <dependency>
             <groupId>org.neo4j</groupId>
-            <artifactId>neo4j-ogm</artifactId>
+            <artifactId>neo4j-ogm-test</artifactId>
             <version>${neo4j-ogm.version}</version>
-            <type>test-jar</type>
             <scope>test</scope>
         </dependency>
 
