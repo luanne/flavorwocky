@@ -18,7 +18,7 @@
         <spring.version>4.2.4.RELEASE</spring.version>
         <neo4j.version>2.3.2</neo4j.version>
         <sdn.version>4.1.0.M1</sdn.version>
-        <springdatacommons.version>1.12.0.BUILD-SNAPSHOT</springdatacommons.version>
+        <springdatacommons.version>1.12.0.M1</springdatacommons.version>
         <neo4j-ogm.version>2.0.0-M02</neo4j-ogm.version>
 
         <jetty.version>9.0.5.v20130815</jetty.version>

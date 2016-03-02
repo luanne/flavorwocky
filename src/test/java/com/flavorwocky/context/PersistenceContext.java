@@ -9,12 +9,14 @@
 package com.flavorwocky.context;
 
 
+import com.flavorwocky.Application;
 import org.neo4j.ogm.session.Session;
 import org.neo4j.ogm.session.SessionFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.data.neo4j.config.Neo4jConfiguration;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -22,7 +24,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableNeo4jRepositories("com.flavorwocky.repository")
 @EnableTransactionManagement
-@ComponentScan("com.flavorwocky")
+@ComponentScan(excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = Application.class)},
+		basePackages = {"com.flavorwocky"})
 @EnableAutoConfiguration
 public class PersistenceContext extends Neo4jConfiguration {
 
