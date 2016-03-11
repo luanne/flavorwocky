@@ -1,14 +1,17 @@
 package com.flavorwocky.domain;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import com.flavorwocky.context.PersistenceContext;
 import com.flavorwocky.repository.CategoryRepository;
 import com.flavorwocky.repository.IngredientRepository;
 import com.flavorwocky.repository.PairingRepository;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.neo4j.helpers.collection.IteratorUtil;
+import org.neo4j.ogm.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -28,6 +31,13 @@ public class DomainTest {
 	@Autowired
 	PairingRepository pairingRepository;
 
+	@Autowired
+	Session session;
+
+	@After
+	public void tearDown() {
+		session.purgeDatabase();
+	}
 
 	@Test
 	public void shouldBeAbleToSaveACategory() {

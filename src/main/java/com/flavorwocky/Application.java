@@ -4,11 +4,13 @@ import org.neo4j.ogm.session.Session;
 import org.neo4j.ogm.session.SessionFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.neo4j.config.Neo4jConfiguration;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
-import org.springframework.data.neo4j.server.Neo4jServer;
-import org.springframework.data.neo4j.server.RemoteServer;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -25,26 +27,26 @@ public class Application extends Neo4jConfiguration {
 
 	public Application() {
 		grapheneUrl = System.getenv("GRAPHENEDB_URL");
-		if (grapheneUrl == null || grapheneUrl.length() == 0) {
-			throw new RuntimeException("GRAPHENEDB_URL not available");
-		}
-		System.setProperty("username", grapheneUrl.substring(7, grapheneUrl.indexOf(":", 7)));
-		System.setProperty("password", grapheneUrl.substring(grapheneUrl.indexOf(":", 7) + 1, grapheneUrl.indexOf("@")));
 	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@Override
-	public Neo4jServer neo4jServer() {
-		return new RemoteServer("http://" + grapheneUrl.substring(grapheneUrl.indexOf("@") + 1));
+	@Bean
+	public org.neo4j.ogm.config.Configuration getConfiguration() {
+		org.neo4j.ogm.config.Configuration config = new org.neo4j.ogm.config.Configuration();
+		config.driverConfiguration()
+				.setDriverClassName
+						("org.neo4j.ogm.drivers.http.driver.HttpDriver")
+				.setURI(grapheneUrl);
+		return config;
 	}
 
-
 	@Override
+	@Bean
 	public SessionFactory getSessionFactory() {
-		return new SessionFactory("com.flavorwocky.domain");
+		return new SessionFactory(getConfiguration(), "com.flavorwocky.domain");
 	}
 
 	@Override
